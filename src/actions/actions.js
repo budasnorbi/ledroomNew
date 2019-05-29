@@ -2,3 +2,8 @@
 export const updateSongPlaying = () => ({
   type: 'UPDATE_SONG_PLAYING',
 });
+
+export const addSongRegion = payload => ({
+  type: 'ADD_SONG_REGION',
+  payload,
+});

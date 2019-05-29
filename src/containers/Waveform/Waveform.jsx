@@ -3,17 +3,22 @@
 import { jsx } from '@emotion/core';
 import React, { Component } from 'react';
 
+// React redux
+import { connect } from 'react-redux';
+
 // Wavesurfer
 import Wavesurfer from 'wavesurfer.js';
 
 // Wavesurfe plugins
 import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
 import CursorPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.cursor';
+import RegionPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 
 
-// React redux
-import { connect } from 'react-redux';
 import { mapStateToProp, mapDispatchToProp } from './redux';
+
+// Wavesurfer config
+import initWavesurfer from './Waveform.config';
 
 // Prop Types
 import types from './types';
@@ -60,32 +65,11 @@ class Waveform extends Component {
             'font-size': '10px',
           },
         }),
+        RegionPlugin.create(),
       ],
     });
-
-    this.waveRef.current.addEventListener('wheel', (e) => {
-      const zoomSign = Math.sign(e.deltaY);
-
-      if (zoomSign === -1) {
-        // Zoomolás be
-        this.zoomValue += 20;
-        this.Wavesurfer.zoom(this.zoomValue);
-      }
-
-      if (zoomSign === 1) {
-        // Zoomolás ki
-        this.zoomValue -= 20;
-        this.Wavesurfer.zoom(this.zoomValue);
-      }
-    });
-
-    const { updateSongPlaying } = this.props;
-
-    this.Wavesurfer.on('finish', () => {
-      updateSongPlaying();
-    });
-
     this.Wavesurfer.load(music);
+    this.Wavesurfer.on('ready', () => initWavesurfer(this));
   }
 
   playHandler() {
@@ -95,7 +79,10 @@ class Waveform extends Component {
   }
 
   render() {
-    const { isPlaying } = this.props;
+    const { isPlaying, regions } = this.props;
+    console.log(regions);
+    // Initialize the stored regions on the timeline
+    regions.forEach(region => this.Wavesurfer.addRegion(region));
 
     return (
       <>
