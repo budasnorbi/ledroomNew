@@ -6,7 +6,7 @@ const style = {
   `,
   waveformTimeline: css`
     margin-bottom:15px;
-  `
+  `,
 };
 
 export default style;

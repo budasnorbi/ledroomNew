@@ -14,11 +14,10 @@ import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
 import CursorPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.cursor';
 import RegionPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 
-
-import { mapStateToProp, mapDispatchToProp } from './redux';
+import { mapStateToProps, mapDispatchToProps } from './redux';
 
 // Wavesurfer config
-import initWavesurfer from './Waveform.config';
+import initWavesurfer from './App.config';
 
 // Prop Types
 import types from './types';
@@ -26,11 +25,12 @@ import types from './types';
 // Style
 import style from './style';
 
-// Local utils
-import { decideIcon } from './utils';
-
 // Test music
 import music from '../../music.mp3';
+
+// Child components
+import WaveformController from '../../components/WaveformController/WaveformController';
+import RegionEditor from '../Region/RegionEditor/RegionEditor';
 
 class Waveform extends Component {
   waveRef = React.createRef();
@@ -38,9 +38,6 @@ class Waveform extends Component {
   timelineRef = React.createRef();
 
   zoomValue = 0;
-
-  // Events
-  playHandler = this.playHandler.bind(this);
 
   componentDidMount() {
     this.Wavesurfer = Wavesurfer.create({
@@ -72,32 +69,21 @@ class Waveform extends Component {
     this.Wavesurfer.on('ready', () => initWavesurfer(this));
   }
 
-  playHandler() {
-    const { updateSongPlaying } = this.props;
-    this.Wavesurfer.playPause();
-    updateSongPlaying();
-  }
-
   render() {
-    const { isPlaying, regions } = this.props;
-    console.log(regions);
-    // Initialize the stored regions on the timeline
-    regions.forEach(region => this.Wavesurfer.addRegion(region));
-
     return (
-      <>
-        <div ref={this.waveRef} css={style.waveformContainer} />
-        <div ref={this.timelineRef} css={style.waveformTimeline} />
-        <button
-          type="button"
-          className="button"
-          onClick={this.playHandler}
-        >
-          <span className="icon is-small">
-            <i className={`ion ${decideIcon(isPlaying)}`} />
-          </span>
-        </button>
-      </>
+      <div className="container">
+        <div className="columns">
+          <div className="column" />
+          <div className="column is-four-fifths">
+            <div ref={this.waveRef} css={style.waveformContainer} />
+            <div ref={this.timelineRef} css={style.waveformTimeline} />
+
+            <WaveformController waveformRef={this.Wavesurfer} />
+            <RegionEditor />
+          </div>
+          <div className="column" />
+        </div>
+      </div>
     );
   }
 }
@@ -105,6 +91,6 @@ class Waveform extends Component {
 Waveform.propTypes = types;
 
 export default connect(
-  mapStateToProp,
-  mapDispatchToProp,
+  mapStateToProps,
+  mapDispatchToProps,
 )(Waveform);

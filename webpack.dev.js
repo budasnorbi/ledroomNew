@@ -4,8 +4,9 @@ const common = require('./webpack.common.js');
 module.exports = merge(common, {
   mode: 'development',
   devServer: {
-    host: '192.168.1.70',
+    host: 'localhost',
     port: 3000,
     open: true,
   },
+  devtool: 'cheap-module-eval-source-map',
 });
