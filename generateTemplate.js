@@ -1,4 +1,6 @@
-const {generateTemplateFiles} = require('generate-template-files');
+/* eslint-disable camelcase */
+/* eslint-disable import/no-extraneous-dependencies */
+const { generateTemplateFiles } = require('generate-template-files');
 
 const createConfig = (optionName, entryFolderPath) => ({
   option: optionName,
@@ -9,7 +11,7 @@ const createConfig = (optionName, entryFolderPath) => ({
   output: {
     path: './src/__compName__',
   },
-})
+});
 
 const SmartComponentWith_PROPTYPES_REDUX_EMOTION_LOCALUTILS = createConfig(`
 1. Smart Component with:
@@ -54,13 +56,20 @@ const DumComponentWith_PROPTYPES_EMOTION_GLOBALUTILS_LOCALUTILS = createConfig(`
   ✓ LocalUtils
 `, './templates/react-dumb-bothutils');
 
+const DumComponentWith_PROPTYPES_EMOTION = createConfig(`
+7. Dumb Component with:
+  ✓ PropTypes
+  ✓ Emotion(css, styled included)
+`, './templates/react-dumb-proptypes-emotion');
+
 generateTemplateFiles([
   // Smart components
   SmartComponentWith_PROPTYPES_REDUX_EMOTION_LOCALUTILS,
   SmartComponentWith_PROPTYPES_REDUX_EMOTION_EXCLUDE_UTILS,
   SmartComponentWith_PROPTYPES_REDUX_EMOTION_EXCLUDE_UTILS_EMOTION,
-  // Dumb components 
+  // Dumb components
   DumpComponentWith_PROPTYPES_EMOTION_LOCALUTILS,
-  DumComponentWith_PROPTYPES_EMOTION_GLOBALUTILS ,
-  DumComponentWith_PROPTYPES_EMOTION_GLOBALUTILS_LOCALUTILS
+  DumComponentWith_PROPTYPES_EMOTION_GLOBALUTILS,
+  DumComponentWith_PROPTYPES_EMOTION_GLOBALUTILS_LOCALUTILS,
+  DumComponentWith_PROPTYPES_EMOTION,
 ]);

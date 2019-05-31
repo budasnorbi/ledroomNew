@@ -8,9 +8,6 @@ import __compName__Types from './__compName__.types';
 // Style
 import style from './style';
 
-// globalUtils
-// import {} from '/src/utils/utils';
-
 const __compName__ = ({
   
 }) => (

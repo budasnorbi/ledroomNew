@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 // Wavesurfer
 import Wavesurfer from 'wavesurfer.js';
 
-// Wavesurfe plugins
+// Wavesurfer plugins
 import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
 import CursorPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.cursor';
 import RegionPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
@@ -30,7 +30,7 @@ import music from '../../music.mp3';
 
 // Child components
 import WaveformController from '../../components/WaveformController/WaveformController';
-import RegionEditor from '../Region/RegionEditor/RegionEditor';
+import RegionEditor from '../RegionEditor/RegionEditor';
 
 class Waveform extends Component {
   waveRef = React.createRef();

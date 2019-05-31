@@ -8,11 +8,15 @@ import { Component } from 'react';
 import ColorPicker from 'react-color-picker';
 import 'react-color-picker/index.css';
 
-import { TimePicker, InputNumber, Select } from 'antd';
-import moment from 'moment';
+import { Select } from 'antd';
 
 // Style
 import style from './style';
+
+// Child components
+import LabelTitle from '../../components/LabelTitle/LabelTitle';
+import LabelTimePicker from '../../components/LabelTimePicker/LabelTimePicker';
+import LabelLedIndex from '../../components/LabelLedIndex/LabelLedIndex';
 
 const { Option } = Select;
 
@@ -26,52 +30,23 @@ class RegionEditor extends Component {
 
           <div className="column is-half">
 
-            <div css={style.margin}>
-              <label className="label">Region title</label>
-              <input className="input" type="text" placeholder="Title of your label (optional)" />
-            </div>
+            <LabelTitle />
 
             <div css={style.margin} className="is-flex">
 
-              <div css={[style.flexGrow, style.rightMargin]}>
-                <label className="label">Start time</label>
-                <TimePicker
-                  css={style.timePicker}
-                  autoFocus
-                  allowClear={false}
-                  defaultValue={moment('00:00', 'mm:ss')}
-                  format="mm:ss"
-                  placeholder="Start time"
-                  inputReadOnly
-                />
-              </div>
+              <LabelTimePicker
+                placeholder="Start time"
+              />
 
-              <div css={[style.flexGrow, style.leftMargin]}>
-                <label className="label">End time</label>
-                <TimePicker
-                  css={style.timePicker}
-                  allowClear={false}
-                  defaultValue={moment('00:00', 'mm:ss')}
-                  format="mm:ss"
-                  placeholder="Finish time"
-                  inputReadOnly
-                />
-              </div>
+              <LabelTimePicker
+                placeholder="End time"
+              />
 
             </div>
 
             <div css={style.margin} className="is-flex">
-
-              <div css={[style.flexGrow, style.rightMargin]}>
-                <label className="label">Start LED index</label>
-                <InputNumber css={style.ledIndexInput} min={1} max={10} defaultValue={3} />
-              </div>
-
-              <div css={[style.flexGrow, style.leftMargin]}>
-                <label className="label">End LED index</label>
-                <InputNumber css={style.ledIndexInput} min={1} max={10} defaultValue={3} />
-              </div>
-
+              <LabelLedIndex type="start" />
+              <LabelLedIndex type="end" />
             </div>
 
             <div css={style.margin} className="is-flex">

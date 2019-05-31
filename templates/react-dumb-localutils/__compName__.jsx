@@ -3,7 +3,7 @@ import React from 'react';
 import { jsx } from '@emotion/core';
 
 // PropTypes
-import __compName__Types from './__compName__Types';
+import __compName__Types from './__compName__.types';
 
 // Style
 import style from './style';
