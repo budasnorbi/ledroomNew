@@ -4,11 +4,17 @@
 import { jsx } from '@emotion/core';
 import { Component } from 'react';
 
-import { TimePicker } from 'antd';
+// Color picker
+import ColorPicker from 'react-color-picker';
+import 'react-color-picker/index.css';
+
+import { TimePicker, InputNumber, Select } from 'antd';
 import moment from 'moment';
 
 // Style
 import style from './style';
+
+const { Option } = Select;
 
 // eslint-disable-next-line react/prefer-stateless-function
 class RegionEditor extends Component {
@@ -22,11 +28,11 @@ class RegionEditor extends Component {
 
             <div css={style.margin}>
               <label className="label">Region title</label>
-              <input className="input" type="text" placeholder="Title of your label (optional)"/>
+              <input className="input" type="text" placeholder="Title of your label (optional)" />
             </div>
 
             <div css={style.margin} className="is-flex">
-              
+
               <div css={[style.flexGrow, style.rightMargin]}>
                 <label className="label">Start time</label>
                 <TimePicker
@@ -57,15 +63,36 @@ class RegionEditor extends Component {
             <div css={style.margin} className="is-flex">
 
               <div css={[style.flexGrow, style.rightMargin]}>
+                <label className="label">Start LED index</label>
+                <InputNumber css={style.ledIndexInput} min={1} max={10} defaultValue={3} />
+              </div>
+
+              <div css={[style.flexGrow, style.leftMargin]}>
+                <label className="label">End LED index</label>
+                <InputNumber css={style.ledIndexInput} min={1} max={10} defaultValue={3} />
+              </div>
+
+            </div>
+
+            <div css={style.margin} className="is-flex">
+
+              <div css={[style.flexGrow, style.rightMargin]}>
                 <label css={style.colorPickerTitle} className="label">From color</label>
-                <button type="button" css={style.colorPickerButton}></button>
+                <button type="button" css={style.colorPickerButton} />
               </div>
 
               <div css={[style.flexGrow, style.rightMargin]}>
                 <label css={style.colorPickerTitle} className="label">To color</label>
-                <button type="button" css={style.colorPickerButton}></button>
+                <button type="button" css={style.colorPickerButton} />
               </div>
 
+            </div>
+
+            <div css={style.margin}>
+              <label className="label">Choose effect</label>
+              <Select css={style.effectSelectInput}>
+                <Option value="Fade">Fade</Option>
+              </Select>
             </div>
 
             <button
@@ -81,7 +108,9 @@ class RegionEditor extends Component {
 
           </div>
 
-          <div className="column is-half">Second column</div>
+          <div className="column is-half">
+            <ColorPicker defaultValue="#452135" css={style.colorPicker} />
+          </div>
         </div>
       </div>
     );

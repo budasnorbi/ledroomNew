@@ -40,6 +40,17 @@ const style = {
   colorPickerTitle: css`
     text-align: center;
   `,
+  ledIndexInput: css`
+    width: 100%;
+  `,
+  colorPicker: css`
+    .react-color-picker__hue-spectrum{
+      margin-left:0px !important;
+    }
+  `,
+  effectSelectInput: css`
+    width: 100%;
+  `,
 };
 
 export default style;
