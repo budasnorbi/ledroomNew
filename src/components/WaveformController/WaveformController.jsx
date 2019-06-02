@@ -1,5 +1,7 @@
 // Core dependencies
-import React, { PureComponent } from 'react';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 // PropTypes
@@ -7,6 +9,9 @@ import WaveformControllerTypes from './WaveformController.types';
 
 // Redux
 import { mapStateToProps, mapDispatchToProps } from './redux';
+
+// Style
+import style from './style';
 
 // Local utils
 import { decideIcon } from './utils';
@@ -23,7 +28,7 @@ class WaveformController extends PureComponent {
   render() {
     const { isPlaying } = this.props;
     return (
-      <section>
+      <section className="is-flex">
         <button
           type="button"
           className="button is-dark"
@@ -35,7 +40,8 @@ class WaveformController extends PureComponent {
         </button>
         <button
           type="button"
-          className="button is-dark is-pulled-right"
+          className="button is-dark"
+          css={style.addLabel}
         >
           <span className="icon is-small">
             <i className="ion-md-add" />
