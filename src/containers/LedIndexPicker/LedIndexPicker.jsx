@@ -1,6 +1,9 @@
 import React, { Component, createRef } from 'react';
 import { Stage, Layer } from 'react-konva';
 
+// Utils
+import { getZoomPos } from './utils';
+
 // Child components
 import LedRow from '../../components/LedRow/LedRow';
 
@@ -55,10 +58,9 @@ class LedIndexPicker extends Component {
     e.evt.preventDefault();
     const canvas = this.canvasRef.current;
     const stage = e.currentTarget;
-    const scaleBy = 1.25;
 
     if (Math.sign(e.evt.deltaY) === -1) {
-      // Befelé zoomolás
+      // Prevent zooming
       if (this.zoomCount + 1 >= this.maxZoomCount) {
         return;
       }
@@ -85,21 +87,7 @@ class LedIndexPicker extends Component {
       this.zoomCount -= 1;
     }
 
-    const oldScale = stage.scaleX();
-
-    const mousePointTo = {
-      x: stage.getPointerPosition().x / oldScale - stage.x() / oldScale,
-      y: stage.getPointerPosition().y / oldScale - stage.y() / oldScale,
-    };
-
-    const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
-
-    stage.scale({ x: newScale, y: newScale });
-
-    const newPos = {
-      x: -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale,
-      y: -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale,
-    };
+    const newPos = getZoomPos(stage, e.evt.deltaY);
 
     stage.position(newPos);
     stage.batchDraw();
@@ -112,20 +100,21 @@ class LedIndexPicker extends Component {
   // eslint-disable-next-line class-methods-use-this
   handleLedClick({ target: { index }, evt: { shiftKey } }) {
     const canvas = this.canvasRef.current;
+
     if (!shiftKey) {
       // A sima kattintasnak ket dolgot kell csinalnia
       // 1. megadni a kezdo poziciot
       // 2. ha mar van megadva a sgift kattintas altal egy vegzo pozicio akkor azt törölni
 
       const { start, end } = this.selectedArea;
-      // 3 törölni is kell az egykori kezdeti kijelolest
+
       if (Number.isInteger(start) && Number.isInteger(end)) {
         if (start > end) {
-          for (let shapeIndex = end; shapeIndex < start; shapeIndex += 1) {
+          for (let shapeIndex = end; shapeIndex < start + 1; shapeIndex += 1) {
             this.shapeRefList[shapeIndex].fill(null);
           }
         } else {
-          for (let shapeIndex = start; shapeIndex < end; shapeIndex += 1) {
+          for (let shapeIndex = start; shapeIndex < end + 1; shapeIndex += 1) {
             this.shapeRefList[shapeIndex].fill(null);
           }
         }
@@ -149,20 +138,19 @@ class LedIndexPicker extends Component {
 
     if (Number.isInteger(start) && Number.isInteger(end)) {
       if (start > end) {
-        for (let shapeIndex = end; shapeIndex < start; shapeIndex += 1) {
+        for (let shapeIndex = end; shapeIndex < start + 1; shapeIndex += 1) {
           this.shapeRefList[shapeIndex].fill('green');
         }
       } else {
-        for (let shapeIndex = start; shapeIndex < end; shapeIndex += 1) {
+        for (let shapeIndex = start; shapeIndex < end + 1; shapeIndex += 1) {
+          console.log(shapeIndex);
           this.shapeRefList[shapeIndex].fill('green');
         }
       }
     }
 
 
-    if (start) {
-      console.log(this.shapeRefList)
-      console.log(this.shapeRefList[start])
+    if (Number.isInteger(start)) {
       this.shapeRefList[start].fill('green');
     }
 

@@ -28,7 +28,7 @@ class RegionEditor extends Component {
   render() {
     return (
       <div className="columns">
-        <div className="column is-half">
+        <div  style={{opacity:'0'}} className="column is-half">
           <div className="box">
             <LabelTitle />
             <LabelWrapper>
