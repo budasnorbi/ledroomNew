@@ -13,21 +13,25 @@ import { getCoordinate } from './utils';
 const LedRow = ({
   type,
   ledCount,
-  ledSize,
   yOffset,
   xOffset,
   addToShapeList,
+  handleLedClick,
+  pointType,
 }) => new Array(ledCount)
   .fill()
   .map((x, ledIndex) => (
     <Rect
-      x={getCoordinate('x', type, ledIndex, xOffset, ledSize)}
-      y={getCoordinate('y', type, ledIndex, yOffset, ledSize)}
-      width={ledSize}
-      height={ledSize}
-      fill="red"
-      ref={ref => addToShapeList(ref)}
+      x={getCoordinate(pointType, 'x', type, ledIndex, xOffset, 10)}
+      y={getCoordinate(pointType, 'y', type, ledIndex, yOffset, 10)}
+      width={10}
+      height={10}
+      stroke="#363636"
+      strokeWidth={0.5}
       key={`${(type + xOffset) + ledIndex}`}
+      ref={ref => addToShapeList(ref)}
+      index={ledIndex}
+      onClick={handleLedClick}
     />
   ));
 LedRow.propTypes = LedRowTypes;

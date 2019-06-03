@@ -3,11 +3,11 @@ import { css } from '@emotion/core';
 
 const style = {
   labelColorMargin: css`
-    &:nth-child(1){
+    &:first-child(1){
       margin-right: 15px;
     }
 
-    &:nth-child(2){
+    &:last-child(2){
       margin-left: 15px;
     }
   `,
