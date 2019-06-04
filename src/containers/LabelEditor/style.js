@@ -2,7 +2,7 @@ import { css } from '@emotion/core';
 
 const style = {
   margin: css`
-    margin: 15px 0;
+    margin: 10px 0;
   `,
   timePicker: css`
     width: 100%;
@@ -27,6 +27,13 @@ const style = {
     .react-color-picker__hue-spectrum{
       margin-left:0px !important;
     }
+  `,
+  labelOptionWrapper: css`
+    display:flex;
+    flex-direction: column;
+  `,
+  LabelEditorWrapper: css`
+    padding:0;
   `,
 };
 

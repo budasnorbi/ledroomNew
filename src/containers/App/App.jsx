@@ -30,7 +30,7 @@ import music from '../../music.mp3';
 
 // Child components
 import WaveformController from '../../components/WaveformController/WaveformController';
-import RegionEditor from '../RegionEditor/RegionEditor';
+import LabelEditor from '../LabelEditor/LabelEditor';
 
 class Waveform extends Component {
   waveRef = React.createRef();
@@ -79,7 +79,7 @@ class Waveform extends Component {
             <div ref={this.timelineRef} css={style.waveformTimeline} />
 
             <WaveformController waveformRef={this.Wavesurfer} />
-            <RegionEditor />
+            <LabelEditor />
           </div>
           <div className="column" />
         </div>

@@ -5,7 +5,7 @@ const style = {
     position:relative;
   `,
   waveformTimeline: css`
-    margin-bottom:15px;
+    margin-bottom:20px;
   `,
 };
 

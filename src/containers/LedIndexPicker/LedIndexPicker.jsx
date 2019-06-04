@@ -9,7 +9,7 @@ import LedRow from '../../components/LedRow/LedRow';
 
 const canvasStyle = {
   height: '100%',
-  border: 'solid 1px red',
+  'border-right': 'solid 1px rgba(10,10,10,.1)',
 };
 
 class LedIndexPicker extends Component {
@@ -34,19 +34,35 @@ class LedIndexPicker extends Component {
 
   componentDidMount() {
     const canvas = this.canvasRef.current;
+    // Set the canvas size of it parent size
     const { width, height } = canvas.getContainer().getBoundingClientRect();
 
     // Set the canvas size of it parent size
     canvas.width(width);
     canvas.height(height);
 
-    const { x, y } = getScaleCoords(canvas.children[0].children, width, height);
-    canvas.scale({ x, y });
+    const { x } = getScaleCoords(canvas.children[0].children, width, height);
+    canvas.scaleX(x);
+
+    canvas.scaleY(x);
+
+    window.addEventListener('resize', () => {
+      // eslint-disable-next-line no-shadow
+      const { width, height } = canvas.getContainer().getBoundingClientRect();
+
+      // Set the canvas size of it parent size
+      canvas.width(width);
+      canvas.height(height);
+
+      // eslint-disable-next-line no-shadow
+      const { x } = getScaleCoords(canvas.children[0].children, width, height);
+      canvas.scaleX(x);
+      canvas.scaleY(x);
+    });
   }
 
   handleZoom(e) {
     e.evt.preventDefault();
-    const canvas = this.canvasRef.current;
     const stage = e.currentTarget;
 
     if (Math.sign(e.evt.deltaY) === -1) {
@@ -55,22 +71,14 @@ class LedIndexPicker extends Component {
         return;
       }
 
-      if (!canvas.draggable()) {
-        canvas.draggable(true);
-      }
-
       this.zoomCount += 1;
     } else {
       // Kifelé zoomolás
       if (this.zoomCount === 0 || this.zoomCount - 1 === -1) {
-        if (canvas.draggable()) {
-          canvas.draggable(false);
-        }
 
         // Set the position to default
         stage.position({ x: 0, y: 0 });
         stage.batchDraw();
-
         return;
       }
 
@@ -101,7 +109,7 @@ class LedIndexPicker extends Component {
       };
     } else {
       // Clear the unwanted range
-      colorizeRange(this.selectedArea, this.shapeRefList, null);      
+      colorizeRange(this.selectedArea, this.shapeRefList, null);
       this.selectedArea.end = index;
     }
 
@@ -119,7 +127,9 @@ class LedIndexPicker extends Component {
       <Stage
         onWheel={this.handleZoom}
         style={canvasStyle}
+        draggable
         ref={this.canvasRef}
+        onRes
       >
         <Layer>
           <LedRow

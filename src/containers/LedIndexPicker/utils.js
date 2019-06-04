@@ -46,5 +46,7 @@ export const getScaleCoords = (shapeList, width, height) => {
   return {
     x: 0.98 / (mostFarX / width),
     y: 0.98 / (mostFarY / height),
+    mostFarX,
+    mostFarY,
   };
 };

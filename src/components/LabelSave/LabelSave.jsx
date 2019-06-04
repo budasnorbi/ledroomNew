@@ -7,7 +7,7 @@ import LabelSaveTypes from './LabelSave.types';
 const LabelSave = () => (
   <button
     type="button"
-    className="button is-success is-pulled-right"
+    className="button is-success"
   >
         Save
         &nbsp;

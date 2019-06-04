@@ -28,7 +28,7 @@ class WaveformController extends PureComponent {
   render() {
     const { isPlaying } = this.props;
     return (
-      <section className="is-flex">
+      <div className="is-flex" css={style.marginBottom}>
         <button
           type="button"
           className="button is-dark"
@@ -49,7 +49,7 @@ class WaveformController extends PureComponent {
           &nbsp;
           Add region
         </button>
-      </section>
+      </div>
     );
   }
 }
