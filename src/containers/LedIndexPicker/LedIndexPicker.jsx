@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 import { Stage, Layer } from 'react-konva';
 
 // Utils
-import { getZoomPos } from './utils';
+import { getZoomPos, colorizeRange, getScaleCoords } from './utils';
 
 // Child components
 import LedRow from '../../components/LedRow/LedRow';
@@ -40,18 +40,8 @@ class LedIndexPicker extends Component {
     canvas.width(width);
     canvas.height(height);
 
-    // Zoom the canvas
-    const coords = Object.values(
-      canvas.children[0].children.map(({ attrs: { x, y } }) => ({ x, y })),
-    );
-
-    const mostFarX = coords.sort((a, b) => b.x - a.x)[0].x;
-    const mostFarY = coords.sort((a, b) => b.y - a.y)[0].y;
-
-    canvas.scale({
-      x: 0.98 / (mostFarX / width),
-      y: 0.98 / (mostFarY / height),
-    });
+    const { x, y } = getScaleCoords(canvas.children[0].children, width, height);
+    canvas.scale({ x, y });
   }
 
   handleZoom(e) {
@@ -98,62 +88,29 @@ class LedIndexPicker extends Component {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  handleLedClick({ target: { index }, evt: { shiftKey } }) {
+  handleLedClick({ target: { index }, evt: { shiftKey, ctrlKey } }) {
     const canvas = this.canvasRef.current;
 
     if (!shiftKey) {
-      // A sima kattintasnak ket dolgot kell csinalnia
-      // 1. megadni a kezdo poziciot
-      // 2. ha mar van megadva a sgift kattintas altal egy vegzo pozicio akkor azt törölni
-
-      const { start, end } = this.selectedArea;
-
-      if (Number.isInteger(start) && Number.isInteger(end)) {
-        if (start > end) {
-          for (let shapeIndex = end; shapeIndex < start + 1; shapeIndex += 1) {
-            this.shapeRefList[shapeIndex].fill(null);
-          }
-        } else {
-          for (let shapeIndex = start; shapeIndex < end + 1; shapeIndex += 1) {
-            this.shapeRefList[shapeIndex].fill(null);
-          }
-        }
-      }
-
-      if (Number.isInteger(start)) {
-        this.shapeRefList[start].fill(null);
-      }
+      // Clear the unwanted range
+      colorizeRange(this.selectedArea, this.shapeRefList, null);
 
       this.selectedArea = {
         start: index,
         end: null,
       };
     } else {
-      // A shiftes kattintasnak egy dolga van frissiteni a vegzo pozicciot
+      // Clear the unwanted range
+      colorizeRange(this.selectedArea, this.shapeRefList, null);      
       this.selectedArea.end = index;
     }
 
-    // Decide to selected area
-    const { start, end } = this.selectedArea;
-
-    if (Number.isInteger(start) && Number.isInteger(end)) {
-      if (start > end) {
-        for (let shapeIndex = end; shapeIndex < start + 1; shapeIndex += 1) {
-          this.shapeRefList[shapeIndex].fill('green');
-        }
-      } else {
-        for (let shapeIndex = start; shapeIndex < end + 1; shapeIndex += 1) {
-          console.log(shapeIndex);
-          this.shapeRefList[shapeIndex].fill('green');
-        }
-      }
+    if (shiftKey && !ctrlKey) {
+      // Decide to selected area
+      colorizeRange(this.selectedArea, this.shapeRefList, 'green');
     }
 
-
-    if (Number.isInteger(start)) {
-      this.shapeRefList[start].fill('green');
-    }
-
+    // Render the modifications
     canvas.batchDraw();
   }
 
