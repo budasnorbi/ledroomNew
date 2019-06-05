@@ -47,7 +47,7 @@ class WaveformController extends PureComponent {
             <i className="ion-md-add" />
           </span>
           &nbsp;
-          Add region
+          Add Label
         </button>
       </div>
     );

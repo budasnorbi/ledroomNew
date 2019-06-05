@@ -1,26 +1,36 @@
-import React, { Component, createRef } from 'react';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
+import { Component, createRef } from 'react';
 import { Stage, Layer } from 'react-konva';
 
 // Utils
-import { getZoomPos, colorizeRange, getScaleCoords } from './utils';
+import {
+  getZoomPos,
+  colorizeRange,
+  setRoomScale,
+} from './utils';
 
 // Child components
 import LedRow from '../../components/LedRow/LedRow';
 
-const canvasStyle = {
-  height: '100%',
-  'border-right': 'solid 1px rgba(10,10,10,.1)',
-};
+const canvasStyle = css`
+  height: 100%;
+  border-right: solid 1px rgba(10,10,10,.1);
+  cursor: grabbing;
+`;
 
 class LedIndexPicker extends Component {
+  // Bindings
   addToShapeList = this.addToShapeList.bind(this);
 
   handleZoom = this.handleZoom.bind(this);
 
   handleLedClick = this.handleLedClick.bind(this);
 
+  // Refs
   canvasRef = createRef();
 
+  // Variables
   zoomCount = 0;
 
   maxZoomCount = 15;
@@ -35,30 +45,13 @@ class LedIndexPicker extends Component {
   componentDidMount() {
     const canvas = this.canvasRef.current;
     // Set the canvas size of it parent size
-    const { width, height } = canvas.getContainer().getBoundingClientRect();
+    setRoomScale(canvas);
 
-    // Set the canvas size of it parent size
-    canvas.width(width);
-    canvas.height(height);
+    window.addEventListener('resize', setRoomScale.bind(this, canvas));
+  }
 
-    const { x } = getScaleCoords(canvas.children[0].children, width, height);
-    canvas.scaleX(x);
-
-    canvas.scaleY(x);
-
-    window.addEventListener('resize', () => {
-      // eslint-disable-next-line no-shadow
-      const { width, height } = canvas.getContainer().getBoundingClientRect();
-
-      // Set the canvas size of it parent size
-      canvas.width(width);
-      canvas.height(height);
-
-      // eslint-disable-next-line no-shadow
-      const { x } = getScaleCoords(canvas.children[0].children, width, height);
-      canvas.scaleX(x);
-      canvas.scaleY(x);
-    });
+  componentWillUnmount() {
+    window.removeEventListener('resize', setRoomScale);
   }
 
   handleZoom(e) {
@@ -75,7 +68,6 @@ class LedIndexPicker extends Component {
     } else {
       // Kifelé zoomolás
       if (this.zoomCount === 0 || this.zoomCount - 1 === -1) {
-
         // Set the position to default
         stage.position({ x: 0, y: 0 });
         stage.batchDraw();
@@ -96,7 +88,7 @@ class LedIndexPicker extends Component {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  handleLedClick({ target: { index }, evt: { shiftKey, ctrlKey } }) {
+  handleLedClick({ target: { index }, evt: { shiftKey } }) {
     const canvas = this.canvasRef.current;
 
     if (!shiftKey) {
@@ -113,10 +105,7 @@ class LedIndexPicker extends Component {
       this.selectedArea.end = index;
     }
 
-    if (shiftKey && !ctrlKey) {
-      // Decide to selected area
-      colorizeRange(this.selectedArea, this.shapeRefList, 'green');
-    }
+    colorizeRange(this.selectedArea, this.shapeRefList, 'green');
 
     // Render the modifications
     canvas.batchDraw();
@@ -126,7 +115,7 @@ class LedIndexPicker extends Component {
     return (
       <Stage
         onWheel={this.handleZoom}
-        style={canvasStyle}
+        css={canvasStyle}
         draggable
         ref={this.canvasRef}
         onRes

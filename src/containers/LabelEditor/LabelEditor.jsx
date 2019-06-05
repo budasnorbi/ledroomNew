@@ -4,10 +4,6 @@
 import { jsx } from '@emotion/core';
 import { Component } from 'react';
 
-// Color picker
-import ColorPicker from 'react-color-picker';
-import 'react-color-picker/index.css';
-
 // Style
 import style from './style';
 
@@ -17,6 +13,7 @@ import LabelTimePicker from '../../components/LabelTimePicker/LabelTimePicker';
 import LabelEffectSelect from '../../components/LabelEffectSelect/LabelEffectSelect';
 import LabelSave from '../../components/LabelSave/LabelSave';
 import LedIndexPicker from '../LedIndexPicker/LedIndexPicker';
+import LedColorPicker from '../LedColorPicker/LedColorPicker';
 
 // Wrappers
 import LabelWrapper from '../../components/LabelWrapper/LabelWrapper';
@@ -29,13 +26,8 @@ class LabelEditor extends Component {
         <div className="column is-two-thirds">
           <LedIndexPicker />
         </div>
-        <div className="column" css={style.labelOptionWrapper}>
-          <ColorPicker
-            saturationWidth="90%"
-            hueWidth="10%"
-            hueMargin="0"
-          />
-
+        <div id="asd" className="column" css={style.labelOptionWrapper}>
+          <LedColorPicker />
           <LabelTitle />
 
           <LabelEffectSelect />

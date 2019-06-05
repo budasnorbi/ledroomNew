@@ -50,3 +50,15 @@ export const getScaleCoords = (shapeList, width, height) => {
     mostFarY,
   };
 };
+
+export const setRoomScale = (canvas) => {
+  const { width, height } = canvas.getContainer().getBoundingClientRect();
+  console.log(width, height);
+  // Set the canvas size of it parent size
+  canvas.width(width);
+  canvas.height(height);
+
+  const { x } = getScaleCoords(canvas.children[0].children, width, height);
+  canvas.scaleX(x);
+  canvas.scaleY(x);
+};

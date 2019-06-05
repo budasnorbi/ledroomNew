@@ -35,7 +35,6 @@
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
-    "react-color-picker": "^4.0.2",
     "react-dom": "^16.8.4",
     "react-konva": "^16.8.7-2",
     "react-redux": "^6.0.1",
@@ -43,6 +42,7 @@
     "redux-saga": "^1.0.2",
     "regenerator-runtime": "^0.13.2",
     "save-dev": "^2.0.0",
+    "simple-color-picker": "^0.1.2",
     "wavesurfer.js": "^2.2.1"
   },
   "devDependencies": {
