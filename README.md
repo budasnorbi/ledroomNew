@@ -1,3 +1,1 @@
-# My first react boilerplate build from scratch
-
-## ..in progress..
+# ledRoom with Smart Leds and Music Led Editor
