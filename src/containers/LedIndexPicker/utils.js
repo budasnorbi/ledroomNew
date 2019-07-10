@@ -52,13 +52,13 @@ export const getScaleCoords = (shapeList, width, height) => {
 };
 
 export const setRoomScale = (canvas) => {
-  const { width, height } = canvas.getContainer().getBoundingClientRect();
-  console.log(width, height);
+  const { width } = canvas.getContainer().getBoundingClientRect();
+
   // Set the canvas size of it parent size
   canvas.width(width);
-  canvas.height(height);
+  canvas.height(525);
 
-  const { x } = getScaleCoords(canvas.children[0].children, width, height);
+  const { x } = getScaleCoords(canvas.children[0].children, width, 525);
   canvas.scaleX(x);
   canvas.scaleY(x);
 };
