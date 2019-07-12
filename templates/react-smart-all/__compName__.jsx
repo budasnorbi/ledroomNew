@@ -1,34 +1,32 @@
 // Core
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 // PropTypes
 // ?import PropTypes from 'prop-types';
-import __compName__Shape from './__compName__Shape';
+// import { jsx } from '@emotion/core';
+// import { connect } from 'redux';
+// import types from './__compName__.types';
 
 // Style
 /** @jsx jsx */
-import { jsx } from '@emotion/core';
-import style from './style';
+// import style from './__compName__.style';
 
 // Utils
-// import {} from './utils';
+// import util from './__compName__.util';
 
 // Redux
-import { connect } from 'redux'; 
-import { mapStateToProps, mapDispatchToProps } from './redux';
+//import redux from './__compName__.redux';
 
 class __compName__ extends Component {
-  render(){
-    return(
+  render() {
+    return (
       <>
       </>
     );
   }
 }
 
-__compName__.propTypes = __compName__Shape;
+// __compName__.propTypes = types;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(__compName__);
+//export default connect(...redux)(__compName__);
+export default __compName__;
