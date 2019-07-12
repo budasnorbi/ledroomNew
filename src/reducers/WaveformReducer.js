@@ -1,9 +1,7 @@
-import { addRegion } from './transformations/WaveformTransformations';
 
-export default function Waveform(
+export default function WaveformReducer(
   state = {
     isPlaying: false,
-    regions: [],
   },
   { payload, type },
 ) {
@@ -12,13 +10,6 @@ export default function Waveform(
     return {
       ...state,
       isPlaying: !state.isPlaying,
-    };
-  }
-
-  case 'ADD_SONG_REGION': {
-    return {
-      ...state,
-      regions: addRegion(state.regions, payload),
     };
   }
 

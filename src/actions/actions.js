@@ -7,3 +7,7 @@ export const addSongRegion = payload => ({
   type: 'ADD_SONG_REGION',
   payload,
 });
+
+export const addLabel = () => ({
+  type: 'ADD_LABEL',
+});

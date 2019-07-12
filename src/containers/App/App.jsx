@@ -79,7 +79,7 @@ class Waveform extends Component {
             <div ref={this.timelineRef} css={style.waveformTimeline} />
 
             <WaveformController waveformRef={this.Wavesurfer} />
-            <LabelEditor />
+            {/* <LabelEditor /> */}
           </div>
           <div className="column" />
         </div>

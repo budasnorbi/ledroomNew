@@ -19,10 +19,17 @@ import { decideIcon } from './utils';
 class WaveformController extends PureComponent {
   playHandler = this.playHandler.bind(this);
 
+  addLabelHandler = this.addLabelHandler.bind(this);
+
   playHandler() {
     const { waveformRef, updateSongPlaying } = this.props;
     waveformRef.playPause();
     updateSongPlaying();
+  }
+
+  addLabelHandler() {
+    const { addLabel } = this.props;
+    addLabel();
   }
 
   render() {
@@ -32,7 +39,7 @@ class WaveformController extends PureComponent {
         <button
           type="button"
           className="button is-dark"
-          onClick={this.playHandler}
+
         >
           <span className="icon is-small">
             <i className={`ion ${decideIcon(isPlaying)}`} />
@@ -42,6 +49,7 @@ class WaveformController extends PureComponent {
           type="button"
           className="button is-dark"
           css={style.addLabel}
+          onClick={this.addLabelHandler}
         >
           <span className="icon is-small">
             <i className="ion-md-add" />

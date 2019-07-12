@@ -1,5 +1,5 @@
 // Actions
-import { updateSongPlaying, addSongRegion } from '../../actions/actions';
+import { updateSongPlaying } from '../../actions/actions';
 
 export const mapStateToProps = ({ WaveformStore }) => ({
   isPlaying: WaveformStore.isPlaying,
@@ -8,5 +8,4 @@ export const mapStateToProps = ({ WaveformStore }) => ({
 
 export const mapDispatchToProps = {
   updateSongPlaying,
-  addSongRegion,
 };

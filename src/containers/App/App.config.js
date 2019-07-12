@@ -3,7 +3,7 @@ const initWavesurfer = (instance) => {
   const { Wavesurfer } = instance;
 
   // Action
-  const { updateSongPlaying, addSongRegion } = instance.props;
+  const { updateSongPlaying } = instance.props;
 
   let zoomValue = 0;
 
@@ -26,12 +26,6 @@ const initWavesurfer = (instance) => {
 
   // After the song is finished we need restore the play button to default state
   Wavesurfer.on('finish', () => updateSongPlaying());
-
-  addSongRegion({
-    start: 0,
-    end: 100,
-    color: 'rgba(0,0,0,.2)',
-  });
 };
 
 export default initWavesurfer;
