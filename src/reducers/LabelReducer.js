@@ -10,7 +10,22 @@ export default function LabelReducer(
   case 'ADD_LABEL': {
     return {
       ...state,
-      labels: addLabel(state.labels),
+      labels: addLabel(state),
+      selectedLabelIndex: state.labels.length + 1,
+    };
+  }
+
+  case 'SET_DURATION': {
+    return {
+      ...state,
+      duration: payload,
+    };
+  }
+
+  case 'SET_SELECTED_LABEL_INDEX': {
+    return {
+      ...state,
+      selectedLabelIndex: payload,
     };
   }
 

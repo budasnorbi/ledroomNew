@@ -123,7 +123,7 @@ class LedIndexPicker extends Component {
           <LedRow
             pointType="start"
             type="x"
-            ledCount={249}
+            ledCount={220}
             xOffset={20}
             yOffset={20}
             addToShapeList={this.addToShapeList}
@@ -132,8 +132,8 @@ class LedIndexPicker extends Component {
           <LedRow
             pointType="start"
             type="y"
-            ledCount={187}
-            xOffset={2510}
+            ledCount={184}
+            xOffset={2220}
             yOffset={20}
             addToShapeList={this.addToShapeList}
             handleLedClick={this.handleLedClick}
@@ -141,9 +141,9 @@ class LedIndexPicker extends Component {
           <LedRow
             pointType="end"
             type="x"
-            ledCount={216}
-            xOffset={2510}
-            yOffset={1890}
+            ledCount={186}
+            xOffset={2210}
+            yOffset={1850}
             addToShapeList={this.addToShapeList}
             handleLedClick={this.handleLedClick}
           />
@@ -152,7 +152,7 @@ class LedIndexPicker extends Component {
             type="y"
             ledCount={99}
             xOffset={350}
-            yOffset={1890}
+            yOffset={1850}
             addToShapeList={this.addToShapeList}
             handleLedClick={this.handleLedClick}
           />
@@ -161,16 +161,16 @@ class LedIndexPicker extends Component {
             type="x"
             ledCount={33}
             xOffset={350}
-            yOffset={900}
+            yOffset={860}
             addToShapeList={this.addToShapeList}
             handleLedClick={this.handleLedClick}
           />
           <LedRow
             pointType="end"
             type="y"
-            ledCount={88}
+            ledCount={85}
             xOffset={20}
-            yOffset={900}
+            yOffset={860}
             addToShapeList={this.addToShapeList}
             handleLedClick={this.handleLedClick}
           />

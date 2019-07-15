@@ -1,10 +1,10 @@
-const initWavesurfer = (instance) => {
-  const container = instance.waveRef.current;
-  const { Wavesurfer } = instance;
+const WavesurferUtil = {};
 
-  // Action
-  const { updateSongPlaying } = instance.props;
-
+WavesurferUtil.initWavesurfer = ({
+  container,
+  surferInstance,
+  updateSongPlaying,
+}) => {
   let zoomValue = 0;
 
   // Zooming in timeline
@@ -14,18 +14,18 @@ const initWavesurfer = (instance) => {
     if (zoomSign === -1) {
       // Zoomolás be
       zoomValue += 20;
-      Wavesurfer.zoom(zoomValue);
+      surferInstance.zoom(zoomValue);
     }
 
     if (zoomSign === 1) {
       // Zoomolás ki
       zoomValue -= 20;
-      Wavesurfer.zoom(zoomValue);
+      surferInstance.zoom(zoomValue);
     }
   });
 
   // After the song is finished we need restore the play button to default state
-  Wavesurfer.on('finish', () => updateSongPlaying());
+  surferInstance.on('finish', updateSongPlaying);
 };
 
-export default initWavesurfer;
+export default WavesurferUtil;

@@ -26,7 +26,7 @@ const LedRow = ({
       y={getCoordinate(pointType, 'y', type, ledIndex, yOffset, 10)}
       width={10}
       height={10}
-      stroke="#363636"
+      stroke="#ffffff"
       strokeWidth={0.5}
       key={`${(type + xOffset) + ledIndex}`}
       ref={ref => addToShapeList(ref)}

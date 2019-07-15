@@ -5,7 +5,7 @@ import { jsx } from '@emotion/core';
 import { Component } from 'react';
 
 // Style
-import style from './style';
+import style from './LabelEditor.style';
 
 // Child components
 // import LabelTitle from '../../components/LabelTitle/LabelTitle';
@@ -17,9 +17,6 @@ import LedColorPicker from '../LedColorPicker/LedColorPicker';
 
 import LabelCurve from '../LabelCurve/LabelCurve';
 
-// Wrappers
-// import LabelWrapper from '../../components/LabelWrapper/LabelWrapper';
-
 // eslint-disable-next-line react/prefer-stateless-function
 class LabelEditor extends Component {
   render() {
@@ -29,7 +26,7 @@ class LabelEditor extends Component {
           <LedIndexPicker />
           <LabelCurve />
         </div>
-        <div id="asd" className="column" css={style.labelOptionWrapper}>
+        <div className="column" css={style.labelOptionWrapper}>
           <LedColorPicker />
           {/* <LabelTitle />
 

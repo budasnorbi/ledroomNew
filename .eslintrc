@@ -29,7 +29,7 @@
     "no-extra-parens": "error",
     "max-len": ["error", { "code": 100 }],
     "no-multi-spaces": "error",
-    "linebreak-style": 0
+    "linebreak-style": 0,
   },
   "settings": {
     "react": {
@@ -40,5 +40,5 @@
         "paths": ["./node_modules","./src"]
       }
     }
-  }
+  },
 }

@@ -12,7 +12,7 @@ const createConfig = (optionName, entryFolderPath) => ({
 });
 
 const SMART_COMPONENT = createConfig('Smart Component', './templates/react-smart-all');
-const DUMP_COMPONENT = createConfig('Smart Component', './templates/react-dumb-all');
+const DUMP_COMPONENT = createConfig('Dumb Component', './templates/react-dumb-all');
 
 generateTemplateFiles([
   SMART_COMPONENT,

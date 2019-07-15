@@ -8,7 +8,7 @@
     "build": "webpack --config webpack.prod.js",
     "lint": "npx eslint'./src/**/*.js' './src/**/*.jsx'",
     "lint:fix": "npx eslint--fix './src/**/*.js' './src/**/*.jsx'",
-    "generate": "node './generate-template.js'"
+    "generate": "node ./generateTemplate.js"
   },
   "repository": {
     "type": "git",

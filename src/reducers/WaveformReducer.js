@@ -12,7 +12,6 @@ export default function WaveformReducer(
       isPlaying: !state.isPlaying,
     };
   }
-
   default:
     return state;
   }
