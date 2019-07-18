@@ -21,7 +21,7 @@ import LabelCurve from '../LabelCurve/LabelCurve';
 class LabelEditor extends Component {
   render() {
     return (
-      <div className="columns box" css={style.LabelEditorWrapper}>
+      <div className="columns" css={style.LabelEditorWrapper}>
         <div className="column is-two-thirds">
           <LedIndexPicker />
           <LabelCurve />

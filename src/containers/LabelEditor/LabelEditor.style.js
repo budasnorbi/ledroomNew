@@ -34,7 +34,7 @@ const style = {
   `,
   LabelEditorWrapper: css`
     padding:0;
-    background-color: #95A3B3;
+    background: transparent;
   `,
 };
 

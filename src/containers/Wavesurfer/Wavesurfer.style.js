@@ -5,7 +5,7 @@ const WavesurferStyle = {
   container: css`
     position:relative;
   `,
-  timeline: css`
+  marginBottom: css`
     margin-bottom:20px;
   `,
 };

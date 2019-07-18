@@ -1,5 +1,5 @@
 // Core
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
@@ -19,20 +19,39 @@ import { mapStateToProps, mapDispatchToProps } from './App.redux';
 import Wavesurfer from '../Wavesurfer/Wavesurfer';
 import LabelEditor from '../LabelEditor/LabelEditor';
 
-class App extends React.Component {
+class App extends PureComponent {
   render() {
     const {
       // State
       isPlaying,
+      // Label
+      id,
+      opacityCurvePath,
+      pickedColors,
+      startLedIndex,
+      endLedIndex,
     } = this.props;
     return (
+
       <div className="container">
         <div className="columns">
           <div className="column" />
           <div className="column is-four-fifths">
-            <Wavesurfer isPlaying={isPlaying} />
+            <Wavesurfer
+              id={id}
+              isPlaying={isPlaying}
+            />
 
-            {/* <LabelEditor /> */}
+            {id !== -1 && (
+              <LabelEditor
+                id={id}
+                opacityCurvePath={opacityCurvePath}
+                pickedColors={pickedColors}
+                startLedIndex={startLedIndex}
+                endLedIndex={endLedIndex}
+              />
+            )
+            }
           </div>
           <div className="column" />
         </div>

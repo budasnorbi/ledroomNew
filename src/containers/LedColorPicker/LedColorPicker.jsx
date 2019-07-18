@@ -1,4 +1,6 @@
 // Core
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import React, { Component, createRef } from 'react';
 
 // PropTypes
@@ -7,14 +9,14 @@ import React, { Component, createRef } from 'react';
 
 // Style
 
-// import style from './style';
+import ColorPicker from 'simple-color-picker';
+import style from './style';
 
 // Redux
 // import { connect } from 'redux';
 // import { mapStateToProps, mapDispatchToProps } from './redux';
 
 // Color picker
-import ColorPicker from 'simple-color-picker';
 import '../../../node_modules/simple-color-picker/src/simple-color-picker.css';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -37,7 +39,7 @@ class LedColorPicker extends Component {
 
   render() {
     return (
-      <div ref={this.pickerContainer} />
+      <div css={style.colorPicker} ref={this.pickerContainer} />
     );
   }
 }

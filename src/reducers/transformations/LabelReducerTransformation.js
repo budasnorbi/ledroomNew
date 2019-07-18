@@ -1,14 +1,18 @@
 // eslint-disable-next-line import/prefer-default-export
-export const addLabel = ({ duration, labels }) => {
-  const newLabel = {};
-  newLabel.title = 'label name';
-  newLabel.startTime = 0;
-  newLabel.endTime = duration;
-  newLabel.opacityCurvePath = 'M0, 100 L100, 0';
-  newLabel.transitionCurvePath = 'M0, 100 L100, 0';
-  newLabel.pickedColors = [];
-  newLabel.startLedIndex = 0;
-  newLabel.endLedIndex = 811;
+export const addLabel = (duration) => {
+  const id = 'new label';
+  const label = {
+    id,
+    startTime: 0,
+    endTime: duration,
+    opacityCurvePath: 'M0, 100 L100, 0',
+    pickedColors: [],
+    startLedIndex: 0,
+    endLedIndex: 811,
+    hasRange: false,
+  };
+
+
   /*
     Led Curve módok
 
@@ -18,8 +22,7 @@ export const addLabel = ({ duration, labels }) => {
 
     - Ledeket ki lehet választani range alapján
     - // Ledeket ki lehet választani egy meghatározott pattern alapján
-
   */
 
-  return [...labels, newLabel];
+  return [id, label];
 };

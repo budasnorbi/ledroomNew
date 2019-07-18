@@ -2,25 +2,24 @@
 import { jsx } from '@emotion/core';
 
 // PropTypes
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import types from './WavesurferAddLabel.types';
 
-import { mapStateToProps, mapDispatchToProps } from './WavesurferAddLabel.redux';
+// import { mapDispatchToProps } from './WavesurferAddLabel.redux';
 // Style
 import style from './WavesurferAddLabel.style';
 
 
 const WavesurferAddLabel = ({
   addLabel,
-  setSelectedLabelIndex,
+  id,
 }) => (
   <button
     type="button"
     className="button is-dark"
     css={style.marginLeft}
-    onClick={() => {
-      addLabel();
-    }}
+    onClick={addLabel}
+    disabled={id === 'new label'}
   >
     <span className="icon is-small">
       <i className="ion-md-add" />
@@ -32,7 +31,4 @@ const WavesurferAddLabel = ({
 
 WavesurferAddLabel.propTypes = types;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(WavesurferAddLabel);
+export default WavesurferAddLabel;
