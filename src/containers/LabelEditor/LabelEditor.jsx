@@ -15,6 +15,8 @@ import LabelSave from '../../components/LabelSave/LabelSave';
 import LedIndexPicker from '../LedIndexPicker/LedIndexPicker';
 import LedColorPicker from '../LedColorPicker/LedColorPicker';
 
+import SelectionList from '../../components/SelectionList/SelectionList';
+
 import LabelCurve from '../LabelCurve/LabelCurve';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -27,7 +29,8 @@ class LabelEditor extends Component {
           <LabelCurve />
         </div>
         <div className="column" css={style.labelOptionWrapper}>
-          <ul />
+          <SelectionList />
+          <SelectionList />
           <button css={style.addSelection} type="button" className="button is-dark">
             <span className="icon is-small">
               <i className="ion-md-add" />
