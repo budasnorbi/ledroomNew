@@ -46,16 +46,6 @@ export default function LabelReducer(
     };
   }
 
-  /* case 'INIT_LABEL_RANGE': {
-    return {
-      ...state,
-      labels: {
-        ...state.labels,
-        [state.selectedLabelId]: { ...state.labels[state.selectedLabelId], hasRange: true },
-      },
-    };
-  } */
-
   case 'SET_LABEL_DURATION': {
     const { id, start, end } = payload;
     return {

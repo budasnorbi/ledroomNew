@@ -27,7 +27,15 @@ class LabelEditor extends Component {
           <LabelCurve />
         </div>
         <div className="column" css={style.labelOptionWrapper}>
-          <LedColorPicker />
+          <ul />
+          <button css={style.addSelection} type="button" className="button is-dark">
+            <span className="icon is-small">
+              <i className="ion-md-add" />
+            </span>
+          &nbsp;
+          Add selection
+          </button>
+          {/* <LedColorPicker /> */}
           {/* <LabelTitle />
 
           <LabelEffectSelect />

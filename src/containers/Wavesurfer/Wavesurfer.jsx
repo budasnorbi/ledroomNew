@@ -42,9 +42,13 @@ class Wavesurfer extends PureComponent {
 
   deleteLabel = this.deleteLabel.bind(this);
 
+  updateVolume = this.updateVolume.bind(this);
+
   componentDidMount() {
     const container = this.waveRef.current;
-    const { updateSongPlaying, setDuration, setLabelDuration } = this.props;
+    const {
+      updateSongPlaying, setDuration, setLabelDuration, volume,
+    } = this.props;
 
     this.Wavesurfer = WavesurferPlugin.create({
       container,
@@ -57,7 +61,12 @@ class Wavesurfer extends PureComponent {
         TimelinePlugin.create({
           container: this.timelineRef.current,
           notchPercentHeight: 50,
-          deferInit: true,
+          primaryColor: '#ffffff',
+          secondaryColor: '#ffffff',
+          primaryFontColor: '#ffffff',
+          secondaryFontColor: '#ffffff',
+
+          /* deferInit: true, */
         }),
         CursorPlugin.create({
           showTime: true,
@@ -67,7 +76,7 @@ class Wavesurfer extends PureComponent {
             color: '#fff',
             padding: '2px',
             'font-size': '10px',
-            deferInit: true,
+            /* deferInit: true, */
           },
         }),
         RegionPlugin.create(),
@@ -83,6 +92,18 @@ class Wavesurfer extends PureComponent {
 
       setDuration(this.Wavesurfer.getDuration());
       this.setState({ isWavesurferReady: true });
+      this.Wavesurfer.setVolume(0.5);
+    });
+
+    this.Wavesurfer.on('region-in', (e) => {
+      this.Wavesurfer.regions.list[e.id].update({
+        color: 'rgba(0, 0, 0, .15)',
+      });
+    });
+    this.Wavesurfer.on('region-out', (e) => {
+      this.Wavesurfer.regions.list[e.id].update({
+        color: 'rgba(255, 255, 255, .15)',
+      });
     });
 
     this.Wavesurfer.on('region-update-end', (e) => {
@@ -122,10 +143,13 @@ class Wavesurfer extends PureComponent {
 
   deleteLabel() {
     const { deleteLabel, id } = this.props;
-    console.log(this.Wavesurfer.regions);
     this.Wavesurfer.regions.list[id].remove();
 
     deleteLabel(id);
+  }
+
+  updateVolume(volume) {
+    this.Wavesurfer.setVolume(volume);
   }
 
   render() {
@@ -143,7 +167,7 @@ class Wavesurfer extends PureComponent {
           <>
             <div css={style.marginBottom} className="is-flex">
               <WavesurferPlayPause playPause={this.playPause} isPlaying={isPlaying} />
-              <WavesurferVolume />
+              <WavesurferVolume updateVolume={this.updateVolume} />
               <WavesurferDeleteLabel id={id} deleteLabel={this.deleteLabel} />
               <WavesurferAddLabel id={id} addLabel={this.addLabel} />
             </div>

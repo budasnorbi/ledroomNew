@@ -15,7 +15,8 @@ import LedRow from '../../components/LedRow/LedRow';
 
 const canvasStyle = css`
   margin-bottom:15px;
-  border-right: solid 1px rgba(10,10,10,.1);
+  border: dashed 2px rgba(255,255,255,.1);
+  border-radius:2px;
   cursor: grabbing;
 `;
 
@@ -118,6 +119,7 @@ class LedIndexPicker extends Component {
         css={canvasStyle}
         draggable
         ref={this.canvasRef}
+        height={800}
       >
         <Layer>
           <LedRow

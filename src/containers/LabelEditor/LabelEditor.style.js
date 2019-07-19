@@ -29,12 +29,14 @@ const style = {
     }
   `,
   labelOptionWrapper: css`
-    display:flex;
-    flex-direction: column;
+
   `,
   LabelEditorWrapper: css`
     padding:0;
     background: transparent;
+  `,
+  addSelection: css`
+    width: 100%;
   `,
 };
 

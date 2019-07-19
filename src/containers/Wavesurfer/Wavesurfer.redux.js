@@ -4,7 +4,7 @@ import {
 } from '../../actions/actions';
 
 export const mapStateToProps = ({ LabelStore }) => ({
-  hasDefaultLabel: !!LabelStore.labels['new label'],
+  volume: LabelStore.volume,
   duration: LabelStore.duration,
 });
 
