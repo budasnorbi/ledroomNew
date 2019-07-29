@@ -2,6 +2,8 @@ import { css } from '@emotion/core';
 
 const style = {
   colorPicker: css`
+    position: absolute;
+    
     .Scp{
       padding: 0 !important;
     }

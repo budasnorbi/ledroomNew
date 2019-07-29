@@ -19,6 +19,8 @@ import { mapStateToProps, mapDispatchToProps } from './App.redux';
 import Wavesurfer from '../Wavesurfer/Wavesurfer';
 import LabelEditor from '../LabelEditor/LabelEditor';
 
+import ColorPicker from '../LedColorPicker/LedColorPicker';
+
 class App extends PureComponent {
   render() {
     const {
@@ -26,36 +28,32 @@ class App extends PureComponent {
       isPlaying,
       // Label
       id,
-      opacityCurvePath,
-      pickedColors,
-      startLedIndex,
-      endLedIndex,
+      labelsCount,
+      left,
+      top,
     } = this.props;
     return (
-
-      <div className="container">
-        <div className="columns">
-          <div className="column" />
-          <div className="column is-four-fifths">
-            <Wavesurfer
-              id={id}
-              isPlaying={isPlaying}
-            />
-
-            {id !== -1 && (
-              <LabelEditor
+      <>
+        <div className="container">
+          <div className="columns">
+            <div className="column" />
+            <div className="column is-four-fifths">
+              <Wavesurfer
                 id={id}
-                opacityCurvePath={opacityCurvePath}
-                pickedColors={pickedColors}
-                startLedIndex={startLedIndex}
-                endLedIndex={endLedIndex}
+                labelsCount={labelsCount}
+                isPlaying={isPlaying}
               />
-            )
-            }
+
+              {id !== -1 && (
+                <LabelEditor labelId={id} />
+              )
+              }
+            </div>
+            <div className="column" />
           </div>
-          <div className="column" />
         </div>
-      </div>
+        {left && top && <ColorPicker left={left} top={top} />}
+      </>
     );
   }
 }

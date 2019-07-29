@@ -32,3 +32,33 @@ export const setLabelDuration = payload => ({
   type: 'SET_LABEL_DURATION',
   payload,
 });
+
+export const addSelection = payload => ({
+  type: 'ADD_SELECTION',
+  payload,
+});
+
+export const deleteSelection = payload => ({
+  type: 'DELETE_SELECTION',
+  payload,
+});
+
+export const setLedStart = payload => ({
+  type: 'SET_LED_START',
+  payload,
+});
+
+export const setLedEnd = payload => ({
+  type: 'SET_LED_END',
+  payload,
+});
+
+export const addColor = payload => ({
+  type: 'ADD_COLOR',
+  payload,
+});
+
+export const setColorPickerPosition = payload => ({
+  type: 'SET_COLOR_PICKER_POSITION',
+  payload,
+});

@@ -2,18 +2,7 @@ import _omit from 'lodash.omit';
 
 export default function LabelReducer(
   state = {
-    labels: {
-      [-1]: {
-        id: -1,
-        startTime: null,
-        endTime: null,
-        opacityCurvePath: null,
-        pickedColors: null,
-        startLedIndex: null,
-        endLedIndex: null,
-        hasRange: null,
-      },
-    },
+    labels: {},
     selectedLabelId: -1,
     duration: -1,
   },
@@ -56,6 +45,112 @@ export default function LabelReducer(
           ...state.labels[id],
           endTime: end,
           startTime: start,
+        },
+      },
+    };
+  }
+
+  case 'ADD_SELECTION': {
+    const {
+      labelId, selectionId, start, end, colorlist, isLocked,
+    } = payload;
+
+    const newSelection = {
+      id: selectionId,
+      start,
+      end,
+      colorlist,
+      isLocked,
+    };
+
+    return {
+      ...state,
+      labels: {
+        ...state.labels,
+        [labelId]: {
+          ...state.labels[labelId],
+          selectionList: {
+            ...state.labels[labelId].selectionList,
+            [selectionId]: newSelection,
+          },
+        },
+      },
+    };
+  }
+
+  case 'DELETE_SELECTION': {
+    const { selectionId, labelId } = payload;
+
+    return {
+      ...state,
+      labels: {
+        ...state.labels,
+        [labelId]: {
+          ...state.labels[labelId],
+          selectionList: _omit(state.labels[labelId].selectionList, [selectionId]),
+        },
+      },
+    };
+  }
+
+  case 'SET_LED_START': {
+    const { labelId, selectionId, start } = payload;
+    return {
+      ...state,
+      labels: {
+        ...state.labels,
+        [labelId]: {
+          ...state.labels[labelId],
+          selectionList: {
+            ...state.labels[labelId].selectionList,
+            [selectionId]: {
+              ...state.labels[labelId].selectionList[selectionId],
+              start,
+            },
+          },
+        },
+      },
+    };
+  }
+
+  case 'SET_LED_END': {
+    const { labelId, selectionId, end } = payload;
+    return {
+      ...state,
+      labels: {
+        ...state.labels,
+        [labelId]: {
+          ...state.labels[labelId],
+          selectionList: {
+            ...state.labels[labelId].selectionList,
+            [selectionId]: {
+              ...state.labels[labelId].selectionList[selectionId],
+              end,
+            },
+          },
+        },
+      },
+    };
+  }
+
+  case 'ADD_COLOR': {
+    const { labelId, selectionId } = payload;
+    return {
+      ...state,
+      labels: {
+        ...state.labels,
+        [labelId]: {
+          ...state.labels[labelId],
+          selectionList: {
+            ...state.labels[labelId].selectionList,
+            [selectionId]: {
+              ...state.labels[labelId].selectionList[selectionId],
+              colorlist: [
+                ...state.labels[labelId].selectionList[selectionId].colorlist,
+                null,
+              ],
+            },
+          },
         },
       },
     };

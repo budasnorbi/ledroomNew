@@ -12,14 +12,12 @@ import style from './WavesurferAddLabel.style';
 
 const WavesurferAddLabel = ({
   addLabel,
-  id,
 }) => (
   <button
     type="button"
     className="button is-dark"
     css={style.marginLeft}
     onClick={addLabel}
-    disabled={id === 'new label'}
   >
     <span className="icon is-small">
       <i className="ion-md-add" />

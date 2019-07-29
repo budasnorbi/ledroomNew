@@ -30,7 +30,7 @@ class LedColorPicker extends Component {
       color: '#FF0000',
       background: '#454545',
       el: document.body,
-      width: this.pickerContainer.current.getBoundingClientRect().width,
+      width: 250,
       height: 200,
     });
 

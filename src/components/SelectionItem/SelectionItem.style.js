@@ -1,11 +1,15 @@
 // import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 
-const SelectionListStyle = {
+const SelectionItemStyle = {
   item: css`
     display: flex;
-    padding-bottom: 5px;
-    border-bottom: dashed 2px rgba(255, 255, 255, .15);
+    margin-top: 5px;
+    margin-bottom: 5px;
+        
+    &:not(:last-child){
+      border-bottom: solid 1px rgba(255, 255, 255, .15);
+    }
   `,
   rangeContainer: css`
     display:flex;
@@ -36,17 +40,6 @@ const SelectionListStyle = {
       color: white;
       /* background-color: #2f2f2f; */
     }
-  `,
-  color: css`
-    height: 35.99px;
-    width: 35.99px;
-    border-radius: 50%;
-
-    margin-left: 9px;
-    margin-bottom: 9px;
-
-    background-color: rgba(255, 255, 255, .15);
-    border:none;
   `,
   ledInput: css`
     background-color: rgba(255, 255, 255, .15);
@@ -102,4 +95,4 @@ const SelectionListStyle = {
   `,
 };
 
-export default SelectionListStyle;
+export default SelectionItemStyle;

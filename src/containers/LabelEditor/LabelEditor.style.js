@@ -35,8 +35,9 @@ const style = {
     padding:0;
     background: transparent;
   `,
-  addSelection: css`
-    width: 100%;
+  selectionList: css`
+    max-height:582px;
+    overflow-y: auto;
   `,
 };
 

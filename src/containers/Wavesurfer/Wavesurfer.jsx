@@ -44,6 +44,8 @@ class Wavesurfer extends PureComponent {
 
   updateVolume = this.updateVolume.bind(this);
 
+  id = -1;
+
   componentDidMount() {
     const container = this.waveRef.current;
     const {
@@ -118,15 +120,14 @@ class Wavesurfer extends PureComponent {
 
   addLabel() {
     const { duration, addLabel } = this.props;
+
+    this.id += 1;
+
     const label = {
-      id: 'new label',
+      id: this.id,
       startTime: 0,
       endTime: duration,
-      opacityCurvePath: 'M0, 100 L100, 0',
-      pickedColors: [],
-      startLedIndex: 0,
-      endLedIndex: 811,
-      hasRange: false,
+      selectionList: {},
     };
 
     const { id, startTime, endTime } = label;
@@ -169,7 +170,7 @@ class Wavesurfer extends PureComponent {
               <WavesurferPlayPause playPause={this.playPause} isPlaying={isPlaying} />
               <WavesurferVolume updateVolume={this.updateVolume} />
               <WavesurferDeleteLabel id={id} deleteLabel={this.deleteLabel} />
-              <WavesurferAddLabel id={id} addLabel={this.addLabel} />
+              <WavesurferAddLabel addLabel={this.addLabel} />
             </div>
           </>
         )}

@@ -1,6 +1,8 @@
-export const mapStateToProps = ({ WaveformStore, LabelStore }) => ({
+export const mapStateToProps = ({ WaveformStore, LabelStore, ColorPickerStore }) => ({
   isPlaying: WaveformStore.isPlaying,
-  ...LabelStore.labels[LabelStore.selectedLabelId],
+  id: LabelStore.selectedLabelId,
+  left: ColorPickerStore.left,
+  top: ColorPickerStore.top,
 });
 
 export const mapDispatchToProps = {
