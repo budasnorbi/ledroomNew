@@ -66,7 +66,7 @@ const SelectionItem = ({
           type="button"
           className="button"
           css={style.colorAdd}
-          onClick={() => addColor(id)}
+          onClick={() => addColor(id, colorlist.length + 1)}
         >
           <span className="icon is-small">
             <i className="ion ion-md-add" />

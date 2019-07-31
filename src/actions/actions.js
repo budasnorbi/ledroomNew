@@ -62,3 +62,13 @@ export const setColorPickerPosition = payload => ({
   type: 'SET_COLOR_PICKER_POSITION',
   payload,
 });
+
+export const setColorPickerClose = () => ({
+  type: 'SET_COLOR_PICKER_CLOSE',
+});
+
+
+export const setColor = payload => ({
+  type: 'SET_COLOR',
+  payload,
+});

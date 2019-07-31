@@ -31,6 +31,7 @@ class App extends PureComponent {
       labelsCount,
       left,
       top,
+      colorPickerIsOpened,
     } = this.props;
     return (
       <>
@@ -52,7 +53,7 @@ class App extends PureComponent {
             <div className="column" />
           </div>
         </div>
-        {left && top && <ColorPicker left={left} top={top} />}
+        {colorPickerIsOpened && <ColorPicker />}
       </>
     );
   }

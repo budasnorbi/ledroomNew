@@ -1,5 +1,5 @@
 // Core
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 
@@ -18,10 +18,18 @@ import { mapDispatchToProps } from './ColorButton.redux';
 
 // Childrens
 
-class ColorButton extends Component {
+class ColorButton extends PureComponent {
   ref = React.createRef();
 
+  modifyColor = this.modifyColor.bind(this);
+
   componentDidMount() {
+    const { setColorPickerPosition } = this.props;
+    const { left, top } = this.ref.current.getBoundingClientRect();
+    setColorPickerPosition({ left, top });
+  }
+
+  modifyColor() {
     const { setColorPickerPosition } = this.props;
     const { left, top } = this.ref.current.getBoundingClientRect();
 
@@ -38,6 +46,7 @@ class ColorButton extends Component {
         key={color}
         style={{ backgroundColor: color }}
         ref={this.ref}
+        onClick={this.modifyColor}
       />
     );
   }

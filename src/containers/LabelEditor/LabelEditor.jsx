@@ -84,12 +84,13 @@ class LabelEditor extends Component {
     });
   }
 
-  addColor(selectionId) {
+  addColor(selectionId, colorIndex) {
     const { addColor, labelId } = this.props;
 
     addColor({
       selectionId,
       labelId,
+      colorIndex,
     });
   }
 

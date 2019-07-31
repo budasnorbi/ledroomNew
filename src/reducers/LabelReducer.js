@@ -156,6 +156,35 @@ export default function LabelReducer(
     };
   }
 
+  case 'SET_COLOR': {
+    const {
+      color,
+      labelId,
+      selectionId,
+      colorIndex,
+    } = payload;
+
+    const newColorList = [...state.labels[labelId].selectionList[selectionId].colorlist];
+    newColorList[colorIndex] = color;
+
+    return {
+      ...state,
+      labels: {
+        ...state.labels,
+        [labelId]: {
+          ...state.labels[labelId],
+          selectionList: {
+            ...state.labels[labelId].selectionList,
+            [selectionId]: {
+              ...state.labels[labelId].selectionList[selectionId],
+              colorlist: newColorList,
+            },
+          },
+        },
+      },
+    };
+  }
+
   case 'SET_SONG_DURATION': {
     return {
       ...state,
