@@ -1,4 +1,4 @@
-import { setColorPickerClose, setColor } from '../../actions/actions';
+import { setColorPickerClose, setColor, deleteColor } from '../../actions/actions';
 
 export const mapStateToProps = ({ ColorPickerStore }) => ({
   left: ColorPickerStore.left,
@@ -6,9 +6,11 @@ export const mapStateToProps = ({ ColorPickerStore }) => ({
   labelId: ColorPickerStore.labelId,
   selectionId: ColorPickerStore.selectionId,
   colorIndex: ColorPickerStore.colorIndex,
+  initColor: ColorPickerStore.initColor,
 });
 
 export const mapDispatchToProps = {
   setColorPickerClose,
   setColor,
+  deleteColor,
 };

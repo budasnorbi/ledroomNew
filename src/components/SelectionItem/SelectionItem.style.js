@@ -17,7 +17,7 @@ const SelectionItemStyle = {
     justify-content: center;
     flex-basis: 35%;
 
-    padding: 5px;
+    padding: 5px 5px 5px 0;
   `,
   dash: css`
     margin: 0 10px;

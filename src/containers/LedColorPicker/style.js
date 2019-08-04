@@ -34,8 +34,14 @@ const style = {
   `,
   closeButton: css`
     position: absolute;
-    right: -36px;
+    right: -41px;
     top: -36px;
+    border-radius: 50%;
+  `,
+  deleteButton: css`
+    position: absolute;
+    right: -41px;
+    top: 5px;
     border-radius: 50%;
   `,
 };

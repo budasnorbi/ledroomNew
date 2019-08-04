@@ -7,6 +7,7 @@ export default function ColorPickerReducer(
     labelId: null,
     selectionId: null,
     colorIndex: null,
+    initColor: null,
   },
   { payload, type },
 ) {
@@ -29,12 +30,37 @@ export default function ColorPickerReducer(
   }
 
   case 'ADD_COLOR': {
-    const { labelId, selectionId, colorIndex } = payload;
+    const {
+      labelId, selectionId, colorIndex, initColor,
+    } = payload;
     return {
       ...state,
       labelId,
       selectionId,
       colorIndex: colorIndex - 1,
+      initColor,
+    };
+  }
+
+  case 'SELECT_COLOR': {
+    const {
+      labelId, selectionId, colorIndex, initColor,
+    } = payload;
+    return {
+      ...state,
+      labelId,
+      selectionId,
+      colorIndex,
+      initColor,
+    };
+  }
+
+  case 'DELETE_COLOR': {
+    const { isOpened } = payload;
+
+    return {
+      ...state,
+      isOpened,
     };
   }
 

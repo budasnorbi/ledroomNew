@@ -21,18 +21,17 @@ import '../../../node_modules/simple-color-picker/src/simple-color-picker.css';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class LedColorPicker extends Component {
-  colorPicker;
-
   pickerContainer = createRef();
 
   closePicker = this.closePicker.bind(this);
 
+  deleteColor = this.deleteColor.bind(this);
+
   componentDidMount() {
-    const {
-      setColor, labelId, selectionId, colorIndex,
-    } = this.props;
+    const { setColor } = this.props;
+
     this.colorPicker = new ColorPicker({
-      color: '#FF0000',
+      color: this.props.initColor,
       background: '#454545',
       el: document.body,
       width: 250,
@@ -43,21 +42,41 @@ class LedColorPicker extends Component {
 
     this.colorPicker.onChange(color => setColor({
       color,
-      labelId,
-      selectionId,
-      colorIndex,
+      labelId: this.props.labelId,
+      selectionId: this.props.selectionId,
+      colorIndex: this.props.colorIndex,
     }));
+
+    console.log(this.colorPicker);
   }
 
-  closePicker(e) {
+  componentDidUpdate() {
+    const { initColor } = this.props;
+    //  console.log(initColor);
+    this.colorPicker.setColor(initColor);
+  }
+
+  closePicker() {
     const { setColorPickerClose } = this.props;
 
     setColorPickerClose();
   }
 
+  deleteColor() {
+    const {
+      deleteColor, labelId, selectionId, colorIndex,
+    } = this.props;
+
+    deleteColor({
+      labelId,
+      selectionId,
+      colorIndex,
+      isOpened: false,
+    });
+  }
+
   render() {
     const { left, top } = this.props;
-
     const colorPickerDynamicStyle = {
       left: `${left - (250 / 2) + 18}px`,
       top: `${top + 46}px`,
@@ -73,6 +92,17 @@ class LedColorPicker extends Component {
         >
           <span className="icon is-small">
             <i className="ion-md-close" />
+          </span>
+        </button>
+
+        <button
+          type="button"
+          className="button is-dark"
+          onClick={this.deleteColor}
+          css={style.deleteButton}
+        >
+          <span className="icon is-small">
+            <i className="ion-md-trash" />
           </span>
         </button>
       </div>

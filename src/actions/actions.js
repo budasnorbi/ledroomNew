@@ -72,3 +72,13 @@ export const setColor = payload => ({
   type: 'SET_COLOR',
   payload,
 });
+
+export const selectColor = payload => ({
+  type: 'SELECT_COLOR',
+  payload,
+});
+
+export const deleteColor = payload => ({
+  type: 'DELETE_COLOR',
+  payload,
+});

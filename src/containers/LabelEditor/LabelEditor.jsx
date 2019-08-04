@@ -107,7 +107,7 @@ class LabelEditor extends Component {
             {selectionIds.map(selectionId => (
               <SelectionItem
                 key={selectionId}
-                id={selectionId}
+                selectionId={selectionId}
                 deleteSelection={this.deleteSelection}
                 updateLedStart={this.updateLedStart}
                 updateLedEnd={this.updateLedEnd}

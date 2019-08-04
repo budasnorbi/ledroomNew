@@ -22,7 +22,8 @@ import ColorButton from '../ColorButton/ColorButton';
 
 const SelectionItem = ({
   // Came from props
-  id,
+  selectionId,
+  selectedLabelId,
   // Came from redux
   start,
   end,
@@ -45,7 +46,7 @@ const SelectionItem = ({
             type="text"
             placeholder="start"
             defaultValue={start}
-            onChange={e => updateLedStart(e.target.value, id)}
+            onChange={e => updateLedStart(e.target.value, selectionId)}
           />
         </div>
         <span css={style.dash}> - </span>
@@ -56,7 +57,7 @@ const SelectionItem = ({
             type="text"
             placeholder="end"
             defaultValue={end}
-            onChange={e => updateLedEnd(e.target.value, id)}
+            onChange={e => updateLedEnd(e.target.value, selectionId)}
           />
         </div>
       </div>
@@ -66,7 +67,7 @@ const SelectionItem = ({
           type="button"
           className="button"
           css={style.colorAdd}
-          onClick={() => addColor(id, colorlist.length + 1)}
+          onClick={() => addColor(selectionId, colorlist.length + 1)}
         >
           <span className="icon is-small">
             <i className="ion ion-md-add" />
@@ -74,8 +75,15 @@ const SelectionItem = ({
           &nbsp;
           color
         </button>
-        {colorlist.map(color => (
-          <ColorButton key={color} color={color} />
+
+        {colorlist.map((color, index) => (
+          <ColorButton
+            key={index}
+            selectionId={selectionId}
+            selectedLabelId={selectedLabelId}
+            colorIndex={index}
+            color={color}
+          />
         ))}
       </div>
     </div>
@@ -96,7 +104,7 @@ const SelectionItem = ({
         type="button"
         className="button"
         css={style.optionButton}
-        onClick={() => deleteSelection(id)}
+        onClick={() => deleteSelection(selectionId)}
       >
         <span css={style.option} className="icon">
           <i className="ion ion-md-trash" />

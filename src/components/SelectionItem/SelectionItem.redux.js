@@ -1,3 +1,4 @@
-export const mapStateToProps = ({ LabelStore }, { id }) => ({
-  ...LabelStore.labels[LabelStore.selectedLabelId].selectionList[id],
+export const mapStateToProps = ({ LabelStore }, { selectionId }) => ({
+  ...LabelStore.labels[LabelStore.selectedLabelId].selectionList[selectionId],
+  selectedLabelId: LabelStore.selectedLabelId,
 });

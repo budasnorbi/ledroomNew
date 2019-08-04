@@ -135,6 +135,9 @@ export default function LabelReducer(
 
   case 'ADD_COLOR': {
     const { labelId, selectionId } = payload;
+
+    const color = state.labels[labelId].selectionList[selectionId].colorlist.length === 0 ? '#000000' : state.labels[labelId].selectionList[selectionId].colorlist[state.labels[labelId].selectionList[selectionId].colorlist.length - 1];
+
     return {
       ...state,
       labels: {
@@ -147,7 +150,7 @@ export default function LabelReducer(
               ...state.labels[labelId].selectionList[selectionId],
               colorlist: [
                 ...state.labels[labelId].selectionList[selectionId].colorlist,
-                null,
+                color,
               ],
             },
           },
@@ -166,6 +169,34 @@ export default function LabelReducer(
 
     const newColorList = [...state.labels[labelId].selectionList[selectionId].colorlist];
     newColorList[colorIndex] = color;
+
+    return {
+      ...state,
+      labels: {
+        ...state.labels,
+        [labelId]: {
+          ...state.labels[labelId],
+          selectionList: {
+            ...state.labels[labelId].selectionList,
+            [selectionId]: {
+              ...state.labels[labelId].selectionList[selectionId],
+              colorlist: newColorList,
+            },
+          },
+        },
+      },
+    };
+  }
+
+  case 'DELETE_COLOR': {
+    const {
+      labelId,
+      selectionId,
+      colorIndex,
+    } = payload;
+
+    const newColorList = [...state.labels[labelId].selectionList[selectionId].colorlist];
+    newColorList.splice(colorIndex, 1);
 
     return {
       ...state,
