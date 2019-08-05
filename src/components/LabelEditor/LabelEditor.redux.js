@@ -7,6 +7,8 @@ import {
   setLedEnd,
   addColor,
   selectColor,
+  addOpacityPath,
+  addTransitionPath,
 } from '../../actions/actions';
 
 export const mapStateToProps = ({ LabelStore }, { labelId }) => ({
@@ -21,4 +23,6 @@ export const mapDispatchToProps = {
   setLedEnd,
   addColor,
   selectColor,
+  addOpacityPath,
+  addTransitionPath,
 };

@@ -90,13 +90,26 @@ class LabelEditor extends Component {
   }
 
   addColor(selectionId, colorIndex) {
-    const { addColor, selectColor, labelId } = this.props;
+    const {
+      addColor, selectColor, labelId, selectSelection, addOpacityPath, addTransitionPath,
+    } = this.props;
+
+    selectSelection({ selectionId });
 
     addColor({
       selectionId,
       labelId,
       colorIndex,
     });
+
+
+    if (colorIndex === 0) {
+      addOpacityPath({ selectionId, labelId });
+    }
+
+    if (colorIndex === 1) {
+      addTransitionPath({ selectionId, labelId });
+    }
 
     selectColor({
       colorIndex,

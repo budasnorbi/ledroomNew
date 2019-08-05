@@ -58,7 +58,7 @@ export default function LabelReducer(
       id: selectionId,
       start: 0,
       end: 0,
-      colorlistId: `${labelId}-${selectionId}`,
+      /* colorlistId: `${labelId}-${selectionId}`, */
       opacityPath: null,
       transitionPath: null,
     };
@@ -133,6 +133,48 @@ export default function LabelReducer(
     };
   }
 
+  case 'ADD_OPACITY_PATH': {
+    const { labelId, selectionId } = payload;
+
+    return {
+      ...state,
+      labels: {
+        ...state.labels,
+        [labelId]: {
+          ...state.labels[labelId],
+          selectionList: {
+            ...state.labels[labelId].selectionList,
+            [selectionId]: {
+              ...state.labels[labelId].selectionList[selectionId],
+              opacityPath: 'M0, 100 L100, 0',
+            },
+          },
+        },
+      },
+    };
+  }
+
+  case 'ADD_TRANSITION_PATH': {
+    const { labelId, selectionId } = payload;
+
+    return {
+      ...state,
+      labels: {
+        ...state.labels,
+        [labelId]: {
+          ...state.labels[labelId],
+          selectionList: {
+            ...state.labels[labelId].selectionList,
+            [selectionId]: {
+              ...state.labels[labelId].selectionList[selectionId],
+              transitionPath: 'M0, 100 L100, 0',
+            },
+          },
+        },
+      },
+    };
+  }
+
   /* case 'ADD_COLOR': {
     const { labelId, selectionId } = payload;
 
@@ -165,7 +207,7 @@ export default function LabelReducer(
     };
   } */
 
-  case 'SET_COLOR': {
+  /* case 'SET_COLOR': {
     const {
       color,
       labelId,
@@ -192,9 +234,9 @@ export default function LabelReducer(
         },
       },
     };
-  }
+  } */
 
-  case 'DELETE_COLOR': {
+  /* case 'DELETE_COLOR': {
     const {
       labelId,
       selectionId,
@@ -220,7 +262,7 @@ export default function LabelReducer(
         },
       },
     };
-  }
+  } */
 
   case 'SET_SONG_DURATION': {
     return {

@@ -92,3 +92,13 @@ export const deleteColor = payload => ({
   type: 'DELETE_COLOR',
   payload,
 });
+
+export const addOpacityPath = payload => ({
+  type: 'ADD_OPACITY_PATH',
+  payload,
+});
+
+export const addTransitionPath = payload => ({
+  type: 'ADD_TRANSITION_PATH',
+  payload,
+});

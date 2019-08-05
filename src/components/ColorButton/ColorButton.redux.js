@@ -1,6 +1,7 @@
-import { moveColorPicker, selectColor } from '../../actions/actions';
+import { moveColorPicker, selectColor, selectSelection } from '../../actions/actions';
 
 export const mapDispatchToProps = {
   moveColorPicker,
   selectColor,
+  selectSelection,
 };

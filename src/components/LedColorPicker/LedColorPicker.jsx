@@ -39,18 +39,20 @@ class LedColorPicker extends Component {
     });
 
     this.colorPicker.appendTo(this.pickerContainer.current);
-
-    this.colorPicker.onChange(color => setColor({
-      color,
-      labelId: this.props.labelId,
-      selectionId: this.props.selectionId,
-      colorIndex: this.props.colorIndex,
-    }));
+    this.colorPicker.onChange((color) => {
+      if (color === '#000000') { return; }
+      console.log(color);
+      setColor({
+        color,
+        labelId: this.props.labelId,
+        selectionId: this.props.selectionId,
+        colorIndex: this.props.colorIndex,
+      });
+    });
   }
 
   componentDidUpdate() {
     const { colorPickerInitColor } = this.props;
-    //  console.log(colorPickerInitColor);
     this.colorPicker.setColor(colorPickerInitColor);
   }
 

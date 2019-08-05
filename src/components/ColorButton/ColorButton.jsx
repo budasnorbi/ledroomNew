@@ -31,7 +31,7 @@ class ColorButton extends PureComponent {
 
   modifyColor() {
     const {
-      moveColorPicker, colorIndex, selectColor, color,
+      moveColorPicker, colorIndex, selectColor, color, selectionId, selectSelection,
     } = this.props;
     const { left, top } = this.ref.current.getBoundingClientRect();
 
@@ -41,6 +41,8 @@ class ColorButton extends PureComponent {
       colorIndex,
       colorPickerInitColor: color,
     });
+
+    selectSelection({ selectionId });
   }
 
   render() {
