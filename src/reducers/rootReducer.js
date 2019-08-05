@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import WaveformStore from './WaveformReducer';
 import LabelStore from './LabelReducer';
-import ColorPickerStore from './ColorPickerReducer';
+import ColorStore from './ColorReducer';
 import UiStore from './UiReducer';
 
 const rootReducer = combineReducers({
   WaveformStore,
   LabelStore,
-  ColorPickerStore,
+  ColorStore,
   UiStore,
 });
 

@@ -74,7 +74,7 @@ const SelectionItem = ({
           &nbsp;
           color
         </button>
-
+        {console.log(colorlist)}
         {colorlist.map((color, index) => (
           <ColorButton
             key={index}

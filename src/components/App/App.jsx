@@ -31,7 +31,6 @@ class App extends PureComponent {
       labelsCount,
       colorPickerIsOpened,
     } = this.props;
-    { console.log(colorPickerIsOpened) ;}
     return (
       <>
         <div className="container">

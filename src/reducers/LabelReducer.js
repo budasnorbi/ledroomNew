@@ -58,7 +58,7 @@ export default function LabelReducer(
       id: selectionId,
       start: 0,
       end: 0,
-      colorlist: [],
+      colorlistId: `${labelId}-${selectionId}`,
       opacityPath: null,
       transitionPath: null,
     };
@@ -133,7 +133,7 @@ export default function LabelReducer(
     };
   }
 
-  case 'ADD_COLOR': {
+  /* case 'ADD_COLOR': {
     const { labelId, selectionId } = payload;
 
     const colorListLength = state.labels[labelId].selectionList[selectionId].colorlist.length;
@@ -163,7 +163,7 @@ export default function LabelReducer(
         },
       },
     };
-  }
+  } */
 
   case 'SET_COLOR': {
     const {

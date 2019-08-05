@@ -1,4 +1,4 @@
-import { closeColorPicker, setColor, deleteColor } from '../../actions/actions';
+import { closeColorPicker, setColor, deleteColor, selectColor } from '../../actions/actions';
 
 export const mapStateToProps = ({ UiStore }) => ({
   left: UiStore.left,
@@ -13,4 +13,5 @@ export const mapDispatchToProps = {
   closeColorPicker,
   setColor,
   deleteColor,
+  selectColor,
 };
