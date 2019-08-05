@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-for */
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import { Component } from 'react';
+import React, { Component } from 'react';
 
 // Style
 import { connect } from 'react-redux';
@@ -37,6 +37,8 @@ class LabelEditor extends Component {
   updateLedEnd = this.updateLedEnd.bind(this);
 
   addColor = this.addColor.bind(this);
+
+  setCurvePath = this.setCurvePath.bind(this);
 
   id = -1;
 
@@ -102,7 +104,6 @@ class LabelEditor extends Component {
       colorIndex,
     });
 
-
     if (colorIndex === 0) {
       addOpacityPath({ selectionId, labelId });
     }
@@ -116,13 +117,50 @@ class LabelEditor extends Component {
     });
   }
 
+  setCurvePath(type, path) {
+    const {
+      setOpacityPath, setTransitionPath, labelId, selectionId,
+    } = this.props;
+
+    if (type === 'opcaity') {
+      setOpacityPath({
+        selectionId,
+        labelId,
+        path,
+      });
+    }
+
+    if (type === 'transition') {
+      setTransitionPath({
+        selectionId,
+        labelId,
+        path,
+      });
+    }
+  }
+
   render() {
-    const { selectionIds, labelId } = this.props;
+    const {
+      selectionIds, labelId, opacityPath, transitionPath, selectionId,
+    } = this.props;
+    console.log(selectionId);
     return (
       <div className="columns" css={style.LabelEditorWrapper}>
         <div className="column is-two-thirds">
-          {/* <LedIndexPicker /> */}
-          {/* <LabelCurve /> */}
+          {selectionId !== null && (
+            <>
+              <LabelCurve
+                startPath={opacityPath}
+                type="opacity"
+                setCurvePath={this.setCurvePath}
+              />
+              <LabelCurve
+                startPath={transitionPath}
+                type="transition"
+                setCurvePath={this.setCurvePath}
+              />
+            </>
+          )}
         </div>
         <div className="column" css={style.labelOptionWrapper}>
           <ul css={style.selectionList}>

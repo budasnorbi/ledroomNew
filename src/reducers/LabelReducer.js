@@ -154,6 +154,48 @@ export default function LabelReducer(
     };
   }
 
+  case 'SET_OPACITY_PATH': {
+    const { labelId, selectionId, path } = payload;
+
+    return {
+      ...state,
+      labels: {
+        ...state.labels,
+        [labelId]: {
+          ...state.labels[labelId],
+          selectionList: {
+            ...state.labels[labelId].selectionList,
+            [selectionId]: {
+              ...state.labels[labelId].selectionList[selectionId],
+              opacityPath: path,
+            },
+          },
+        },
+      },
+    };
+  }
+
+  case 'SET_TRANSITION_PATH': {
+    const { labelId, selectionId, path } = payload;
+
+    return {
+      ...state,
+      labels: {
+        ...state.labels,
+        [labelId]: {
+          ...state.labels[labelId],
+          selectionList: {
+            ...state.labels[labelId].selectionList,
+            [selectionId]: {
+              ...state.labels[labelId].selectionList[selectionId],
+              transitionPath: path,
+            },
+          },
+        },
+      },
+    };
+  }
+
   case 'ADD_TRANSITION_PATH': {
     const { labelId, selectionId } = payload;
 

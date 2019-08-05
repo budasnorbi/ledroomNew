@@ -98,7 +98,17 @@ export const addOpacityPath = payload => ({
   payload,
 });
 
+export const setOpacityPath = payload => ({
+  type: 'SET_OPACITY_PATH',
+  payload,
+});
+
 export const addTransitionPath = payload => ({
   type: 'ADD_TRANSITION_PATH',
+  payload,
+});
+
+export const setTransitionPath = payload => ({
+  type: 'SET_TRANSITION_PATH',
   payload,
 });

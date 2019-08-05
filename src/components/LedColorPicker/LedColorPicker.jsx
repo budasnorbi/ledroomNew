@@ -68,7 +68,8 @@ class LedColorPicker extends Component {
 
   deleteColor() {
     const {
-      deleteColor, labelId, selectionId, colorIndex, closeColorPicker, selectColor,
+      deleteColor, labelId, selectionId, colorIndex, closeColorPicker, selectColor, setTransitionPath,
+      setOpacityPath,
     } = this.props;
 
     deleteColor({
@@ -83,6 +84,22 @@ class LedColorPicker extends Component {
       colorIndex: null,
       colorPickerInitColor: null,
     });
+
+    if (colorIndex === 0) {
+      setOpacityPath({
+        labelId,
+        selectionId,
+        path: null,
+      });
+    }
+
+    if (colorIndex === 1) {
+      setTransitionPath({
+        labelId,
+        selectionId,
+        path: null,
+      });
+    }
   }
 
   render() {

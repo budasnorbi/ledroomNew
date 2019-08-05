@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 // Core
 import React, { Component } from 'react';
 
@@ -10,7 +12,7 @@ import './mojs-curve-editor.min';
 
 // Style
 /** @jsx jsx */
-// import style from './style';
+import style from './LabelCurve.style';
 
 // Utils
 // import {} from './utils';
@@ -23,18 +25,32 @@ class LabelCurve extends Component {
   ref = React.createRef();
 
   componentDidMount() {
-    new MojsCurveEditor({
+    const { type, setCurvePath, startPath } = this.props;
+    const curveEditor = new MojsCurveEditor({
       name: 'some name',
-      startPath: 'M0, 100 L100, 0',
-      isSaveState: true,
-      /* onChange: path => console.log(path), */
+      startPath,
+      isSaveState: false,
       root: this.ref.current,
+      onChange: (path) => {
+        if (startPath !== null && startPath !== path) {
+          setCurvePath(type, path);
+        }
+      },
     });
   }
 
   render() {
+    const { type, startPath } = this.props;
+    const dynamicStyle = {
+      cursor: startPath === null ? 'not-allowed' : 'unset',
+      opacity: startPath === null ? '0.5' : '1',
+    };
+
     return (
-      <div ref={this.ref} />
+      <div style={dynamicStyle}>
+        <h3 css={style.heading} className="title is-3">{`Curve ${type} Path`}</h3>
+        <div ref={this.ref} />
+      </div>
     );
   }
 }
