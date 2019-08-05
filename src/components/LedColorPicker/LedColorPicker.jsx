@@ -29,9 +29,9 @@ class LedColorPicker extends Component {
 
   componentDidMount() {
     const { setColor } = this.props;
-
+    console.log(this.props.colorPickerInitColor);
     this.colorPicker = new ColorPicker({
-      color: this.props.initColor,
+      color: this.props.colorPickerInitColor,
       background: '#454545',
       el: document.body,
       width: 250,
@@ -46,33 +46,32 @@ class LedColorPicker extends Component {
       selectionId: this.props.selectionId,
       colorIndex: this.props.colorIndex,
     }));
-
-    console.log(this.colorPicker);
   }
 
   componentDidUpdate() {
-    const { initColor } = this.props;
-    //  console.log(initColor);
-    this.colorPicker.setColor(initColor);
+    const { colorPickerInitColor } = this.props;
+    //  console.log(colorPickerInitColor);
+    this.colorPicker.setColor(colorPickerInitColor);
   }
 
   closePicker() {
-    const { setColorPickerClose } = this.props;
+    const { closeColorPicker } = this.props;
 
-    setColorPickerClose();
+    closeColorPicker();
   }
 
   deleteColor() {
     const {
-      deleteColor, labelId, selectionId, colorIndex,
+      deleteColor, labelId, selectionId, colorIndex, closeColorPicker,
     } = this.props;
 
     deleteColor({
       labelId,
       selectionId,
       colorIndex,
-      isOpened: false,
     });
+
+    closeColorPicker();
   }
 
   render() {

@@ -44,7 +44,7 @@ class Wavesurfer extends PureComponent {
 
   updateVolume = this.updateVolume.bind(this);
 
-  id = -1;
+  labelId = -1;
 
   componentDidMount() {
     const container = this.waveRef.current;
@@ -119,34 +119,32 @@ class Wavesurfer extends PureComponent {
   }
 
   addLabel() {
-    const { duration, addLabel } = this.props;
+    const { duration, addLabel, selectLabel } = this.props;
 
-    this.id += 1;
-
-    const label = {
-      id: this.id,
-      startTime: 0,
-      endTime: duration,
-      selectionList: {},
-    };
-
-    const { id, startTime, endTime } = label;
+    this.labelId += 1;
 
     this.Wavesurfer.addRegion({
-      id,
-      start: startTime,
-      end: endTime,
+      id: this.labelId,
+      start: 0,
+      end: duration,
       color: 'rgba(255,255,255,.15)',
     });
 
-    addLabel(label);
+    addLabel({
+      id: this.labelId,
+      endTime: duration,
+    });
+
+    selectLabel({
+      labelId: this.labelId,
+    });
   }
 
   deleteLabel() {
-    const { deleteLabel, id } = this.props;
-    this.Wavesurfer.regions.list[id].remove();
+    const { deleteLabel, labelId } = this.props;
+    this.Wavesurfer.regions.list[labelId].remove();
 
-    deleteLabel(id);
+    deleteLabel(labelId);
   }
 
   updateVolume(volume) {
@@ -156,7 +154,7 @@ class Wavesurfer extends PureComponent {
   render() {
     const {
       isPlaying,
-      id,
+      labelId,
     } = this.props;
     const { isWavesurferReady } = this.state;
 
@@ -169,7 +167,7 @@ class Wavesurfer extends PureComponent {
             <div css={style.marginBottom} className="is-flex">
               <WavesurferPlayPause playPause={this.playPause} isPlaying={isPlaying} />
               <WavesurferVolume updateVolume={this.updateVolume} />
-              <WavesurferDeleteLabel id={id} deleteLabel={this.deleteLabel} />
+              <WavesurferDeleteLabel labelId={labelId} deleteLabel={this.deleteLabel} />
               <WavesurferAddLabel addLabel={this.addLabel} />
             </div>
           </>

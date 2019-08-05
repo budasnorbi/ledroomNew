@@ -3,16 +3,12 @@ export default function ColorPickerReducer(
   state = {
     left: null,
     top: null,
-    isOpened: false,
-    labelId: null,
-    selectionId: null,
-    colorIndex: null,
     initColor: null,
   },
   { payload, type },
 ) {
   switch (type) {
-  case 'SET_COLOR_PICKER_POSITION': {
+  /* case 'SET_COLOR_PICKER_POSITION': {
     const { left, top } = payload;
     return {
       ...state,
@@ -20,16 +16,16 @@ export default function ColorPickerReducer(
       top,
       isOpened: true,
     };
-  }
+  } */
 
-  case 'SET_COLOR_PICKER_CLOSE': {
+  /* case 'SET_COLOR_PICKER_CLOSE': {
     return {
       ...state,
       isOpened: false,
     };
-  }
+  } */
 
-  case 'ADD_COLOR': {
+  /* case 'ADD_COLOR': {
     const {
       labelId, selectionId, colorIndex, initColor,
     } = payload;
@@ -40,9 +36,9 @@ export default function ColorPickerReducer(
       colorIndex: colorIndex - 1,
       initColor,
     };
-  }
+  } */
 
-  case 'SELECT_COLOR': {
+  /* case 'SELECT_COLOR': {
     const {
       labelId, selectionId, colorIndex, initColor,
     } = payload;
@@ -53,7 +49,7 @@ export default function ColorPickerReducer(
       colorIndex,
       initColor,
     };
-  }
+  } */
 
   case 'DELETE_COLOR': {
     const { isOpened } = payload;

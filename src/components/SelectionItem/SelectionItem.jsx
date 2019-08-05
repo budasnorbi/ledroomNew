@@ -23,12 +23,11 @@ import ColorButton from '../ColorButton/ColorButton';
 const SelectionItem = ({
   // Came from props
   selectionId,
-  selectedLabelId,
+  labelId,
   // Came from redux
   start,
   end,
   colorlist,
-  isLocked,
 
   // Events
   deleteSelection,
@@ -67,7 +66,7 @@ const SelectionItem = ({
           type="button"
           className="button"
           css={style.colorAdd}
-          onClick={() => addColor(selectionId, colorlist.length + 1)}
+          onClick={() => addColor(selectionId, colorlist.length)}
         >
           <span className="icon is-small">
             <i className="ion ion-md-add" />
@@ -80,7 +79,7 @@ const SelectionItem = ({
           <ColorButton
             key={index}
             selectionId={selectionId}
-            selectedLabelId={selectedLabelId}
+            labelId={labelId}
             colorIndex={index}
             color={color}
           />
@@ -93,10 +92,9 @@ const SelectionItem = ({
         type="button"
         className="button"
         css={style.optionButton}
-        disabled={isLocked}
       >
         <span css={style.option} className="icon">
-          <i className="ion ion-md-lock" />
+          <i className="ion ion-md-create" />
         </span>
       </button>
 

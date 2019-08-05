@@ -11,7 +11,7 @@ import {
 } from './utils';
 
 // Child components
-import LedRow from '../../components/LedRow/LedRow';
+import LedRow from '../LedRow/LedRow';
 
 const canvasStyle = css`
   margin-bottom:15px;

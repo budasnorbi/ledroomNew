@@ -12,14 +12,14 @@ import style from './WavesurferDeleteLabel.style';
 
 const WavesurferDeleteLabel = ({
   deleteLabel,
-  id,
+  labelId,
 }) => (
   <button
     type="button"
     className="button is-dark"
     css={style.marginLeft}
     onClick={deleteLabel}
-    disabled={id === -1}
+    disabled={!labelId}
   >
     <span className="icon is-small">
       <i className="ion-md-remove" />

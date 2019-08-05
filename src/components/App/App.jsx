@@ -27,12 +27,11 @@ class App extends PureComponent {
       // State
       isPlaying,
       // Label
-      id,
+      labelId,
       labelsCount,
-      left,
-      top,
       colorPickerIsOpened,
     } = this.props;
+    { console.log(colorPickerIsOpened) ;}
     return (
       <>
         <div className="container">
@@ -40,15 +39,12 @@ class App extends PureComponent {
             <div className="column" />
             <div className="column is-four-fifths">
               <Wavesurfer
-                id={id}
+                labelId={labelId}
                 labelsCount={labelsCount}
                 isPlaying={isPlaying}
               />
 
-              {id !== -1 && (
-                <LabelEditor labelId={id} />
-              )
-              }
+              {labelId !== null && <LabelEditor labelId={labelId} />}
             </div>
             <div className="column" />
           </div>

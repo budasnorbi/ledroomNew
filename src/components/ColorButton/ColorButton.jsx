@@ -24,24 +24,22 @@ class ColorButton extends PureComponent {
   modifyColor = this.modifyColor.bind(this);
 
   componentDidMount() {
-    const { setColorPickerPosition } = this.props;
+    const { moveColorPicker } = this.props;
     const { left, top } = this.ref.current.getBoundingClientRect();
-    setColorPickerPosition({ left, top });
+    moveColorPicker({ left, top });
   }
 
   modifyColor() {
     const {
-      setColorPickerPosition, selectionId, colorIndex, selectedLabelId, selectColor, color,
+      moveColorPicker, colorIndex, selectColor, color,
     } = this.props;
     const { left, top } = this.ref.current.getBoundingClientRect();
 
-    setColorPickerPosition({ left, top });
+    moveColorPicker({ left, top });
 
     selectColor({
-      labelId: selectedLabelId,
-      selectionId,
       colorIndex,
-      initColor: color,
+      colorPickerInitColor: color,
     });
   }
 

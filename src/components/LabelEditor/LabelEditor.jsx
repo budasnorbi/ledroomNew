@@ -15,12 +15,12 @@ import { mapStateToProps, mapDispatchToProps } from './LabelEditor.redux';
 // import LabelTitle from '../../components/LabelTitle/LabelTitle';
 // import LabelTimePicker from '../../components/LabelTimePicker/LabelTimePicker';
 // import LabelEffectSelect from '../../components/LabelEffectSelect/LabelEffectSelect';
-import LabelSave from '../../components/LabelSave/LabelSave';
+import LabelSave from '../LabelSave/LabelSave';
 import LedIndexPicker from '../LedIndexPicker/LedIndexPicker';
 
-import SelectionAdd from '../../components/SelectionAdd/SelectionAdd';
+import SelectionAdd from '../SelectionAdd/SelectionAdd';
 
-import SelectionItem from '../../components/SelectionItem/SelectionItem';
+import SelectionItem from '../SelectionItem/SelectionItem';
 
 import LabelCurve from '../LabelCurve/LabelCurve';
 
@@ -41,24 +41,29 @@ class LabelEditor extends Component {
   id = -1;
 
   addSelection() {
-    const { addSelection, selectedLabelId } = this.props;
+    const { addSelection, labelId, selectSelection } = this.props;
     this.id += 1;
 
     addSelection({
-      labelId: selectedLabelId,
+      labelId,
       selectionId: this.id,
-      start: 0,
-      end: 0,
-      colorlist: [],
-      isLocked: false,
+    });
+
+    selectSelection({
+      labelId,
+      selectionId: this.id,
     });
   }
 
   deleteSelection(selectionId) {
-    const { labelId, deleteSelection } = this.props;
+    const { labelId, deleteSelection, selectSelection } = this.props;
     deleteSelection({
       labelId,
       selectionId,
+    });
+
+    selectSelection({
+      selectionId: null,
     });
   }
 
@@ -85,22 +90,26 @@ class LabelEditor extends Component {
   }
 
   addColor(selectionId, colorIndex) {
-    const { addColor, labelId } = this.props;
+    const { addColor, selectColor, labelId } = this.props;
 
     addColor({
       selectionId,
       labelId,
       colorIndex,
     });
+
+    selectColor({
+      colorIndex,
+    });
   }
 
   render() {
-    const { selectionIds } = this.props;
+    const { selectionIds, labelId } = this.props;
     return (
       <div className="columns" css={style.LabelEditorWrapper}>
         <div className="column is-two-thirds">
-          <LedIndexPicker />
-          <LabelCurve />
+          {/* <LedIndexPicker /> */}
+          {/* <LabelCurve /> */}
         </div>
         <div className="column" css={style.labelOptionWrapper}>
           <ul css={style.selectionList}>
@@ -108,6 +117,7 @@ class LabelEditor extends Component {
               <SelectionItem
                 key={selectionId}
                 selectionId={selectionId}
+                labelId={labelId}
                 deleteSelection={this.deleteSelection}
                 updateLedStart={this.updateLedStart}
                 updateLedEnd={this.updateLedEnd}
@@ -126,7 +136,7 @@ class LabelEditor extends Component {
             <LabelTimePicker placeholder="End time" />
           </LabelWrapper> */}
 
-          <LabelSave />
+          {/* <LabelSave /> */}
         </div>
       </div>
     );

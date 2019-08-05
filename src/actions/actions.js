@@ -8,6 +8,11 @@ export const addLabel = payload => ({
   payload,
 });
 
+export const selectLabel = payload => ({
+  type: 'SELECT_LABEL',
+  payload,
+});
+
 export const deleteLabel = payload => ({
   type: 'DELETE_LABEL',
   payload,
@@ -38,6 +43,11 @@ export const addSelection = payload => ({
   payload,
 });
 
+export const selectSelection = payload => ({
+  type: 'SELECT_SELECTION',
+  payload,
+});
+
 export const deleteSelection = payload => ({
   type: 'DELETE_SELECTION',
   payload,
@@ -58,25 +68,25 @@ export const addColor = payload => ({
   payload,
 });
 
-export const setColorPickerPosition = payload => ({
-  type: 'SET_COLOR_PICKER_POSITION',
+export const selectColor = payload => ({
+  type: 'SELECT_COLOR',
   payload,
 });
-
-export const setColorPickerClose = () => ({
-  type: 'SET_COLOR_PICKER_CLOSE',
-});
-
 
 export const setColor = payload => ({
   type: 'SET_COLOR',
   payload,
 });
 
-export const selectColor = payload => ({
-  type: 'SELECT_COLOR',
+export const moveColorPicker = payload => ({
+  type: 'MOVE_COLOR_PICKER',
   payload,
 });
+
+export const closeColorPicker = () => ({
+  type: 'CLOSE_COLOR_PICKER',
+});
+
 
 export const deleteColor = payload => ({
   type: 'DELETE_COLOR',

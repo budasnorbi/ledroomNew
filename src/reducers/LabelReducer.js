@@ -3,7 +3,6 @@ import _omit from 'lodash.omit';
 export default function LabelReducer(
   state = {
     labels: {},
-    selectedLabelId: -1,
     duration: -1,
   },
   { payload, type },
@@ -18,6 +17,8 @@ export default function LabelReducer(
         ...state.labels,
         [newLabel.id]: {
           ...newLabel,
+          startTime: 0,
+          selectionList: {},
           endTime: state.duration,
         },
       },
@@ -51,16 +52,15 @@ export default function LabelReducer(
   }
 
   case 'ADD_SELECTION': {
-    const {
-      labelId, selectionId, start, end, colorlist, isLocked,
-    } = payload;
+    const { labelId, selectionId } = payload;
 
     const newSelection = {
       id: selectionId,
-      start,
-      end,
-      colorlist,
-      isLocked,
+      start: 0,
+      end: 0,
+      colorlist: [],
+      opacityPath: null,
+      transitionPath: null,
     };
 
     return {
@@ -136,7 +136,13 @@ export default function LabelReducer(
   case 'ADD_COLOR': {
     const { labelId, selectionId } = payload;
 
-    const color = state.labels[labelId].selectionList[selectionId].colorlist.length === 0 ? '#000000' : state.labels[labelId].selectionList[selectionId].colorlist[state.labels[labelId].selectionList[selectionId].colorlist.length - 1];
+    const colorListLength = state.labels[labelId].selectionList[selectionId].colorlist.length;
+    const color = colorListLength === 0 ? '#000000' : state.labels[labelId]
+      .selectionList[selectionId]
+      .colorlist[colorListLength - 1];
+
+    const opacityPath = colorListLength === 0 && 'M0, 100 L100, 0';
+    const transitionPath = colorListLength === 1 && 'M0, 100 L100, 0';
 
     return {
       ...state,
