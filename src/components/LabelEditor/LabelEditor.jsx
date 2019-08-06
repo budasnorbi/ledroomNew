@@ -28,9 +28,9 @@ import ColorPicker from '../LedColorPicker/LedColorPicker';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class LabelEditor extends Component {
-  addSelection = this.addSelection.bind(this);
+  // addSelection = this.addSelection.bind(this);
 
-  deleteSelection = this.deleteSelection.bind(this);
+  // deleteSelection = this.deleteSelection.bind(this);
 
   updateLedStart = this.updateLedStart.bind(this);
 
@@ -42,32 +42,6 @@ class LabelEditor extends Component {
 
   id = -1;
 
-  addSelection() {
-    const { addSelection, labelId, selectSelection } = this.props;
-    this.id += 1;
-
-    addSelection({
-      labelId,
-      selectionId: this.id,
-    });
-
-    selectSelection({
-      labelId,
-      selectionId: this.id,
-    });
-  }
-
-  deleteSelection(selectionId) {
-    const { labelId, deleteSelection, selectSelection } = this.props;
-    deleteSelection({
-      labelId,
-      selectionId,
-    });
-
-    selectSelection({
-      selectionId: null,
-    });
-  }
 
   updateLedStart(valueAsString, selectionId) {
     const { setLedStart, labelId } = this.props;
@@ -143,7 +117,7 @@ class LabelEditor extends Component {
     const {
       selectionIds, labelId, opacityPath, transitionPath, selectionId,
     } = this.props;
-    console.log(selectionId);
+
     return (
       <div className="columns" css={style.LabelEditorWrapper}>
         <div className="column is-two-thirds">
@@ -164,7 +138,7 @@ class LabelEditor extends Component {
         </div>
         <div className="column" css={style.labelOptionWrapper}>
           <ul css={style.selectionList}>
-            {selectionIds.map(selectionId => (
+            {/* selectionIds.map(selectionId => (
               <SelectionItem
                 key={selectionId}
                 selectionId={selectionId}
@@ -174,9 +148,9 @@ class LabelEditor extends Component {
                 updateLedEnd={this.updateLedEnd}
                 addColor={this.addColor}
               />
-            ))}
+            )) */}
           </ul>
-          <SelectionAdd addSelection={this.addSelection} />
+          {/* <SelectionAdd addSelection={this.addSelection} /> */}
           {/* <LedColorPicker /> */}
           {/* <LabelTitle />
 

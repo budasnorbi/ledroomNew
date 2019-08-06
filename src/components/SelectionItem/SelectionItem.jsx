@@ -86,7 +86,7 @@ const SelectionItem = ({
       </div>
     </div>
 
-    <div css={style.optionContainer}>
+    {/* <div css={style.optionContainer}>
       <button
         type="button"
         className="button"
@@ -107,7 +107,7 @@ const SelectionItem = ({
           <i className="ion ion-md-trash" />
         </span>
       </button>
-    </div>
+        </div> */}
 
   </li>
 );

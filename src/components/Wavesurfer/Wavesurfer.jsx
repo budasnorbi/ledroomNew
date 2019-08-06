@@ -18,13 +18,13 @@ import { mapDispatchToProps, mapStateToProps } from './Wavesurfer.redux';
 import util from './Wavesurfer.util';
 import style from './Wavesurfer.style';
 
-import WavesurferPlayPause from '../../components/WavesurferPlayPause/WavesurferPlayPause';
-import WavesurferAddLabel from '../../components/WavesurferAddLabel/WavesurferAddLabel';
-import WavesurferDeleteLabel from '../../components/WavesurferDeleteLabel/WavesurferDeleteLabel';
+import WavesurferPlayPause from '../WavesurferPlayPause/WavesurferPlayPause';
+import WavesurferAddLabel from '../WavesurferAddLabel/WavesurferAddLabel';
+import WavesurferDeleteLabel from '../WavesurferDeleteLabel/WavesurferDeleteLabel';
 
 // Test music
 import music from '../../music.mp3';
-import WavesurferVolume from '../../components/WavesurferVolume/WavesurferVolume';
+import WavesurferVolume from '../WavesurferVolume/WavesurferVolume';
 
 
 class Wavesurfer extends PureComponent {
@@ -85,6 +85,7 @@ class Wavesurfer extends PureComponent {
       ],
     });
     this.Wavesurfer.load(music);
+
     this.Wavesurfer.on('ready', () => {
       util.initWavesurfer({
         container,
@@ -95,6 +96,8 @@ class Wavesurfer extends PureComponent {
       setDuration(this.Wavesurfer.getDuration());
       this.setState({ isWavesurferReady: true });
       this.Wavesurfer.setVolume(0.5);
+
+      this.props.onRef(this);
     });
 
     this.Wavesurfer.on('region-in', (e) => {
@@ -141,8 +144,12 @@ class Wavesurfer extends PureComponent {
   }
 
   deleteLabel() {
-    const { deleteLabel, labelId } = this.props;
+    const { deleteLabel, labelId, selectLabel } = this.props;
     this.Wavesurfer.regions.list[labelId].remove();
+
+    selectLabel({
+      labelId: null,
+    });
 
     deleteLabel(labelId);
   }
@@ -167,8 +174,8 @@ class Wavesurfer extends PureComponent {
             <div css={style.marginBottom} className="is-flex">
               <WavesurferPlayPause playPause={this.playPause} isPlaying={isPlaying} />
               <WavesurferVolume updateVolume={this.updateVolume} />
-              <WavesurferDeleteLabel labelId={labelId} deleteLabel={this.deleteLabel} />
-              <WavesurferAddLabel addLabel={this.addLabel} />
+              {/* <WavesurferDeleteLabel labelId={labelId} deleteLabel={this.deleteLabel} /> */}
+              {/* <WavesurferAddLabel addLabel={this.addLabel} /> */}
             </div>
           </>
         )}
