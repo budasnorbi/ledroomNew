@@ -22,7 +22,6 @@ export default function LabelReducer(
           endTime: state.duration,
         },
       },
-      selectedLabelId: newLabel.id,
     };
   }
 
@@ -32,7 +31,6 @@ export default function LabelReducer(
     return {
       ...state,
       labels: _omit(state.labels, [id]),
-      selectedLabelId: -1,
     };
   }
 

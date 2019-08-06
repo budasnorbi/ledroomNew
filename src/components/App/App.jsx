@@ -78,7 +78,7 @@ class App extends PureComponent {
                 onRef={ref => this.WavesurferComponent = ref}
               />
 
-              {labelId !== null && <LabelEditor labelId={labelId} />}
+              {(labelId !== null && selectionId !== null) && <LabelEditor />}
             </div>
           </div>
         </div>

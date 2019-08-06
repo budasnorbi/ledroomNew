@@ -30,7 +30,6 @@ const SelectionItem = ({
   colorlist,
 
   // Events
-  deleteSelection,
   updateLedStart,
   updateLedEnd,
   addColor,
@@ -85,30 +84,6 @@ const SelectionItem = ({
         ))}
       </div>
     </div>
-
-    {/* <div css={style.optionContainer}>
-      <button
-        type="button"
-        className="button"
-        css={style.optionButton}
-      >
-        <span css={style.option} className="icon">
-          <i className="ion ion-md-create" />
-        </span>
-      </button>
-
-      <button
-        type="button"
-        className="button"
-        css={style.optionButton}
-        onClick={() => deleteSelection(selectionId)}
-      >
-        <span css={style.option} className="icon">
-          <i className="ion ion-md-trash" />
-        </span>
-      </button>
-        </div> */}
-
   </li>
 );
 

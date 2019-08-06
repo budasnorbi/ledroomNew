@@ -57,8 +57,6 @@ const SelectionItemStyle = {
       box-shadow:0 0 0 0.125em rgba(255, 255, 255, .25);
     }
   `,
-  inputWidth: css`
-  `,
   optionContainer: css`
     display:flex;
     flex-direction:column;

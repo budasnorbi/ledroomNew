@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/label-has-for */
 /** @jsx jsx */
@@ -10,28 +11,12 @@ import style from './LabelEditor.style';
 
 import types from './LabelEditor.types';
 
+import ColorButton from '../ColorButton/ColorButton';
+
 import { mapStateToProps, mapDispatchToProps } from './LabelEditor.redux';
-// Child components
-// import LabelTitle from '../../components/LabelTitle/LabelTitle';
-// import LabelTimePicker from '../../components/LabelTimePicker/LabelTimePicker';
-// import LabelEffectSelect from '../../components/LabelEffectSelect/LabelEffectSelect';
-import LabelSave from '../LabelSave/LabelSave';
-import LedIndexPicker from '../LedIndexPicker/LedIndexPicker';
-
-import SelectionAdd from '../SelectionAdd/SelectionAdd';
-
-import SelectionItem from '../SelectionItem/SelectionItem';
-
 import LabelCurve from '../LabelCurve/LabelCurve';
-
-import ColorPicker from '../LedColorPicker/LedColorPicker';
-
 // eslint-disable-next-line react/prefer-stateless-function
 class LabelEditor extends Component {
-  // addSelection = this.addSelection.bind(this);
-
-  // deleteSelection = this.deleteSelection.bind(this);
-
   updateLedStart = this.updateLedStart.bind(this);
 
   updateLedEnd = this.updateLedEnd.bind(this);
@@ -41,55 +26,6 @@ class LabelEditor extends Component {
   setCurvePath = this.setCurvePath.bind(this);
 
   id = -1;
-
-
-  updateLedStart(valueAsString, selectionId) {
-    const { setLedStart, labelId } = this.props;
-    const valueAsNumber = parseInt(valueAsString, 0);
-
-    setLedStart({
-      labelId,
-      selectionId,
-      start: valueAsNumber,
-    });
-  }
-
-  updateLedEnd(valueAsString, selectionId) {
-    const { setLedEnd, labelId } = this.props;
-    const valueAsNumber = parseInt(valueAsString, 0);
-
-    setLedEnd({
-      labelId,
-      selectionId,
-      end: valueAsNumber,
-    });
-  }
-
-  addColor(selectionId, colorIndex) {
-    const {
-      addColor, selectColor, labelId, selectSelection, addOpacityPath, addTransitionPath,
-    } = this.props;
-
-    selectSelection({ selectionId });
-
-    addColor({
-      selectionId,
-      labelId,
-      colorIndex,
-    });
-
-    if (colorIndex === 0) {
-      addOpacityPath({ selectionId, labelId });
-    }
-
-    if (colorIndex === 1) {
-      addTransitionPath({ selectionId, labelId });
-    }
-
-    selectColor({
-      colorIndex,
-    });
-  }
 
   setCurvePath(type, path) {
     const {
@@ -113,14 +49,85 @@ class LabelEditor extends Component {
     }
   }
 
+  addColor() {
+    const {
+      addColor, selectColor, labelId, addOpacityPath, addTransitionPath, selectionId, colorList,
+    } = this.props;
+
+    const colorIndex = colorList.length;
+
+    addColor({
+      selectionId,
+      labelId,
+      colorIndex,
+    });
+
+    if (colorIndex === 0) {
+      addOpacityPath({ selectionId, labelId });
+    }
+
+    if (colorIndex === 1) {
+      addTransitionPath({ selectionId, labelId });
+    }
+
+    selectColor({
+      colorIndex,
+    });
+  }
+
+  updateLedStart(e) {
+    const { setLedStart, labelId, selectionId } = this.props;
+    const valueAsNumber = parseInt(e.target.value);
+
+    setLedStart({
+      labelId,
+      selectionId,
+      start: valueAsNumber,
+    });
+  }
+
+  updateLedEnd(e) {
+    const { setLedEnd, labelId, selectionId } = this.props;
+    const valueAsNumber = parseInt(e.target.value);
+
+    setLedEnd({
+      labelId,
+      selectionId,
+      end: valueAsNumber,
+    });
+  }
+
   render() {
     const {
-      selectionIds, labelId, opacityPath, transitionPath, selectionId,
+      labelId, opacityPath, transitionPath, selectionId, colorList, startLedIndex, endLedIndex,
     } = this.props;
 
     return (
-      <div className="columns" css={style.LabelEditorWrapper}>
-        <div className="column is-two-thirds">
+      <div css={style.LabelEditorWrapper}>
+        <div>
+          <div css={style.colorContainer}>
+            <button
+              type="button"
+              className="button"
+              css={style.colorAdd}
+              onClick={this.addColor}
+            >
+              <span className="icon is-small">
+                <i className="ion ion-md-add" />
+              </span>
+          &nbsp;
+          color
+            </button>
+            {colorList.map((color, index) => (
+              <ColorButton
+                key={index}
+                selectionId={selectionId}
+                labelId={labelId}
+                colorIndex={index}
+                color={color}
+              />
+            ))}
+          </div>
           {selectionId !== null && (
             <>
               <LabelCurve
@@ -136,32 +143,27 @@ class LabelEditor extends Component {
             </>
           )}
         </div>
-        <div className="column" css={style.labelOptionWrapper}>
-          <ul css={style.selectionList}>
-            {/* selectionIds.map(selectionId => (
-              <SelectionItem
-                key={selectionId}
-                selectionId={selectionId}
-                labelId={labelId}
-                deleteSelection={this.deleteSelection}
-                updateLedStart={this.updateLedStart}
-                updateLedEnd={this.updateLedEnd}
-                addColor={this.addColor}
-              />
-            )) */}
-          </ul>
-          {/* <SelectionAdd addSelection={this.addSelection} /> */}
-          {/* <LedColorPicker /> */}
-          {/* <LabelTitle />
+        <div css={style.labelOptionWrapper}>
 
-          <LabelEffectSelect />
-
-          <LabelWrapper>
-            <LabelTimePicker placeholder="Start time" />
-            <LabelTimePicker placeholder="End time" />
-          </LabelWrapper> */}
-
-          {/* <LabelSave /> */}
+          <div css={style.rangeContainer}>
+            <input
+              css={style.ledInput}
+              className="input"
+              type="text"
+              placeholder="start led"
+              value={startLedIndex}
+              onChange={this.updateLedStart}
+            />
+            <span css={style.dash}> - </span>
+            <input
+              css={style.ledInput}
+              className="input"
+              type="text"
+              placeholder="end led"
+              value={endLedIndex}
+              onChange={this.updateLedEnd}
+            />
+          </div>
         </div>
       </div>
     );

@@ -26,8 +26,12 @@ class SelectionList extends Component {
   selectSelection = this.selectSelection.bind(this);
 
   addSelection() {
-    const { addSelection, labelId, selectSelection } = this.props;
+    const {
+      addSelection, labelId, selectSelection, closeColorPicker,
+    } = this.props;
     this.id += 1;
+
+    closeColorPicker();
 
     addSelection({
       labelId,
@@ -42,8 +46,10 @@ class SelectionList extends Component {
 
   deleteSelection() {
     const {
-      labelId, deleteSelection, selectSelection, selectionId,
+      labelId, deleteSelection, selectSelection, selectionId, closeColorPicker,
     } = this.props;
+
+    closeColorPicker();
 
     deleteSelection({
       labelId,
@@ -56,7 +62,9 @@ class SelectionList extends Component {
   }
 
   selectSelection(e) {
-    const { selectSelection, labelId } = this.props;
+    const { selectSelection, labelId, closeColorPicker } = this.props;
+
+    closeColorPicker();
     selectSelection({
       labelId,
       selectionId: parseInt(e.target.dataset.selection),
