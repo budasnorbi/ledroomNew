@@ -35,8 +35,13 @@ class App extends PureComponent {
       <>
         <div className="container">
           <div className="columns">
-            <div className="column" />
-            <div className="column is-four-fifths">
+            <div className="column">
+              <h1 style={{ textAlign: 'center', color: 'white' }}>Labels</h1>
+            </div>
+            <div className="column">
+              <h1 style={{ textAlign: 'center', color: 'white' }}>Selections</h1>
+            </div>
+            <div className="column is-three-quarters">
               <Wavesurfer
                 labelId={labelId}
                 labelsCount={labelsCount}
@@ -45,7 +50,6 @@ class App extends PureComponent {
 
               {labelId !== null && <LabelEditor labelId={labelId} />}
             </div>
-            <div className="column" />
           </div>
         </div>
         {colorPickerIsOpened && <ColorPicker />}
