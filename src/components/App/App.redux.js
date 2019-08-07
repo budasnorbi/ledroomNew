@@ -1,4 +1,4 @@
-import { selectLabel } from '../../actions/actions';
+import { selectLabel, selectSelection } from '../../actions/actions';
 
 export const mapStateToProps = ({
   WaveformStore, UiStore, LabelStore,
@@ -14,4 +14,5 @@ export const mapStateToProps = ({
 
 export const mapDispatchToProps = {
   selectLabel,
+  selectSelection,
 };

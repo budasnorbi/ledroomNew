@@ -30,11 +30,10 @@ class App extends PureComponent {
   selectLabel = this.selectLabel.bind(this);
 
   selectLabel(labelId) {
-    const { selectLabel } = this.props;
+    const { selectLabel, selectSelection } = this.props;
 
-    selectLabel({
-      labelId,
-    });
+    selectLabel({ labelId });
+    selectSelection({ selectionId: null });
   }
 
   render() {
