@@ -15,6 +15,7 @@ import ColorButton from '../ColorButton/ColorButton';
 
 import { mapStateToProps, mapDispatchToProps } from './LabelEditor.redux';
 import LabelCurve from '../LabelCurve/LabelCurve';
+import LedIndexPicker from '../LedIndexPicker/LedIndexPicker';
 // eslint-disable-next-line react/prefer-stateless-function
 class LabelEditor extends Component {
   updateLedStart = this.updateLedStart.bind(this);
@@ -51,7 +52,7 @@ class LabelEditor extends Component {
 
   addColor() {
     const {
-      addColor, selectColor, labelId, addOpacityPath, addTransitionPath, selectionId, colorList,
+      addColor, selectColor, labelId, addOpacityPath, addTransitionPath, selectionId, colorList, openColorPicker,
     } = this.props;
 
     const colorIndex = colorList.length;
@@ -61,6 +62,8 @@ class LabelEditor extends Component {
       labelId,
       colorIndex,
     });
+
+    openColorPicker();
 
     if (colorIndex === 0) {
       addOpacityPath({ selectionId, labelId });
@@ -76,8 +79,14 @@ class LabelEditor extends Component {
   }
 
   updateLedStart(e) {
+    const { endLedIndex } = this.props;
+
+    const valueAsNumber = parseInt(e.target.value === '' ? 0 : e.target.value);
+    if (!Number.isInteger(valueAsNumber) || valueAsNumber < 0 || valueAsNumber > endLedIndex) {
+      return;
+    }
+
     const { setLedStart, labelId, selectionId } = this.props;
-    const valueAsNumber = parseInt(e.target.value);
 
     setLedStart({
       labelId,
@@ -87,8 +96,14 @@ class LabelEditor extends Component {
   }
 
   updateLedEnd(e) {
+    const valueAsNumber = parseInt(e.target.value === '' ? 0 : e.target.value);
+    const { maxLedCount, startLedIndex } = this.props;
+
+    if (!Number.isInteger(valueAsNumber) || valueAsNumber > maxLedCount || valueAsNumber < startLedIndex) {
+      return;
+    }
+
     const { setLedEnd, labelId, selectionId } = this.props;
-    const valueAsNumber = parseInt(e.target.value);
 
     setLedEnd({
       labelId,
@@ -103,8 +118,8 @@ class LabelEditor extends Component {
     } = this.props;
 
     return (
-      <div css={style.LabelEditorWrapper}>
-        <div>
+      <div css={style.labelEditorContainer}>
+        <div css={style.colorCurveContainer}>
           <div css={style.colorContainer}>
             <button
               type="button"
@@ -115,8 +130,8 @@ class LabelEditor extends Component {
               <span className="icon is-small">
                 <i className="ion ion-md-add" />
               </span>
-          &nbsp;
-          color
+            &nbsp;
+            color
             </button>
             {colorList.map((color, index) => (
               <ColorButton
@@ -143,27 +158,37 @@ class LabelEditor extends Component {
             </>
           )}
         </div>
-        <div css={style.labelOptionWrapper}>
+
+        <div css={style.ledIndexContainer}>
 
           <div css={style.rangeContainer}>
-            <input
-              css={style.ledInput}
-              className="input"
-              type="text"
-              placeholder="start led"
-              value={startLedIndex}
-              onChange={this.updateLedStart}
-            />
-            <span css={style.dash}> - </span>
-            <input
-              css={style.ledInput}
-              className="input"
-              type="text"
-              placeholder="end led"
-              value={endLedIndex}
-              onChange={this.updateLedEnd}
-            />
+            <div css={style.ledIndexInputContainer}>
+              <h5 css={style.ledHeading} className="title is-5">Start led</h5>
+              <input
+                css={style.ledInput}
+                className="input is-small"
+                type="text"
+                placeholder="start led"
+                value={startLedIndex}
+                onChange={this.updateLedStart}
+              />
+            </div>
+            <div css={style.ledIndexInputContainer}>
+              <h5 css={style.ledHeading} className="title is-5">End led</h5>
+              <input
+                css={style.ledInput}
+                className="input is-small"
+                type="text"
+                placeholder="end led"
+                value={endLedIndex}
+                onChange={this.updateLedEnd}
+              />
+            </div>
           </div>
+          <LedIndexPicker
+            startLedIndex={startLedIndex}
+            endLedIndex={endLedIndex}
+          />
         </div>
       </div>
     );

@@ -13,12 +13,7 @@ import {
 // Child components
 import LedRow from '../LedRow/LedRow';
 
-const canvasStyle = css`
-  margin-bottom:15px;
-  border: dashed 2px rgba(255,255,255,.1);
-  border-radius:2px;
-  cursor: grabbing;
-`;
+import style from './LedIndexPicker.style';
 
 class LedIndexPicker extends Component {
   // Bindings
@@ -28,13 +23,14 @@ class LedIndexPicker extends Component {
 
   handleLedClick = this.handleLedClick.bind(this);
 
+
   // Refs
   canvasRef = createRef();
 
   // Variables
   zoomCount = 0;
 
-  maxZoomCount = 15;
+  maxZoomCount = 0;
 
   shapeRefList = [];
 
@@ -53,6 +49,24 @@ class LedIndexPicker extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', setRoomScale);
+  }
+
+  componentDidUpdate(prevProps) {
+    const canvas = this.canvasRef.current;
+    const { startLedIndex, endLedIndex } = this.props;
+
+    colorizeRange({
+      start: prevProps.startLedIndex,
+      end: prevProps.endLedIndex,
+    }, this.shapeRefList, null);
+
+    colorizeRange({
+      start: startLedIndex,
+      end: endLedIndex,
+    }, this.shapeRefList, 'green');
+
+    // Render the modifications
+    canvas.batchDraw();
   }
 
   handleZoom(e) {
@@ -116,8 +130,8 @@ class LedIndexPicker extends Component {
     return (
       <Stage
         onWheel={this.handleZoom}
-        css={canvasStyle}
-        draggable
+        css={style.canvas}
+        draggable={false}
         ref={this.canvasRef}
         height={800}
       >
@@ -129,7 +143,7 @@ class LedIndexPicker extends Component {
             xOffset={20}
             yOffset={20}
             addToShapeList={this.addToShapeList}
-            handleLedClick={this.handleLedClick}
+            /* handleLedClick={this.handleLedClick} */
           />
           <LedRow
             pointType="start"
@@ -138,7 +152,7 @@ class LedIndexPicker extends Component {
             xOffset={2220}
             yOffset={20}
             addToShapeList={this.addToShapeList}
-            handleLedClick={this.handleLedClick}
+            /* handleLedClick={this.handleLedClick} */
           />
           <LedRow
             pointType="end"
@@ -147,7 +161,7 @@ class LedIndexPicker extends Component {
             xOffset={2210}
             yOffset={1850}
             addToShapeList={this.addToShapeList}
-            handleLedClick={this.handleLedClick}
+            /* handleLedClick={this.handleLedClick} */
           />
           <LedRow
             pointType="end"
@@ -156,7 +170,7 @@ class LedIndexPicker extends Component {
             xOffset={350}
             yOffset={1850}
             addToShapeList={this.addToShapeList}
-            handleLedClick={this.handleLedClick}
+            /* handleLedClick={this.handleLedClick} */
           />
           <LedRow
             pointType="end"
@@ -165,7 +179,7 @@ class LedIndexPicker extends Component {
             xOffset={350}
             yOffset={860}
             addToShapeList={this.addToShapeList}
-            handleLedClick={this.handleLedClick}
+            /* handleLedClick={this.handleLedClick} */
           />
           <LedRow
             pointType="end"
@@ -174,7 +188,7 @@ class LedIndexPicker extends Component {
             xOffset={20}
             yOffset={860}
             addToShapeList={this.addToShapeList}
-            handleLedClick={this.handleLedClick}
+            /* handleLedClick={this.handleLedClick} */
           />
         </Layer>
       </Stage>

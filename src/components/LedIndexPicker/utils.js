@@ -56,9 +56,9 @@ export const setRoomScale = (canvas) => {
 
   // Set the canvas size of it parent size
   canvas.width(width);
-  canvas.height(586);
+  canvas.height(361);
 
-  const { x } = getScaleCoords(canvas.children[0].children, width, 586);
+  const { x, y } = getScaleCoords(canvas.children[0].children, width, 361);
   canvas.scaleX(x);
-  canvas.scaleY(x);
+  canvas.scaleY(y);
 };

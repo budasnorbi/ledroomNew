@@ -83,6 +83,10 @@ export const moveColorPicker = payload => ({
   payload,
 });
 
+export const openColorPicker = () => ({
+  type: 'OPEN_COLOR_PICKER',
+});
+
 export const closeColorPicker = () => ({
   type: 'CLOSE_COLOR_PICKER',
 });

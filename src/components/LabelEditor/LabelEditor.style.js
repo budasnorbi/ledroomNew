@@ -28,13 +28,6 @@ const style = {
       margin-left:0px !important;
     }
   `,
-  labelOptionWrapper: css`
-
-  `,
-  LabelEditorWrapper: css`
-    padding:0;
-    background: transparent;
-  `,
   selectionList: css`
     max-height:582px;
     overflow-y: auto;
@@ -42,7 +35,7 @@ const style = {
   colorAdd: css`
     margin-left: 2px;
     border-radius: calc((35.99 / 2) * 1px);
-    color:white;
+    color: white;
     border: none;
     background-color: rgba(255, 255, 255, .15);
     line-height: 100%;
@@ -54,17 +47,17 @@ const style = {
   `,
   colorContainer: css`
     height:56px;
-    padding: 10px 5px 10px 0px;
+    padding: 10px 10px 10px 0px;
     overflow-x: auto;
     overflow-y: hidden;
   `,
   ledInput: css`
-    width: 80%;
     background-color: rgba(255, 255, 255, .15);
     border:none;
     color:white;
     outline: none;
     text-align:center;
+    width:auto;
 
     &::-webkit-input-placeholder{
       color: rgba(255, 255, 255, .85) !important;
@@ -79,12 +72,26 @@ const style = {
     display:flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 5px 5px 0;
+    height:55.99px;
   `,
-  dash: css`
-    margin: 0 10px;
+  colorCurveContainer: css`
+    flex-basis: 50%;
+  `,
+  ledIndexContainer: css`
+    flex-basis: 50%;
+    padding: 0px 10px 0px 10px;
+  `,
+  labelEditorContainer: css`
+    display: flex;
+  `,
+  ledHeading: css`
     color: white;
-    color: rgba(255, 255, 255, .15);
+    margin-bottom: 0px !important;
+    margin-right: 10px;
+    line-height: 27px;
+  `,
+  ledIndexInputContainer: css`
+    display: flex;
   `,
 };
 

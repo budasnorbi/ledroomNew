@@ -46,18 +46,16 @@ class SelectionList extends Component {
 
   deleteSelection() {
     const {
-      labelId, deleteSelection, selectSelection, selectionId, closeColorPicker,
+      labelId, deleteSelection, selectSelection, selectionId, closeColorPicker, selectionIds,
     } = this.props;
+
+    console.log(selectionIds);
 
     closeColorPicker();
 
     deleteSelection({
       labelId,
       selectionId,
-    });
-
-    selectSelection({
-      selectionId: null,
     });
   }
 

@@ -26,17 +26,23 @@ class LabelCurve extends Component {
 
   componentDidMount() {
     const { type, setCurvePath, startPath } = this.props;
-    const curveEditor = new MojsCurveEditor({
+    this.curveEditor = new MojsCurveEditor({
       name: 'some name',
       startPath,
       isSaveState: false,
       root: this.ref.current,
       onChange: (path) => {
+        // console.log(startPath, path);
         if (startPath !== null && startPath !== path) {
           setCurvePath(type, path);
         }
       },
     });
+  }
+
+  componentDidUpdate() {
+    // console.log(this.props.startPath);
+    // this.curveEditor._defaults.startPath = this.props.startPath;
   }
 
   render() {
@@ -47,7 +53,7 @@ class LabelCurve extends Component {
     };
 
     return (
-      <div style={dynamicStyle}>
+      <div css={style.curveContainer} style={dynamicStyle}>
         <h3 css={style.heading} className="title is-3">{`Curve ${type} Path`}</h3>
         <div ref={this.ref} />
       </div>

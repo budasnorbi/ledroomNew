@@ -8,6 +8,7 @@ export default function UiReducer(
     colorIndex: null,
     colorPickerIsOpened: false,
     colorPickerInitColor: '#000000',
+    maxLedCount: 806,
   },
   { payload, type },
 ) {
@@ -43,7 +44,6 @@ export default function UiReducer(
       ...state,
       left,
       top,
-      colorPickerIsOpened: true,
     };
   }
 
@@ -51,6 +51,13 @@ export default function UiReducer(
     return {
       ...state,
       colorPickerIsOpened: false,
+    };
+  }
+
+  case 'OPEN_COLOR_PICKER': {
+    return {
+      ...state,
+      colorPickerIsOpened: true,
     };
   }
 
