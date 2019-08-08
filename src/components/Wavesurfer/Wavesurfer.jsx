@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 // Core
 import React, { PureComponent } from 'react';
 /** @jsx jsx */
@@ -6,6 +7,8 @@ import { jsx } from '@emotion/core';
 // Redux
 import { connect } from 'react-redux';
 
+import clonedeep from 'lodash.clonedeep';
+
 // Wavesurfer
 import WavesurferPlugin from 'wavesurfer.js';
 
@@ -13,6 +16,7 @@ import WavesurferPlugin from 'wavesurfer.js';
 import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
 import CursorPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.cursor';
 import RegionPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
+import store from '../../store/configureStore';
 import types from './Wavesurfer.types';
 import { mapDispatchToProps, mapStateToProps } from './Wavesurfer.redux';
 import util from './Wavesurfer.util';
@@ -49,7 +53,7 @@ class Wavesurfer extends PureComponent {
   componentDidMount() {
     const container = this.waveRef.current;
     const {
-      updateSongPlaying, setDuration, setLabelDuration, volume,
+      updateSongPlaying, setDuration, setLabelDuration,
     } = this.props;
 
     this.Wavesurfer = WavesurferPlugin.create({
@@ -118,7 +122,19 @@ class Wavesurfer extends PureComponent {
   }
 
   playPause() {
-    this.Wavesurfer.playPause();
+    const { ColorStore, LabelStore } = store.getState();
+    const colors = Object.entries(ColorStore);
+    const showPayload = clonedeep(LabelStore);
+
+    colors.forEach(([labelAndSelection, colorList]) => {
+      const [labelId, selectionId] = labelAndSelection.split('-');
+      showPayload.labels[labelId].selectionList[selectionId].colorList = colorList;
+    });
+
+    console.log(showPayload);
+    // const [colorLabelId, colorSelectionId] =
+    //
+    // this.Wavesurfer.playPause();
   }
 
   addLabel() {
