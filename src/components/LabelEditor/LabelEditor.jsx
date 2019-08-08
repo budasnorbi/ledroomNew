@@ -33,7 +33,7 @@ class LabelEditor extends Component {
       setOpacityPath, setTransitionPath, labelId, selectionId,
     } = this.props;
 
-    if (type === 'opcaity') {
+    if (type === 'opacity') {
       setOpacityPath({
         selectionId,
         labelId,
@@ -145,16 +145,24 @@ class LabelEditor extends Component {
           </div>
           {selectionId !== null && (
             <>
-              <LabelCurve
-                startPath={opacityPath}
-                type="opacity"
-                setCurvePath={this.setCurvePath}
-              />
-              <LabelCurve
-                startPath={transitionPath}
-                type="transition"
-                setCurvePath={this.setCurvePath}
-              />
+              {opacityPath !== null && (
+                <LabelCurve
+                  labelId={labelId}
+                  selectionId={selectionId}
+                  startPath={opacityPath}
+                  type="opacity"
+                  setCurvePath={this.setCurvePath}
+                />
+              )}
+              {transitionPath !== null && (
+                <LabelCurve
+                  labelId={labelId}
+                  selectionId={selectionId}
+                  startPath={transitionPath}
+                  type="transition"
+                  setCurvePath={this.setCurvePath}
+                />
+              )}
             </>
           )}
         </div>
