@@ -131,7 +131,18 @@ class Wavesurfer extends PureComponent {
       showPayload.labels[labelId].selectionList[selectionId].colorList = colorList;
     });
 
-    console.log(showPayload);
+    showPayload.labels = Object.assign([], showPayload.labels);
+
+    fetch('http://localhost:5600/startShow', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'no-cors', // no-cors, cors, *same-origin
+      headers: {
+        'Access-Control-Request-Headers': 'content-type',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify(showPayload),
+    });
+    console.log(JSON.stringify(showPayload));
     // const [colorLabelId, colorSelectionId] =
     //
     // this.Wavesurfer.playPause();
