@@ -56,7 +56,7 @@ class ColorButton extends PureComponent {
         className="button"
         css={style.color}
         key={color}
-        style={{ backgroundColor: color }}
+        style={{ backgroundColor: `rgb(${color})` }}
         ref={this.ref}
         onClick={this.modifyColor}
       />

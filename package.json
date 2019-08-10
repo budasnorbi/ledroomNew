@@ -31,6 +31,7 @@
     "antd": "^3.19.1",
     "bulma": "^0.7.5",
     "bulma-slider": "^2.0.0",
+    "eslint-plugin-json": "^1.4.0",
     "ionicons": "^4.5.8",
     "konva": "^3.3.1",
     "lodash.clonedeep": "^4.5.0",

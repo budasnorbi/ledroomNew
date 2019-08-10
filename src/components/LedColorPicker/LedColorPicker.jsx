@@ -41,8 +41,11 @@ class LedColorPicker extends Component {
     this.colorPicker.appendTo(this.pickerContainer.current);
     this.colorPicker.onChange((color) => {
       if (color === '#000000') { return; }
+      const { r, g, b } = this.colorPicker.getRGB();
+      const newColor = [r, g, b];
+
       setColor({
-        color,
+        color: newColor,
         labelId: this.props.labelId,
         selectionId: this.props.selectionId,
         colorIndex: this.props.colorIndex,

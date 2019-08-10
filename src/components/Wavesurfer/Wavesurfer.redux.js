@@ -1,6 +1,6 @@
 // Actions
 import {
-  setDuration, initLabelRange, setLabelDuration, addLabel, deleteLabel, selectLabel,
+  setDuration, initLabelRange, setLabelDuration, addLabel, deleteLabel, selectLabel, selectSelection,
 } from '../../actions/actions';
 
 export const mapStateToProps = ({ LabelStore }) => ({
@@ -16,4 +16,5 @@ export const mapDispatchToProps = {
   addLabel,
   selectLabel,
   deleteLabel,
+  selectSelection,
 };

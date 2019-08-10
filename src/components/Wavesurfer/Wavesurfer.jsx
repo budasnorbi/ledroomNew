@@ -23,8 +23,7 @@ import util from './Wavesurfer.util';
 import style from './Wavesurfer.style';
 
 import WavesurferPlayPause from '../WavesurferPlayPause/WavesurferPlayPause';
-import WavesurferAddLabel from '../WavesurferAddLabel/WavesurferAddLabel';
-import WavesurferDeleteLabel from '../WavesurferDeleteLabel/WavesurferDeleteLabel';
+
 
 // Test music
 import music from '../../music.mp3';
@@ -149,7 +148,9 @@ class Wavesurfer extends PureComponent {
   }
 
   addLabel() {
-    const { duration, addLabel, selectLabel } = this.props;
+    const {
+      duration, addLabel, selectLabel, selectSelection,
+    } = this.props;
 
     this.labelId += 1;
 
@@ -167,6 +168,10 @@ class Wavesurfer extends PureComponent {
 
     selectLabel({
       labelId: this.labelId,
+    });
+
+    selectSelection({
+      selectionId: null,
     });
   }
 
