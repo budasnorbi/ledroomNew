@@ -67,92 +67,93 @@ function hexToRgb(hex) {
   ] : null;
 }
 
-function componentToHex(c) {
-  const hex = c.toString(16);
-  return hex.length === 1 ? `0${hex}` : hex;
+function generateData() {
+  const data = JSON.parse(`{
+    "labels":[
+      {
+        "id":0,
+        "endTime":264.8468027210884,
+        "startTime":0,
+        "selectionList":[
+          {
+            "id":0,
+            "start":0,
+            "end":100,
+            "opacityPath":"M0, 100 L100, 0",
+            "transitionPath":"M0, 100 L100, 0",
+            "colorList":["#ff0000","#0000ff"]
+          }]
+      }
+    ],
+    "duration":264.8468027210884
+  }`);
+
+
+  return data.labels.map(label => label.selectionList.map((selection) => {
+    const colorList = selection.colorList.map(color => hexToRgb(color));
+
+    const colorListLength = selection.colorList.length;
+    const { startTime, endTime } = label;
+    const fps = 60;
+    const frame = (endTime - startTime) * fps;
+
+    if (colorListLength >= 2) {
+      // TRANSITION PATH
+      const pathObj = path.svgPathProperties(selection.opacityPath);
+      const yCoordinates = [];
+
+      const colorScale = {};
+      const colorScalePartUnit = 100 / (colorList.length - 1);
+
+      for (let colorItemCount = 0; colorItemCount < colorList.length; colorItemCount += 1) {
+        colorScale[colorScalePartUnit * colorItemCount] = colorList[colorItemCount];
+      }
+
+      for (let i = 0; i < frame; i += 1) {
+        const { y } = pathObj.getPointAtLength(i / frame * pathObj.getTotalLength());
+        yCoordinates.push(y.toFixed(4));
+      }
+
+      const colorScaleKeys = Object.keys(colorScale).map(x => parseInt(x));
+
+      return yCoordinates.map((yCoordinate) => {
+        const closestSmallKey = getClosestNumber(colorScaleKeys, yCoordinate, true);
+        const closestHighKey = getClosestNumber(colorScaleKeys, yCoordinate, false);
+
+        const pick = yCoordinate % colorScalePartUnit;
+
+        const colorPct1 = pick / colorScalePartUnit;
+        const colorPct2 = (colorScalePartUnit - pick) / colorScalePartUnit;
+
+        const newColor1 = colorScale[closestHighKey].map(x => Math.floor(x * colorPct1));
+        const newColor2 = colorScale[closestSmallKey].map(x => Math.floor(x * colorPct2));
+
+        return rgbHex(
+          newColor1[0] + newColor2[0],
+          newColor1[1] + newColor2[1],
+          newColor1[2] + newColor2[2],
+        );
+      });
+    }
+  }));
 }
 
-function rgbToHex(arr) {
-  return componentToHex(arr[0]) + componentToHex(arr[1]) + componentToHex(arr[2]);
-}
+const WebSocket = require('ws');
 
-const data = JSON.parse(`{
-  "labels":[
-    {
-      "id":0,
-      "endTime":264.8468027210884,
-      "startTime":0,
-      "selectionList":[
-        {
-          "id":0,
-          "start":0,
-          "end":100,
-          "opacityPath":"M0, 100 L100, 0",
-          "transitionPath":"M0, 100 L100, 0",
-          "colorList":["#ff0000","#0000ff"]
-        }]
-    }
-  ],
-  "duration":264.8468027210884
-}`);
+const ws = new WebSocket('ws://192.168.1.30:81', ['ledRoom']);
 
+const ad = generateData()[0][0].slice(0, 20).join();
+const obj = { id: 0, data: ad };
 
-const bigData = data.labels.map(label => label.selectionList.map((selection) => {
-  const colorList = selection.colorList.map(color => hexToRgb(color));
+ws.on('open', () => {
+  ws.send('8=D');
+});
 
-  const colorListLength = selection.colorList.length;
-  const { startTime, endTime } = label;
-  const fps = 60;
-  const frame = (endTime - startTime) * fps;
-
-  if (colorListLength >= 2) {
-    // TRANSITION PATH
-    const pathObj = path.svgPathProperties(selection.opacityPath);
-    const yCoordinates = [];
-
-    const colorScale = {};
-    const colorScalePartUnit = 100 / (colorList.length - 1);
-
-    for (let colorItemCount = 0; colorItemCount < colorList.length; colorItemCount += 1) {
-      colorScale[colorScalePartUnit * colorItemCount] = colorList[colorItemCount];
-    }
-
-    for (let i = 0; i < frame; i += 1) {
-      const { y } = pathObj.getPointAtLength(i / frame * pathObj.getTotalLength());
-      yCoordinates.push(y.toFixed(4));
-    }
-
-    const colorScaleKeys = Object.keys(colorScale).map(x => parseInt(x));
-
-    return yCoordinates.map((yCoordinate) => {
-      const closestSmallKey = getClosestNumber(colorScaleKeys, yCoordinate, true);
-      const closestHighKey = getClosestNumber(colorScaleKeys, yCoordinate, false);
-
-      const pick = yCoordinate % colorScalePartUnit;
-
-      const colorPct1 = pick / colorScalePartUnit;
-      const colorPct2 = (colorScalePartUnit - pick) / colorScalePartUnit;
-
-      const newColor1 = colorScale[closestHighKey].map(x => Math.floor(x * colorPct1));
-      const newColor2 = colorScale[closestSmallKey].map(x => Math.floor(x * colorPct2));
-
-      return rgbHex(
-        newColor1[0] + newColor2[0],
-        newColor1[1] + newColor2[1],
-        newColor1[2] + newColor2[2],
-      );
-    });
+ws.on('message', (data) => {
+  console.log(data);
+  if (data === 'Kutyaszar') {
+    setTimeout(() => {
+      ws.send(JSON.stringify(obj));
+    }, 1000 / 60);
   }
-
-  if (colorListLength === 1) {
-    // OPACITY PATH
-  }
-}));
-
-
-const fs = require('fs');
-
-fs.writeFile('input.json', JSON.stringify(bigData), (err) => {
-  if (err) throw err;
-  console.log('complete');
 });
