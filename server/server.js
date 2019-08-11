@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 const path = require('svg-path-properties');
 const rgbHex = require('rgb-hex');
+const _ = require('lodash');
 
 const getClosestNumber = (array, val, dir) => {
   for (let i = 0; i < array.length; i += 1) {
@@ -108,25 +109,55 @@ function generateData() {
 
         return {
           id: selection.id,
+          start: selection.start,
+          end: selection.end,
           colors: colorWithTransitionAndOpacity,
         };
       }
     });
 
     return {
+      startTime: label.startTime * 60,
+      endTime: label.endTime * 60,
       id: label.id,
       selectionList,
     };
   });
 }
-const data = {
-  data: generateData()[0].selectionList[0].colors.splice(0, 511),
-};
+
+const data = generateData();
+
+const frame = Math.floor(264.8468027210884) * 60;
+const ledPool = new Array(frame)
+  .fill(new Array(811));
+
+/* [
+    [811 elem],
+    [811 elem],
+    [811 elem]
+  ]
+*/
+/*
+data.forEach((label) => {
+  let currentFrame = label.startTime;
+  const endFrame = label.endIndex;
+
+  label.selectionList.forEach((selection) => {
+    let currentLed = selection.start;
+    const endLed = selection.end;
+
+    for (currentFrame; currentFrame < endFrame; currentFrame += 1) {
+      for (currentLed; currentLed < endLed; currentLed += 1) {
+        ledPool[currentFrame][currentLed] = selection.colors[currentLed];
+      }
+    }
+  });
+}); */
+
+
 const fs = require('fs');
 
-console.log(data.data.length);
-
-fs.writeFile('data.json', JSON.stringify(data), (err) => {
+fs.writeFile('data.json', JSON.stringify(ledPool), (err) => {
   if (err) {
     return console.log(err);
   }
