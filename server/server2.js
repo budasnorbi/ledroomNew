@@ -25,22 +25,24 @@ const hexToRgb = (hex) => {
   ] : null;
 };
 
+
+
 const payload = JSON.parse(`{
     "labels":[
       {
-        "endTime":15,
+        "endTime":10,
         "startTime":0,
         "selectionList":[
           {
             "start":0,
             "end":811,
-            "opacityPath":"M0, 0 C0, 0 100, 0 100, 0",
-            "transitionPath":"M0, 100 C0, 100 100, 0 100, 0",
+            "opacityPath":"M0, 100 C0, 100 100, 0 100, 0 ",
+            "transitionPath":"M0, 100 C0, 100 100, 0 100, 0 ",
             "colorList":["#ff0000","#0000ff","#0FFF0F"]
           }]
       }
     ],
-    "duration":264.8468027210884
+    "duration":10
   }`);
 
 
@@ -48,7 +50,7 @@ let currentFrame = 0;
 const fps = 30;
 const oneFrame = 1000 / fps;
 const allFrame = Math.floor(payload.duration) * fps;
-
+/*
 const port1 = new SerialPort('COM6', { baudRate: 1000000 });
 const parser1 = new Readline();
 port1.pipe(parser1);
@@ -57,15 +59,24 @@ parser1.on('data', line => console.log(line));
 const port2 = new SerialPort('COM5', { baudRate: 1000000 });
 const parser2 = new Readline();
 port2.pipe(parser2);
-parser2.on('data', line => console.log(line));
+parser2.on('data', line => console.log(line));*/
+const DATA = [];
 
 const loop = setInterval(function teszt() {
   if (currentFrame === allFrame) {
     clearInterval(loop);
+    const fs = require('fs');
+    fs.writeFile("text.txt", DATA.join('\r\n'), function(err) {
+        if(err) {
+            return csonsole.log(err);
+        }
+
+        console.log("The file was saved!");
+    }); 
     console.log('Song playing finished');
   }
 
-  // console.log(`${currentFrame} / ${allFrame}`);
+  console.log(`${currentFrame} / ${allFrame}`);
 
   const ledPool = new Array(811).fill('000000');
 
@@ -81,11 +92,8 @@ const loop = setInterval(function teszt() {
       if (colorListRGB.length >= 2) {
         const opacityPoints = path.svgPathProperties(opacityPath);
 
-        const opacityY = opacityPoints
-          .getPointAtLength(currentFrame / endFrame * opacityPoints.getTotalLength()).y;
-
-        
-
+        const opacityY = 100- opacityPoints
+          .getPointAtLength(currentFrame / endFrame * opacityPoints.getTotalLength()).y ;
 
         const transitionPoints = path.svgPathProperties(transitionPath);
 
@@ -97,7 +105,7 @@ const loop = setInterval(function teszt() {
         }
         /* ---------------------- */
 
-        const transitionY = transitionPoints
+        const transitionY = 100 - transitionPoints
           .getPointAtLength(currentFrame / endFrame * transitionPoints.getTotalLength()).y;
 
         const colorScaleKeys = Object.keys(colorScale).map(x => Number(x));
@@ -109,26 +117,26 @@ const loop = setInterval(function teszt() {
 
         const pick = transitionY % colorScalePartUnit;
 
-        const highNumberMultiler = pick / colorScalePartUnit;
-        const smallNumberMultipler = (colorScalePartUnit - pick) / colorScalePartUnit;
+        let newColor;
+        if( pick !== 0) {
+          const highNumberMultiler = pick / colorScalePartUnit;
+          const smallNumberMultipler = (colorScalePartUnit - pick) / colorScalePartUnit;
+  
+          const highNumber = colorScale[closestHighKey]
+            .map(colorPart => colorPart * highNumberMultiler);
+          const smallNumber = colorScale[closestSmallKey]
+            .map(colorPart => colorPart * smallNumberMultipler);
+  
+          newColor = rgbHex(...[
+            highNumber[0] + smallNumber[0],
+            highNumber[1] + smallNumber[1],
+            highNumber[2] + smallNumber[2],
+          ].map(color => Math.round(color * ( opacityY / 100))));
+        } else {
+          newColor = rgbHex(...colorScale[closestHighKey].map(color => Math.round(color * ( opacityY / 100))));
+        }
 
-        const highNumber = colorScale[closestHighKey]
-          .map(colorPart => colorPart * highNumberMultiler);
-        const smallNumber = colorScale[closestSmallKey]
-          .map(colorPart => colorPart * smallNumberMultipler);
-
-        const newColor = rgbHex(...[
-          highNumber[0] + smallNumber[0],
-          highNumber[1] + smallNumber[1],
-          highNumber[2] + smallNumber[2],
-        ].map(color => Math.round(color * ( opacityY / 100))));
-
-
-        console.log([
-          highNumber[0] + smallNumber[0],
-          highNumber[1] + smallNumber[1],
-          highNumber[2] + smallNumber[2],
-        ].map(color => Math.round(color * ( opacityY / 100))))
+        console.log(newColor)
 
 
         let currentLedIndex = start;
@@ -138,11 +146,15 @@ const loop = setInterval(function teszt() {
           ledPool[currentLedIndex] = newColor;
         }
         
-        port1.write(ledPool.slice(511, 811).join(''));
-        port2.write(ledPool.slice(0, 511).join(''));
+        //port1.write(ledPool.slice(511, 811).join(''));
+        // port2.write(ledPool.slice(0, 511).join(''));
+        // console.log(opacityY, transitionY)
+        DATA.push(newColor);
       }
     });
   });
 
   currentFrame += 1;
 }, oneFrame);
+
+
