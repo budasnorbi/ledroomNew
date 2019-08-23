@@ -15,7 +15,6 @@ const getClosestNumber = (array, val, dir) => {
   }
 };
 
-
 const hexToRgb = (hex) => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? [
@@ -25,13 +24,23 @@ const hexToRgb = (hex) => {
   ] : null;
 };
 
-
-
 const payload = JSON.parse(`{
     "labels":[
       {
-        "endTime":25,
-        "startTime":10,
+        "endTime":5,
+        "startTime":2,
+        "selectionList":[
+          {
+            "start":0,
+            "end":811,
+            "opacityPath":"M0, 100 C0, 100 50.689844590469036, 0 50.689844590469036, 0 C50.689844590469036, 0 100, 100 100, 100 ",
+            "transitionPath":"M0, 100 C0, 100 50.689844590469036, 0 50.689844590469036, 0 C50.689844590469036, 0 100, 100 100, 100 ",
+            "colorList":["#ff0000","#0000ff","#0FFF0F"]
+          }]
+      },
+      {
+        "endTime":10,
+        "startTime":8,
         "selectionList":[
           {
             "start":0,
@@ -42,7 +51,7 @@ const payload = JSON.parse(`{
           }]
       }
     ],
-    "duration":50
+    "duration":10
   }`);
 
 
@@ -51,6 +60,7 @@ const fps = 30;
 const oneFrame = 1000 / fps;
 const allFrame = Math.floor(payload.duration) * fps;
 
+/*
 const port1 = new SerialPort('COM7', { baudRate: 1000000 });
 const parser1 = new Readline();
 port1.pipe(parser1);
@@ -60,7 +70,7 @@ const port2 = new SerialPort('COM5', { baudRate: 1000000 });
 const parser2 = new Readline();
 port2.pipe(parser2);
 parser2.on('data', line => console.log(line));
-
+*/
 
 // const DATA = [];
 
@@ -80,19 +90,26 @@ const loop = setInterval(function teszt() {
 
   const ledPool = new Array(811).fill('000000');
 
-  payload.labels.forEach((label) => {
-    // const startFrame = label.startTime * 60;
-    const endFrame = label.endTime * fps;
+  payload.labels.forEach(({
+    selectionList,
+    startTime,
+    endTime,
+  }) => {
+    const startFrame = startTime * fps;
+    const endFrame = endTime * fps;
 
-    label.selectionList.forEach(({
+    if(!(currentFrame >= startFrame && currentFrame <= endFrame)){   
+      return;
+    }
+
+    selectionList.forEach(({
       colorList, transitionPath, opacityPath, start, end,
     }) => {
       const colorListRGB = colorList.map(color => hexToRgb(color));
       if(colorListRGB.length === 1){
         const opacityPoints = path.svgPathProperties(opacityPath);
 
-        const opacityY = 100 - opacityPoints
-          .getPointAtLength(currentFrame / endFrame * opacityPoints.getTotalLength()).y;
+        const opacityY = 100 - opacityPoints.getPointAtLength(currentFrame / endFrame * opacityPoints.getTotalLength()).y;
       }
       if (colorListRGB.length >= 2) {
         const opacityPoints = path.svgPathProperties(opacityPath);
@@ -127,10 +144,8 @@ const loop = setInterval(function teszt() {
           const highNumberMultiler = pick / colorScalePartUnit;
           const smallNumberMultipler = (colorScalePartUnit - pick) / colorScalePartUnit;
   
-          const highNumber = colorScale[closestHighKey]
-            .map(colorPart => colorPart * highNumberMultiler);
-          const smallNumber = colorScale[closestSmallKey]
-            .map(colorPart => colorPart * smallNumberMultipler);
+          const highNumber = colorScale[closestHighKey].map(colorPart => colorPart * highNumberMultiler);
+          const smallNumber = colorScale[closestSmallKey].map(colorPart => colorPart * smallNumberMultipler);
   
           newColor = rgbHex(...[
             highNumber[0] + smallNumber[0],
@@ -141,11 +156,6 @@ const loop = setInterval(function teszt() {
           newColor = rgbHex(...colorScale[closestHighKey].map(color => Math.round(color * ( opacityY / 100))));
         }
 
-        console.log(
-          `FRAME: ${currentFrame} / ${allFrame}`
-        )
-
-
         let currentLedIndex = start;
         const endLedIndex = end;
 
@@ -153,9 +163,10 @@ const loop = setInterval(function teszt() {
           ledPool[currentLedIndex] = newColor;
         }
         
-        port1.write(ledPool.slice(511, 811).join('') + '#');
-        port2.write(ledPool.slice(0, 511).join('') + '#');
-        // console.log(opacityY, transitionY)
+        // console.log(`FRAME: ${currentFrame} / ${allFrame}`)
+        // console.log(hexToRgb(newColor))
+        // port1.write(ledPool.slice(511, 811).join('') + '#');
+        // port2.write(ledPool.slice(0, 511).join('') + '#');
         // DATA.push(newColor);
       }
     });
