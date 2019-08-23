@@ -79,13 +79,8 @@ class LabelEditor extends Component {
   }
 
   updateLedStart(e) {
-    const { endLedIndex } = this.props;
-
     const valueAsNumber = parseInt(e.target.value === '' ? 0 : e.target.value);
-    if (!Number.isInteger(valueAsNumber) || valueAsNumber < 0 || valueAsNumber > endLedIndex) {
-      return;
-    }
-
+    const { endLedIndex } = this.props;
     const { setLedStart, labelId, selectionId } = this.props;
 
     setLedStart({
@@ -98,10 +93,6 @@ class LabelEditor extends Component {
   updateLedEnd(e) {
     const valueAsNumber = parseInt(e.target.value === '' ? 0 : e.target.value);
     const { maxLedCount, startLedIndex } = this.props;
-
-    if (!Number.isInteger(valueAsNumber) || valueAsNumber > maxLedCount || valueAsNumber < startLedIndex) {
-      return;
-    }
 
     const { setLedEnd, labelId, selectionId } = this.props;
 

@@ -30,19 +30,19 @@ const hexToRgb = (hex) => {
 const payload = JSON.parse(`{
     "labels":[
       {
-        "endTime":10,
-        "startTime":0,
+        "endTime":25,
+        "startTime":10,
         "selectionList":[
           {
             "start":0,
             "end":811,
-            "opacityPath":"M0, 100 C0, 100 100, 0 100, 0 ",
-            "transitionPath":"M0, 100 C0, 100 100, 0 100, 0 ",
+            "opacityPath":"M0, 100 C0, 100 50.689844590469036, 0 50.689844590469036, 0 C50.689844590469036, 0 100, 100 100, 100 ",
+            "transitionPath":"M0, 100 C0, 100 50.689844590469036, 0 50.689844590469036, 0 C50.689844590469036, 0 100, 100 100, 100 ",
             "colorList":["#ff0000","#0000ff","#0FFF0F"]
           }]
       }
     ],
-    "duration":10
+    "duration":50
   }`);
 
 
@@ -50,8 +50,8 @@ let currentFrame = 0;
 const fps = 30;
 const oneFrame = 1000 / fps;
 const allFrame = Math.floor(payload.duration) * fps;
-/*
-const port1 = new SerialPort('COM6', { baudRate: 1000000 });
+
+const port1 = new SerialPort('COM7', { baudRate: 1000000 });
 const parser1 = new Readline();
 port1.pipe(parser1);
 parser1.on('data', line => console.log(line));
@@ -59,13 +59,15 @@ parser1.on('data', line => console.log(line));
 const port2 = new SerialPort('COM5', { baudRate: 1000000 });
 const parser2 = new Readline();
 port2.pipe(parser2);
-parser2.on('data', line => console.log(line));*/
-const DATA = [];
+parser2.on('data', line => console.log(line));
+
+
+// const DATA = [];
 
 const loop = setInterval(function teszt() {
   if (currentFrame === allFrame) {
     clearInterval(loop);
-    const fs = require('fs');
+    /*const fs = require('fs');
     fs.writeFile("text.txt", DATA.join('\r\n'), function(err) {
         if(err) {
             return csonsole.log(err);
@@ -73,10 +75,8 @@ const loop = setInterval(function teszt() {
 
         console.log("The file was saved!");
     }); 
-    console.log('Song playing finished');
+    console.log('Song playing finished');*/
   }
-
-  console.log(`${currentFrame} / ${allFrame}`);
 
   const ledPool = new Array(811).fill('000000');
 
@@ -84,16 +84,21 @@ const loop = setInterval(function teszt() {
     // const startFrame = label.startTime * 60;
     const endFrame = label.endTime * fps;
 
-    // Végigmegyünk minden szelekción
     label.selectionList.forEach(({
       colorList, transitionPath, opacityPath, start, end,
     }) => {
       const colorListRGB = colorList.map(color => hexToRgb(color));
+      if(colorListRGB.length === 1){
+        const opacityPoints = path.svgPathProperties(opacityPath);
+
+        const opacityY = 100 - opacityPoints
+          .getPointAtLength(currentFrame / endFrame * opacityPoints.getTotalLength()).y;
+      }
       if (colorListRGB.length >= 2) {
         const opacityPoints = path.svgPathProperties(opacityPath);
 
-        const opacityY = 100- opacityPoints
-          .getPointAtLength(currentFrame / endFrame * opacityPoints.getTotalLength()).y ;
+        const opacityY = 100 - opacityPoints
+          .getPointAtLength(currentFrame / endFrame * opacityPoints.getTotalLength()).y;
 
         const transitionPoints = path.svgPathProperties(transitionPath);
 
@@ -136,7 +141,9 @@ const loop = setInterval(function teszt() {
           newColor = rgbHex(...colorScale[closestHighKey].map(color => Math.round(color * ( opacityY / 100))));
         }
 
-        console.log(newColor)
+        console.log(
+          `FRAME: ${currentFrame} / ${allFrame}`
+        )
 
 
         let currentLedIndex = start;
@@ -146,15 +153,13 @@ const loop = setInterval(function teszt() {
           ledPool[currentLedIndex] = newColor;
         }
         
-        //port1.write(ledPool.slice(511, 811).join(''));
-        // port2.write(ledPool.slice(0, 511).join(''));
+        port1.write(ledPool.slice(511, 811).join('') + '#');
+        port2.write(ledPool.slice(0, 511).join('') + '#');
         // console.log(opacityY, transitionY)
-        DATA.push(newColor);
+        // DATA.push(newColor);
       }
     });
   });
 
   currentFrame += 1;
 }, oneFrame);
-
-
