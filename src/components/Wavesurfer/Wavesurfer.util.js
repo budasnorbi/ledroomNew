@@ -28,11 +28,4 @@ WavesurferUtil.initWavesurfer = ({
   surferInstance.on('finish', updateSongPlaying);
 };
 
-WavesurferUtil.createShowData = ({
-  LabelStore,
-  ColorStore,
-}) => {
-  console.log(LabelStore, ColorStore);
-};
-
 export default WavesurferUtil;

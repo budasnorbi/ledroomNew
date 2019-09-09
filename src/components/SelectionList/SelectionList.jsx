@@ -73,7 +73,9 @@ class SelectionList extends Component {
   }
 
   render() {
-    const { selectionIds, selectionId, labelId } = this.props;
+    const {
+      selectionIds, selectionId, labelId, selectionRanges,
+    } = this.props;
 
     return (
       <>
@@ -101,7 +103,7 @@ class SelectionList extends Component {
             </span>
           </button>
         </div>
-        {selectionIds.map(selection => (
+        {selectionIds.map((selection, index) => (
           <button
             key={selection}
             type="button"
@@ -113,7 +115,7 @@ class SelectionList extends Component {
             data-selection={selection}
             onClick={this.selectSelection}
           >
-            {selection}
+            {selectionRanges[index]}
           </button>
         ))}
       </>

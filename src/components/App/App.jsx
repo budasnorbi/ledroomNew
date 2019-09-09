@@ -29,11 +29,62 @@ import SelectionList from '../SelectionList/SelectionList';
 class App extends PureComponent {
   selectLabel = this.selectLabel.bind(this);
 
+  getWavesurfer = this.getWavesurfer.bind(this);
+
+  addLabel = this.addLabel.bind(this);
+
+  deleteLabel = this.deleteLabel.bind(this);
+
+  labelId = 0;
+
+  wavesurferInstance;
+
+  getWavesurfer(wavesurferInstance) {
+    this.wavesurferInstance = wavesurferInstance;
+  }
+
   selectLabel(labelId) {
     const { selectLabel, selectSelection } = this.props;
 
     selectLabel({ labelId });
     selectSelection({ selectionId: null });
+  }
+
+  addLabel() {
+    const {
+      duration, addLabel, selectLabel, selectSelection,
+    } = this.props;
+
+    this.labelId += 1;
+
+    this.wavesurferInstance.addRegion({
+      id: this.labelId,
+      start: 0,
+      end: duration,
+      color: 'rgba(255,255,255,.15)',
+    });
+
+    addLabel({
+      id: this.labelId,
+      endTime: duration,
+    });
+
+    selectLabel({
+      labelId: this.labelId,
+    });
+
+    selectSelection({
+      selectionId: null,
+    });
+  }
+
+  deleteLabel() {
+    const { deleteLabel, labelId, selectLabel } = this.props;
+    this.wavesurferInstance.regions.list[labelId].remove();
+
+    selectLabel({ labelId: null });
+
+    deleteLabel(labelId);
   }
 
   render() {
@@ -42,11 +93,12 @@ class App extends PureComponent {
       isPlaying,
       // Label
       labelId,
-      labelsCount,
       colorPickerIsOpened,
       labelIds,
       selectionIds,
       selectionId,
+      labelNames,
+      selectionRanges,
     } = this.props;
 
     return (
@@ -55,10 +107,11 @@ class App extends PureComponent {
           <div className="columns">
             <div className="column" css={style.labelBorderRight}>
               <LabelList
-                addLabel={() => this.WavesurferComponent.addLabel()}
-                deleteLabel={() => this.WavesurferComponent.deleteLabel()}
+                addLabel={this.addLabel}
+                deleteLabel={this.deleteLabel}
                 selectLabel={this.selectLabel}
                 labelIds={labelIds}
+                labelNames={labelNames}
                 labelId={labelId}
               />
             </div>
@@ -67,14 +120,13 @@ class App extends PureComponent {
                 labelId={labelId}
                 selectionId={selectionId}
                 selectionIds={selectionIds}
+                selectionRanges={selectionRanges}
               />
             </div>
             <div className="column is-three-quarters">
               <Wavesurfer
-                labelId={labelId}
-                labelsCount={labelsCount}
                 isPlaying={isPlaying}
-                onRef={ref => this.WavesurferComponent = ref}
+                getWavesurfer={this.getWavesurfer}
               />
 
               {(labelId !== null && selectionId !== null) && <LabelEditor />}

@@ -17,6 +17,7 @@ import style from './LabelList.style';
 const LabelList = ({
   labelId,
   labelIds,
+  labelNames,
   addLabel,
   deleteLabel,
   selectLabel,
@@ -46,7 +47,7 @@ const LabelList = ({
         </span>
       </button>
     </div>
-    {labelIds.map(label => (
+    {labelIds.map((label, index) => (
       <button
         key={label}
         type="button"
@@ -58,7 +59,7 @@ const LabelList = ({
         data-selection={label}
         onClick={() => selectLabel(label)}
       >
-        {label}
+        {labelNames[index]}
       </button>
     ))}
   </>

@@ -26,6 +26,8 @@ class LabelEditor extends Component {
 
   setCurvePath = this.setCurvePath.bind(this);
 
+  updateLabelTitle = this.updateLabelTitle.bind(this);
+
   id = -1;
 
   setCurvePath(type, path) {
@@ -80,8 +82,13 @@ class LabelEditor extends Component {
 
   updateLedStart(e) {
     const valueAsNumber = parseInt(e.target.value === '' ? 0 : e.target.value);
-    const { endLedIndex } = this.props;
-    const { setLedStart, labelId, selectionId } = this.props;
+    const {
+      setLedStart, labelId, selectionId, maxLedCount,
+    } = this.props;
+
+    if (valueAsNumber > maxLedCount || valueAsNumber < 0) {
+      return;
+    }
 
     setLedStart({
       labelId,
@@ -92,7 +99,11 @@ class LabelEditor extends Component {
 
   updateLedEnd(e) {
     const valueAsNumber = parseInt(e.target.value === '' ? 0 : e.target.value);
-    const { maxLedCount, startLedIndex } = this.props;
+    const { maxLedCount } = this.props;
+
+    if (valueAsNumber > maxLedCount || valueAsNumber < 0) {
+      return;
+    }
 
     const { setLedEnd, labelId, selectionId } = this.props;
 
@@ -103,14 +114,38 @@ class LabelEditor extends Component {
     });
   }
 
+  updateLabelTitle(e) {
+    const { labelId, setLabelTitle } = this.props;
+
+    setLabelTitle({
+      labelId,
+      title: e.target.value,
+    });
+  }
+
   render() {
     const {
-      labelId, opacityPath, transitionPath, selectionId, colorList, startLedIndex, endLedIndex,
+      labelId,
+      opacityPath,
+      transitionPath,
+      selectionId,
+      colorList,
+      startLedIndex,
+      endLedIndex,
+      labelTitle,
     } = this.props;
 
-    return (
+    return(
       <div css={style.labelEditorContainer}>
         <div css={style.colorCurveContainer}>
+        <input
+          css={style.ledTitleInput}
+          className="input is-medium"
+          type="text"
+          placeholder="label title"
+          value={labelTitle}
+          onChange={this.updateLabelTitle}
+        />
           <div css={style.colorContainer}>
             <button
               type="button"

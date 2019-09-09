@@ -91,7 +91,6 @@ export const closeColorPicker = () => ({
   type: 'CLOSE_COLOR_PICKER',
 });
 
-
 export const deleteColor = payload => ({
   type: 'DELETE_COLOR',
   payload,
@@ -114,5 +113,10 @@ export const addTransitionPath = payload => ({
 
 export const setTransitionPath = payload => ({
   type: 'SET_TRANSITION_PATH',
+  payload,
+});
+
+export const setLabelTitle = payload => ({
+  type: 'SET_LABEL_TITLE',
   payload,
 });

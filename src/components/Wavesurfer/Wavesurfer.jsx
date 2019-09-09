@@ -41,18 +41,12 @@ class Wavesurfer extends PureComponent {
 
   playPause = this.playPause.bind(this);
 
-  addLabel = this.addLabel.bind(this);
-
-  deleteLabel = this.deleteLabel.bind(this);
-
   updateVolume = this.updateVolume.bind(this);
-
-  labelId = -1;
 
   componentDidMount() {
     const container = this.waveRef.current;
     const {
-      updateSongPlaying, setDuration, setLabelDuration,
+      updateSongPlaying, setDuration, setLabelDuration, getWavesurfer,
     } = this.props;
 
     this.Wavesurfer = WavesurferPlugin.create({
@@ -87,6 +81,10 @@ class Wavesurfer extends PureComponent {
         RegionPlugin.create(),
       ],
     });
+
+    getWavesurfer(this.Wavesurfer);
+
+
     this.Wavesurfer.load(music);
 
     this.Wavesurfer.on('ready', () => {
@@ -99,8 +97,6 @@ class Wavesurfer extends PureComponent {
       setDuration(this.Wavesurfer.getDuration());
       this.setState({ isWavesurferReady: true });
       this.Wavesurfer.setVolume(0.5);
-
-      this.props.onRef(this);
     });
 
     this.Wavesurfer.on('region-in', (e) => {
@@ -147,54 +143,12 @@ class Wavesurfer extends PureComponent {
     // this.Wavesurfer.playPause();
   }
 
-  addLabel() {
-    const {
-      duration, addLabel, selectLabel, selectSelection,
-    } = this.props;
-
-    this.labelId += 1;
-
-    this.Wavesurfer.addRegion({
-      id: this.labelId,
-      start: 0,
-      end: duration,
-      color: 'rgba(255,255,255,.15)',
-    });
-
-    addLabel({
-      id: this.labelId,
-      endTime: duration,
-    });
-
-    selectLabel({
-      labelId: this.labelId,
-    });
-
-    selectSelection({
-      selectionId: null,
-    });
-  }
-
-  deleteLabel() {
-    const { deleteLabel, labelId, selectLabel } = this.props;
-    this.Wavesurfer.regions.list[labelId].remove();
-
-    selectLabel({
-      labelId: null,
-    });
-
-    deleteLabel(labelId);
-  }
-
   updateVolume(volume) {
     this.Wavesurfer.setVolume(volume);
   }
 
   render() {
-    const {
-      isPlaying,
-      labelId,
-    } = this.props;
+    const { isPlaying } = this.props;
     const { isWavesurferReady } = this.state;
 
     return (
@@ -206,8 +160,6 @@ class Wavesurfer extends PureComponent {
             <div css={style.marginBottom} className="is-flex">
               <WavesurferPlayPause playPause={this.playPause} isPlaying={isPlaying} />
               <WavesurferVolume updateVolume={this.updateVolume} />
-              {/* <WavesurferDeleteLabel labelId={labelId} deleteLabel={this.deleteLabel} /> */}
-              {/* <WavesurferAddLabel addLabel={this.addLabel} /> */}
             </div>
           </>
         )}

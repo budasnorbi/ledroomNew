@@ -17,6 +17,7 @@ export default function LabelReducer(
         ...state.labels,
         [newLabel.id]: {
           ...newLabel,
+          title: 'label',
           startTime: 0,
           selectionList: {},
           endTime: state.duration,
@@ -210,6 +211,20 @@ export default function LabelReducer(
               transitionPath: 'M0, 100 L100, 0',
             },
           },
+        },
+      },
+    };
+  }
+
+  case 'SET_LABEL_TITLE': {
+    const { title, labelId } = payload;
+    return {
+      ...state,
+      labels: {
+        ...state.labels,
+        [labelId]: {
+          ...state.labels[labelId],
+          title,
         },
       },
     };

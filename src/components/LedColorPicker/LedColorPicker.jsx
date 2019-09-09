@@ -134,27 +134,6 @@ class LedColorPicker extends Component {
             <i className="ion-md-trash" />
           </span>
         </button>
-
-        <div>
-          <input
-            css={style.ledInput}
-            className="input is-small"
-            type="text"
-            placeholder="R"
-          />
-          <input
-            css={style.ledInput}
-            className="input is-small"
-            type="text"
-            placeholder="G"
-          />
-          <input
-            css={style.ledInput}
-            className="input is-small"
-            type="text"
-            placeholder="B"
-          />
-        </div>
       </div>
     );
   }

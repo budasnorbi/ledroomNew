@@ -68,6 +68,28 @@ const style = {
       box-shadow:0 0 0 0.125em rgba(255, 255, 255, .25);
     }
   `,
+  ledTitleInput: css`
+    border:none;
+    color:white;
+    outline: none;
+    text-align:left;
+    width:auto;
+    background-color:transparent;
+    border-radius: 0;
+    border-bottom:solid 3px rgba(255, 255, 255, .15);
+    box-shadow:none;
+
+    &::-webkit-input-placeholder{
+      color: rgba(255, 255, 255, .85) !important;
+      text-align:inherit;
+    }
+
+    &:active, &:focus, &:hover{
+      box-shadow:none;
+      border-bottom:solid 3px rgba(255, 255, 255, .15);
+    }
+
+  `,
   rangeContainer: css`
     display:flex;
     align-items: center;
