@@ -6,9 +6,19 @@ const style = {
     margin-bottom: 10px !important;
   `,
   curveContainer: css`
+    position:relative;
     &:not(:last-child) {
       margin-bottom:21px;
     }
+  `,
+  timeline: css`
+    width:1px;
+    height:125px;
+    background-color:white;
+
+    position:absolute;
+    bottom:0;
+    left:50px;
   `,
 };
 

@@ -9,6 +9,7 @@ export default function UiReducer(
     colorPickerIsOpened: false,
     colorPickerInitColor: '#000000',
     maxLedCount: 806,
+    activeLabel: null,
   },
   { payload, type },
 ) {
@@ -59,6 +60,13 @@ export default function UiReducer(
       ...state,
       colorPickerIsOpened: true,
     };
+  }
+
+  case 'SET_LABEL_ACTIVE': {
+    return {
+      ...state,
+      activeLabel:payload.labelId,
+    }
   }
 
   default:

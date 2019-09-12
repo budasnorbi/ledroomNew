@@ -46,7 +46,11 @@ class Wavesurfer extends PureComponent {
   componentDidMount() {
     const container = this.waveRef.current;
     const {
-      updateSongPlaying, setDuration, setLabelDuration, getWavesurfer,
+      updateSongPlaying,
+      setDuration,
+      setLabelDuration, 
+      getWavesurfer,
+      setLabelActive,
     } = this.props;
 
     this.Wavesurfer = WavesurferPlugin.create({
@@ -100,14 +104,32 @@ class Wavesurfer extends PureComponent {
     });
 
     this.Wavesurfer.on('region-in', (e) => {
-      this.Wavesurfer.regions.list[e.id].update({
+      const {id} = e;
+      this.Wavesurfer.regions.list[id].update({
         color: 'rgba(0, 0, 0, .15)',
       });
+  
+      // Action call
+      // we should get the label id what label is get in to action
+      setLabelActive({
+        labelId: id,
+      });
     });
+
     this.Wavesurfer.on('region-out', (e) => {
-      this.Wavesurfer.regions.list[e.id].update({
+      const {id} = e;
+      const {activeLabel} = this.props;
+
+      this.Wavesurfer.regions.list[id].update({
         color: 'rgba(255, 255, 255, .15)',
       });
+      console.log(activeLabel, id)
+      if(activeLabel === id){
+        setLabelActive({
+          labelId: null,
+        });
+      }
+
     });
 
     this.Wavesurfer.on('region-update-end', (e) => {
@@ -126,21 +148,25 @@ class Wavesurfer extends PureComponent {
       showPayload.labels[labelId].selectionList[selectionId].colorList = colorList;
     });
 
-    showPayload.labels = Object.assign([], showPayload.labels);
-
+    showPayload.labels = Object.values(showPayload.labels);
+    console.log(JSON.stringify(showPayload));
     fetch('http://localhost:5600/startShow', {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'no-cors', // no-cors, cors, *same-origin
+      method: 'POST',
       headers: {
-        'Access-Control-Request-Headers': 'content-type',
-        'Content-Type': 'application/json;charset=UTF-8',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(showPayload),
+    })
+    .then( res => res.json())
+    .then( json => {
+      const {canPlay} = json;
+
+      console.log(json)
+      if(canPlay){
+        this.Wavesurfer.playPause();
+      }
     });
-    console.log(JSON.stringify(showPayload));
-    // const [colorLabelId, colorSelectionId] =
-    //
-    // this.Wavesurfer.playPause();
+
   }
 
   updateVolume(volume) {

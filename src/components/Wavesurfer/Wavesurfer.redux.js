@@ -1,11 +1,19 @@
 // Actions
 import {
-  setDuration, initLabelRange, setLabelDuration, addLabel, deleteLabel, selectLabel, selectSelection,
+  setDuration,
+  initLabelRange,
+  setLabelDuration,
+  addLabel,
+  deleteLabel,
+  selectLabel,
+  selectSelection,
+  setLabelActive,
 } from '../../actions/actions';
 
-export const mapStateToProps = ({ LabelStore }) => ({
+export const mapStateToProps = ({ LabelStore, UiStore }) => ({
   volume: LabelStore.volume,
   duration: LabelStore.duration,
+  activeLabel: UiStore.activeLabel,
 });
 
 export const mapDispatchToProps = {
@@ -16,5 +24,7 @@ export const mapDispatchToProps = {
   addLabel,
   selectLabel,
   deleteLabel,
+  setLabelActive,
+
   selectSelection,
 };

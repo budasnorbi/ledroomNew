@@ -74,7 +74,7 @@ parser2.on('data', line => console.log(line));
 
 // const DATA = [];
 
-const loop = setInterval(function teszt() {
+const loop = setInterval(() => {
   if (currentFrame === allFrame) {
     clearInterval(loop);
     /*const fs = require('fs');
@@ -163,7 +163,7 @@ const loop = setInterval(function teszt() {
           ledPool[currentLedIndex] = newColor;
         }
         
-        // console.log(`FRAME: ${currentFrame} / ${allFrame}`)
+        console.log(`FRAME: ${currentFrame} / ${allFrame}`)
         // console.log(hexToRgb(newColor))
         // port1.write(ledPool.slice(511, 811).join('') + '#');
         // port2.write(ledPool.slice(0, 511).join('') + '#');

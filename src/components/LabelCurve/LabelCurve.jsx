@@ -56,6 +56,7 @@ class LabelCurve extends PureComponent {
 
     return (
       <div css={style.curveContainer}>
+        <div css={style.timeline}></div>
         <h3 css={style.heading} className="title is-3">{`Curve ${type} Path`}</h3>
         <div ref={this.ref} />
       </div>
