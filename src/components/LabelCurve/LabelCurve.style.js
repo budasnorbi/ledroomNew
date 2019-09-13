@@ -18,7 +18,7 @@ const style = {
 
     position:absolute;
     bottom:0;
-    left:50px;
+    left:0px;
   `,
 };
 

@@ -133,6 +133,10 @@ class LabelEditor extends Component {
       startLedIndex,
       endLedIndex,
       labelTitle,
+      startTime,
+      endTime,
+      activeLabel,
+      currentTime
     } = this.props;
 
     return(
@@ -178,6 +182,10 @@ class LabelEditor extends Component {
                   startPath={opacityPath}
                   type="opacity"
                   setCurvePath={this.setCurvePath}
+                  startTime={startTime}
+                  endTime={endTime}
+                  activeLabel={activeLabel}
+                  currentTime={currentTime}
                 />
               )}
               {transitionPath !== null && (
@@ -187,6 +195,10 @@ class LabelEditor extends Component {
                   startPath={transitionPath}
                   type="transition"
                   setCurvePath={this.setCurvePath}
+                  startTime={startTime}
+                  endTime={endTime}
+                  activeLabel={activeLabel}
+                  currentTime={currentTime}
                 />
               )}
             </>

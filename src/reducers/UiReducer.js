@@ -10,6 +10,7 @@ export default function UiReducer(
     colorPickerInitColor: '#000000',
     maxLedCount: 806,
     activeLabel: null,
+    time:0,
   },
   { payload, type },
 ) {
@@ -66,6 +67,13 @@ export default function UiReducer(
     return {
       ...state,
       activeLabel:payload.labelId,
+    }
+  }
+
+  case 'SET_CURRENT_TIME': {
+    return {
+      ...state,
+      time: payload.time,
     }
   }
 

@@ -131,6 +131,9 @@ class Wavesurfer extends PureComponent {
       }
 
     });
+    
+    const {setCurrentTime} = this.props;
+    this.Wavesurfer.on('audioprocess', time => setCurrentTime({time}));
 
     this.Wavesurfer.on('region-update-end', (e) => {
       const { id, start, end } = e;

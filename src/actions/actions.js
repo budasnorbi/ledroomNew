@@ -126,4 +126,9 @@ export const setLabelActive = payload => ({
   payload,
 });
 
+export const setCurrentTime = payload => ({
+  type: 'SET_CURRENT_TIME',
+  payload,
+})
+
 
