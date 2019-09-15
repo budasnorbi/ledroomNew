@@ -1,23 +1,29 @@
 const express = require('express');
+
 const app = express();
 const cors = require('cors');
+
 const port = 5600;
+
+const {
+  createShow,
+} = require('./parser');
 
 const corsConfig = {
   origin: [
-    'http://localhost:3001',
+    '*',
   ],
-}
+};
 
 app.use(cors(corsConfig));
-app.use(express.json())
+app.use(express.json());
 
 
 app.post('/startShow', (req, res) => {
-  // console.log(req.body);
-  res.send({
-    canPlay: true,
-  });
+  console.log(req.body);
+  // res.send(JSON.stringify({ 0: 1 }));
+  res.send();
+  createShow(req.body);
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));

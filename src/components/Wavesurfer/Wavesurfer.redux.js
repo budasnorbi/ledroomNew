@@ -8,7 +8,6 @@ import {
   selectLabel,
   selectSelection,
   setLabelActive,
-  setCurrentTime,
 } from '../../actions/actions';
 
 export const mapStateToProps = ({ LabelStore, UiStore }) => ({
@@ -28,5 +27,4 @@ export const mapDispatchToProps = {
   setLabelActive,
 
   selectSelection,
-  setCurrentTime,
 };

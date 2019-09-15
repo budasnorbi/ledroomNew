@@ -1,5 +1,0 @@
-const createShow = () =>  {
-  
-}
-
-module.exports = {};
