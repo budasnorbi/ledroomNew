@@ -12,7 +12,6 @@ import {
   setTransitionPath,
   setOpacityPath,
   openColorPicker,
-  setLabelTitle,
 } from '../../actions/actions';
 
 export const mapStateToProps = ({ LabelStore, UiStore, ColorStore }) => ({
@@ -26,7 +25,6 @@ export const mapStateToProps = ({ LabelStore, UiStore, ColorStore }) => ({
   startLedIndex: LabelStore.labels[UiStore.labelId].selectionList[UiStore.selectionId].start,
   endLedIndex: LabelStore.labels[UiStore.labelId].selectionList[UiStore.selectionId].end,
   maxLedCount: UiStore.maxLedCount,
-  labelTitle: LabelStore.labels[UiStore.labelId].title,
   startTime: LabelStore.labels[UiStore.labelId].startTime,
   endTime: LabelStore.labels[UiStore.labelId].endTime,
   activeLabel: UiStore.activeLabel,
@@ -46,5 +44,4 @@ export const mapDispatchToProps = {
   setTransitionPath,
   setOpacityPath,
   openColorPicker,
-  setLabelTitle,
 };

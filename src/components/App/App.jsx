@@ -97,7 +97,7 @@ class App extends PureComponent {
       labelIds,
       selectionIds,
       selectionId,
-      labelNames,
+      labelTitleList,
       selectionRanges,
     } = this.props;
 
@@ -111,8 +111,8 @@ class App extends PureComponent {
                 deleteLabel={this.deleteLabel}
                 selectLabel={this.selectLabel}
                 labelIds={labelIds}
-                labelNames={labelNames}
                 labelId={labelId}
+                labelTitleList={labelTitleList}
               />
             </div>
             <div className="column">

@@ -154,8 +154,7 @@ class Wavesurfer extends PureComponent {
       label.selectionList = Object.values(label.selectionList);
     });
 
-    console.log(showPayload);
-    fetch('http://192.168.1.72:5600/startShow', {
+    /* fetch('http://192.168.1.72:5600/startShow', {
       method: 'POST',
       cors: 'no-cors',
       headers: {
@@ -164,16 +163,16 @@ class Wavesurfer extends PureComponent {
       body: JSON.stringify(showPayload),
     })
       .then((res) => {
-      /*
+
         const { canPlay } = json;
 
         console.log(json);
         if (canPlay) {
           this.Wavesurfer.playPause();
-        } */
+        }
 
         this.Wavesurfer.playPause();
-      });
+      }); */
   }
 
   updateVolume(volume) {

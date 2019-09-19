@@ -17,10 +17,10 @@ import style from './LabelList.style';
 const LabelList = ({
   labelId,
   labelIds,
-  labelNames,
   addLabel,
   deleteLabel,
   selectLabel,
+  labelTitleList,
 }) => (
   <>
     <h1 className="title is-6" css={style.heading}>Labels</h1>
@@ -59,7 +59,7 @@ const LabelList = ({
         data-selection={label}
         onClick={() => selectLabel(label)}
       >
-        {labelNames[index]}
+        {labelTitleList[index]}
       </button>
     ))}
   </>

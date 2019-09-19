@@ -116,11 +116,6 @@ export const setTransitionPath = payload => ({
   payload,
 });
 
-export const setLabelTitle = payload => ({
-  type: 'SET_LABEL_TITLE',
-  payload,
-});
-
 export const setLabelActive = payload => ({
   type: 'SET_LABEL_ACTIVE',
   payload,

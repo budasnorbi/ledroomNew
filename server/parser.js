@@ -4,30 +4,65 @@ const rgbHex = require('rgb-hex');
 const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
 const {
-  hexToRgb,
   getClosestNumber,
 } = require('./utils');
 
+let showLoop;
+let currentFrame = 0;
 
-const createShow = (showData) => {
-  const port1 = new SerialPort('/dev/ttyACM0', { baudRate: 1000000 });
-  const parser1 = new Readline();
-  port1.pipe(parser1);
-  // parser1.on('data', line => console.log(line));
+const payload = JSON.parse(`{
+  "labels":[
+    {
+      "endTime":5,
+      "startTime":2,
+      "selectionList":[
+        {
+          "start":0,
+          "end":811,
+          "opacityPath":"M0, 100 C0, 100 50.689844590469036, 0 50.689844590469036, 0 C50.689844590469036, 0 100, 100 100, 100 ",
+          "transitionPath":"M0, 100 C0, 100 50.689844590469036, 0 50.689844590469036, 0 C50.689844590469036, 0 100, 100 100, 100 ",
+          "colorList":["#ff0000","#0000ff","#0FFF0F"]
+        }]
+    },
+    {
+      "endTime":10,
+      "startTime":8,
+      "selectionList":[
+        {
+          "start":0,
+          "end":811,
+          "opacityPath":"M0, 100 C0, 100 50.689844590469036, 0 50.689844590469036, 0 C50.689844590469036, 0 100, 100 100, 100 ",
+          "transitionPath":"M0, 100 C0, 100 50.689844590469036, 0 50.689844590469036, 0 C50.689844590469036, 0 100, 100 100, 100 ",
+          "colorList":["#ff0000","#0000ff","#0FFF0F"]
+        }]
+    }
+  ],
+  "duration":10
+}`);
 
-  const port2 = new SerialPort('/dev/ttyACM1', { baudRate: 1000000 });
-  const parser2 = new Readline();
-  port2.pipe(parser2);
-  // parser2.on('data', line => console.log(line));
+const createShow = ({
+  showData = payload,
+  devMode = false,
+}) => {
+  if (!devMode) {
+    const port1 = new SerialPort('/dev/ttyACM0', { baudRate: 1000000 });
+    const parser1 = new Readline();
+    port1.pipe(parser1);
+    // parser1.on('data', line => console.log(line));
 
-  let currentFrame = 0;
+    const port2 = new SerialPort('/dev/ttyACM1', { baudRate: 1000000 });
+    const parser2 = new Readline();
+    port2.pipe(parser2);
+    // parser2.on('data', line => console.log(line));
+  }
+
   const fps = 30;
   const oneFrame = 1000 / fps;
   const allFrame = Math.floor(showData.duration) * fps;
 
-  const loop = setInterval(() => {
+  showLoop = setInterval(() => {
     if (currentFrame === allFrame) {
-      clearInterval(loop);
+      clearInterval(showLoop);
       /* const fs = require('fs');
       fs.writeFile("text.txt", DATA.join('\r\n'), function(err) {
           if(err) {
@@ -56,13 +91,12 @@ const createShow = (showData) => {
       selectionList.forEach(({
         colorList, transitionPath, opacityPath, start, end,
       }) => {
-        const colorListRGB = colorList;/* .map(color => hexToRgb(color)); */
-        if (colorListRGB.length === 1) {
+        if (colorList.length === 1) {
           // const opacityPoints = path.svgPathProperties(opacityPath);
 
           // const opacityY = 100 - opacityPoints.getPointAtLength(currentFrame / endFrame * opacityPoints.getTotalLength()).y;
         }
-        if (colorListRGB.length >= 2) {
+        if (colorList.length >= 2) {
           const opacityPoints = path.svgPathProperties(opacityPath);
 
           const opacityY = 100 - opacityPoints
@@ -71,10 +105,10 @@ const createShow = (showData) => {
           const transitionPoints = path.svgPathProperties(transitionPath);
 
           const colorScale = {};
-          const colorScalePartUnit = 100 / (colorListRGB.length - 1);
+          const colorScalePartUnit = 100 / (colorList.length - 1);
 
-          for (let colorItemCount = 0; colorItemCount < colorListRGB.length; colorItemCount += 1) {
-            colorScale[colorScalePartUnit * colorItemCount] = colorListRGB[colorItemCount];
+          for (let colorItemCount = 0; colorItemCount < colorList.length; colorItemCount += 1) {
+            colorScale[colorScalePartUnit * colorItemCount] = colorList[colorItemCount];
           }
           /* ---------------------- */
 
@@ -82,8 +116,6 @@ const createShow = (showData) => {
             .getPointAtLength(currentFrame / endFrame * transitionPoints.getTotalLength()).y;
 
           const colorScaleKeys = Object.keys(colorScale).map(x => Number(x));
-
-
           const closestSmallKey = getClosestNumber(colorScaleKeys, transitionY, true);
           const closestHighKey = getClosestNumber(colorScaleKeys, transitionY, false);
 
@@ -117,11 +149,12 @@ const createShow = (showData) => {
             ledPool[currentLedIndex] = newColor;
           }
 
-          console.log(`FRAME: ${currentFrame} / ${allFrame}`);
-          // console.log(hexToRgb(newColor))
-          port1.write(`${ledPool.slice(511, 811).join('')}#`);
-          port2.write(`${ledPool.slice(0, 511).join('')}#`);
-          // DATA.push(newColor);
+          if (!devMode) {
+            port1.write(`${ledPool.slice(511, 811).join('')}#`);
+            port2.write(`${ledPool.slice(0, 511).join('')}#`);
+          } else {
+            console.log(`FRAME: ${currentFrame} / ${allFrame}`);
+          }
         }
       });
     });
@@ -130,6 +163,9 @@ const createShow = (showData) => {
   }, oneFrame);
 };
 
+const pauseShow = () => clearInterval(showLoop);
+
 module.exports = {
   createShow,
+  pauseShow,
 };
