@@ -3,6 +3,11 @@ export const updateSongPlaying = () => ({
   type: 'UPDATE_SONG_PLAYING',
 });
 
+export const setSongVolume = payload => ({
+  type: 'SET_SONG_VOLUME',
+  payload,
+});
+
 export const addLabel = payload => ({
   type: 'ADD_LABEL',
   payload,

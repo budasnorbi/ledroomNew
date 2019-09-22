@@ -5,12 +5,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>ledRoom - 2k19</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./server/node_modules/socket.io-client/dist/socket.io.js"></script>
+  <script>
+    const client = io('http://localhost:3000');
+  </script>
   <style>
     #app{
       background-color: #24252a;
       min-height: 100vh;
     }
-
   </style>
 </head>
 <body>

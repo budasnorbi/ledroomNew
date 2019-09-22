@@ -15,7 +15,7 @@ import './mojs-curve-editor.min';
 import style from './LabelCurve.style';
 
 // Utils
-// import {} from './utils';
+import {wavesurferRef} from './LabelCurve.util';
 
 // Redux
 // import { connect } from 'redux';
@@ -26,15 +26,13 @@ class LabelCurve extends PureComponent {
 
   timelineRef = React.createRef();
 
-  setTimelinePosition = this.setTimelinePosition.bind(this);
+  timeIntervalId;
 
   componentDidMount() {
     const { 
       type,
       setCurvePath,
       startPath,
-      startTime,
-      endTime,
     } = this.props;
 
     this.curveEditor = new MojsCurveEditor({
@@ -47,32 +45,59 @@ class LabelCurve extends PureComponent {
         }
       },
     });
-    this.setTimelinePosition();
-    console.log('Label curve is mounted')
-    console.log(startTime, endTime);
-    // timeline should start
-    // timeline position should set
+    
+    wavesurferRef.on('audioprocess', currentTime =>{
+      const {startTime, endTime} = this.props;
+      if (currentTime > startTime && currentTime < endTime) {
+
+        const difference = endTime - startTime;
+        const timeoffset = currentTime - startTime;
+        
+        const offsetPct = timeoffset / difference * 100;
+        this.timelineRef.current.style.left = `${offsetPct}%`;
+      }
+    });
+
+    wavesurferRef.on('seek', progress =>{
+      const { startTime, endTime } = this.props;
+
+      const duration = wavesurferRef.getDuration();
+      const currentTime = duration * progress;
+
+      if (currentTime > startTime && currentTime < endTime) {
+
+        const difference = endTime - startTime;
+        const timeoffset = currentTime - startTime;
+
+        const offsetPct = timeoffset / difference * 100;
+        this.timelineRef.current.style.left = `${offsetPct}%`;
+      }
+    });
+
+    wavesurferRef.on('region-updated', region => {
+      if(wavesurferRef.isPlaying()){
+        return;
+      }
+      
+      const {start, end} = region;
+
+      const currentTime = wavesurferRef.getCurrentTime();
+      if (currentTime > start && currentTime < end) {
+
+        const difference = end - start;
+        const timeoffset = currentTime - start;
+
+        const offsetPct = timeoffset / difference * 100;
+        this.timelineRef.current.style.left = `${offsetPct}%`;
+      }
+    })
+
   }
 
-  setTimelinePosition(){
-    if(this.props.activeLabel !== this.props.labelId){
-      return;
-    }
-
-    const width = this.ref.current.getBoundingClientRect().width - 42;
-    const {
-      startTime,
-      endTime,
-      currentTime,
-    } = this.props;
-
-    const duration = endTime - startTime;
-
-    const offsetSecond = currentTime - duration;
-
-    const rate = width / duration;
-
-    this.timelineRef.current.style.left = `${rate * offsetSecond}px`;
+  componentWillUnmount(){
+    // wavesurferRef.un('audioprocess');
+    // wavesurferRef.un('region-updated');
+    // wavesurferRef.un('seek');
   }
 
   componentWillUnmount(){
@@ -93,7 +118,9 @@ class LabelCurve extends PureComponent {
 
     return (
       <div css={style.curveContainer}>
-        <div ref={this.timelineRef} css={style.timeline}></div>
+        <div css={style.timelineContainer}>
+          <div id="timeIndicator" ref={this.timelineRef} css={style.timeline} />
+        </div>
         <h3 css={style.heading} className="title is-3">{`Curve ${type} Path`}</h3>
         <div ref={this.ref} />
       </div>

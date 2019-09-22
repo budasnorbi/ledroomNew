@@ -45,7 +45,6 @@ audio.addEventListener('playing', (event) => {
         continue;
       }
 
-
       // we are in the selected label
       for (let selectionIndex = 0; selectionIndex < label.selectionList.length; selectionIndex += 1) {
         const selection = label.selectionList[selectionIndex];

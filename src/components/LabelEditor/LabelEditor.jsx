@@ -124,7 +124,6 @@ class LabelEditor extends Component {
       startTime,
       endTime,
       activeLabel,
-      currentTime,
     } = this.props;
 
     return (
@@ -165,7 +164,6 @@ class LabelEditor extends Component {
                   startTime={startTime}
                   endTime={endTime}
                   activeLabel={activeLabel}
-                  currentTime={currentTime}
                 />
               )}
               {transitionPath !== null && (
@@ -178,7 +176,6 @@ class LabelEditor extends Component {
                   startTime={startTime}
                   endTime={endTime}
                   activeLabel={activeLabel}
-                  currentTime={currentTime}
                 />
               )}
             </>

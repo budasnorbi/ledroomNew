@@ -18,7 +18,14 @@ const style = {
 
     position:absolute;
     bottom:0;
-    left:0px;
+  `,
+  timelineContainer: css`
+    position:absolute;
+    height:100%;
+    left:43px;
+    bottom:0;
+    height:125px;
+    width:calc(100% - 43px);
   `,
 };
 

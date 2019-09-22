@@ -19,15 +19,23 @@ import RegionPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import store from '../../store/configureStore';
 import types from './Wavesurfer.types';
 import { mapDispatchToProps, mapStateToProps } from './Wavesurfer.redux';
-import util from './Wavesurfer.util';
+import { 
+  initWavesurfer,
+  fps,
+  setCurrentFrame,
+  setSvgPath,
+  getParserId,
+  startParser,
+} from './Wavesurfer.util';
 import style from './Wavesurfer.style';
-
-import WavesurferPlayPause from '../WavesurferPlayPause/WavesurferPlayPause';
-
 
 // Test music
 import music from '../../music.mp3';
+
 import WavesurferVolume from '../WavesurferVolume/WavesurferVolume';
+import WavesurferPlayPause from '../WavesurferPlayPause/WavesurferPlayPause';
+
+import { getWavesurferRef } from '../LabelCurve/LabelCurve.util';
 
 
 class Wavesurfer extends PureComponent {
@@ -87,12 +95,12 @@ class Wavesurfer extends PureComponent {
     });
 
     getWavesurfer(this.Wavesurfer);
-
+    getWavesurferRef(this.Wavesurfer);
 
     this.Wavesurfer.load(music);
 
     this.Wavesurfer.on('ready', () => {
-      util.initWavesurfer({
+      initWavesurfer({
         container,
         surferInstance: this.Wavesurfer,
         updateSongPlaying,
@@ -135,6 +143,20 @@ class Wavesurfer extends PureComponent {
       const { id, start, end } = e;
       setLabelDuration({ id, start, end });
     });
+
+    this.Wavesurfer.on('play', e => {
+      const currentTime = this.Wavesurfer.getCurrentTime();
+
+      setCurrentFrame(Math.round(currentTime / (1 / fps)))
+
+      // Get all the svg objects from the function graph
+      startParser(store.getState(), (frameColorList) => client.emit('frameData', frameColorList));
+
+    });
+
+    this.Wavesurfer.on('pause', e => {
+      clearInterval(getParserId());
+    });
   }
 
   playPause() {
@@ -154,25 +176,7 @@ class Wavesurfer extends PureComponent {
       label.selectionList = Object.values(label.selectionList);
     });
 
-    /* fetch('http://192.168.1.72:5600/startShow', {
-      method: 'POST',
-      cors: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(showPayload),
-    })
-      .then((res) => {
-
-        const { canPlay } = json;
-
-        console.log(json);
-        if (canPlay) {
-          this.Wavesurfer.playPause();
-        }
-
-        this.Wavesurfer.playPause();
-      }); */
+    this.Wavesurfer.playPause();
   }
 
   updateVolume(volume) {

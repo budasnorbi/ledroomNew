@@ -28,7 +28,6 @@ export const mapStateToProps = ({ LabelStore, UiStore, ColorStore }) => ({
   startTime: LabelStore.labels[UiStore.labelId].startTime,
   endTime: LabelStore.labels[UiStore.labelId].endTime,
   activeLabel: UiStore.activeLabel,
-  currentTime: UiStore.time,
 });
 
 export const mapDispatchToProps = {
