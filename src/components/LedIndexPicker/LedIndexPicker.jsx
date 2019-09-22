@@ -44,11 +44,11 @@ class LedIndexPicker extends Component {
     // Set the canvas size of it parent size
     setRoomScale(canvas);
 
-    window.addEventListener('resize', setRoomScale.bind(this, canvas));
+    // window.addEventListener('resize', setRoomScale.bind(this, canvas));
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', setRoomScale);
+    // window.removeEventListener('resize', setRoomScale);
   }
 
   componentDidUpdate(prevProps) {

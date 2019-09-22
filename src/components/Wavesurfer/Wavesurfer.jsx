@@ -131,7 +131,7 @@ class Wavesurfer extends PureComponent {
       this.Wavesurfer.regions.list[id].update({
         color: 'rgba(255, 255, 255, .15)',
       });
-      console.log(activeLabel, id);
+
       if (activeLabel === id) {
         setLabelActive({
           labelId: null,
@@ -151,31 +151,17 @@ class Wavesurfer extends PureComponent {
 
       // Get all the svg objects from the function graph
       startParser(store.getState(), (frameColorList) => client.emit('frameData', frameColorList));
-
     });
 
     this.Wavesurfer.on('pause', e => {
       clearInterval(getParserId());
     });
+
+    this.Wavesurfer.on('finish', e => updateSongPlaying);
   }
 
   playPause() {
-    const { ColorStore, LabelStore } = store.getState();
-    const colors = Object.entries(ColorStore);
-    const showPayload = clonedeep(LabelStore);
-
-    colors.forEach(([labelAndSelection, colorList]) => {
-      const [labelId, selectionId] = labelAndSelection.split('-');
-      showPayload.labels[labelId].selectionList[selectionId].colorList = colorList;
-    });
-
-
-    showPayload.labels = Object.values(showPayload.labels);
-
-    showPayload.labels.forEach((label) => {
-      label.selectionList = Object.values(label.selectionList);
-    });
-
+    this.props.updateSongPlaying();
     this.Wavesurfer.playPause();
   }
 

@@ -1,5 +1,9 @@
 import {
-  selectLabel, selectSelection, deleteLabel, addLabel,
+  selectLabel,
+  selectSelection,
+  deleteLabel,
+  addLabel,
+  closeColorPicker,
 } from '../../actions/actions';
 
 export const mapStateToProps = ({
@@ -23,4 +27,5 @@ export const mapDispatchToProps = {
   selectSelection,
   deleteLabel,
   addLabel,
+  closeColorPicker,
 };

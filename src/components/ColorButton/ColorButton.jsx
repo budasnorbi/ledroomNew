@@ -64,7 +64,7 @@ class ColorButton extends PureComponent {
   }
 }
 
-ColorButton.propTypes = types;
+// ColorButton.propTypes = types;
 
 export default connect(
   null,

@@ -16,6 +16,7 @@ const LabelListStyle = {
   `,
   buttonsContainer: css`
     margin-bottom: 10px;
+    width:165px;
   `,
   addLabel: css`
     width: 50%;

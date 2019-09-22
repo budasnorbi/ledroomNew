@@ -44,8 +44,9 @@ class App extends PureComponent {
   }
 
   selectLabel(labelId) {
-    const { selectLabel, selectSelection } = this.props;
+    const { selectLabel, selectSelection, closeColorPicker } = this.props;
 
+    closeColorPicker();
     selectLabel({ labelId });
     selectSelection({ selectionId: null });
   }

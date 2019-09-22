@@ -14,16 +14,12 @@ import util from './WavesurferPlayPause.util';
 
 const WavesurferPlayPause = ({
   playPause,
-  updateSongPlaying,
   isPlaying,
 }) => (
   <button
     type="button"
     className="button is-dark"
-    onClick={() => {
-      playPause();
-      updateSongPlaying();
-    }}
+    onClick={playPause}
   >
     <span className="icon is-small">
       <i className={`ion ${util.isPlaying(isPlaying)}`} />
@@ -33,7 +29,9 @@ const WavesurferPlayPause = ({
 
 WavesurferPlayPause.propTypes = types;
 
-export default connect(
+/*export default connect(
   null,
   mapDispatchToProps,
-)(WavesurferPlayPause);
+)(WavesurferPlayPause);*/
+
+export default WavesurferPlayPause;

@@ -1,7 +1,7 @@
-import { string } from 'prop-types';
+import { array } from 'prop-types';
 
 const ColorButtonTypes = {
-  color: string,
+  color: array,
 };
 
 export default ColorButtonTypes;

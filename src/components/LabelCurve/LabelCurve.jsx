@@ -26,6 +26,12 @@ class LabelCurve extends PureComponent {
 
   timelineRef = React.createRef();
 
+  audioProcessEvent = this.audioProcessEvent.bind(this);
+
+  seekEvent = this.seekEvent.bind(this);
+
+  regionUpdatedEvent = this.regionUpdatedEvent.bind(this);
+
   timeIntervalId;
 
   componentDidMount() {
@@ -45,63 +51,86 @@ class LabelCurve extends PureComponent {
         }
       },
     });
-    
-    wavesurferRef.on('audioprocess', currentTime =>{
-      const {startTime, endTime} = this.props;
-      if (currentTime > startTime && currentTime < endTime) {
 
-        const difference = endTime - startTime;
-        const timeoffset = currentTime - startTime;
-        
-        const offsetPct = timeoffset / difference * 100;
-        this.timelineRef.current.style.left = `${offsetPct}%`;
-      }
-    });
-
-    wavesurferRef.on('seek', progress =>{
-      const { startTime, endTime } = this.props;
-
-      const duration = wavesurferRef.getDuration();
-      const currentTime = duration * progress;
-
-      if (currentTime > startTime && currentTime < endTime) {
-
-        const difference = endTime - startTime;
-        const timeoffset = currentTime - startTime;
-
-        const offsetPct = timeoffset / difference * 100;
-        this.timelineRef.current.style.left = `${offsetPct}%`;
-      }
-    });
-
-    wavesurferRef.on('region-updated', region => {
-      if(wavesurferRef.isPlaying()){
-        return;
-      }
-      
-      const {start, end} = region;
-
-      const currentTime = wavesurferRef.getCurrentTime();
-      if (currentTime > start && currentTime < end) {
-
-        const difference = end - start;
-        const timeoffset = currentTime - start;
-
-        const offsetPct = timeoffset / difference * 100;
-        this.timelineRef.current.style.left = `${offsetPct}%`;
-      }
-    })
+    wavesurferRef.on('audioprocess', this.audioProcessEvent);
+    wavesurferRef.on('seek', this.seekEvent);
+    wavesurferRef.on('region-updated', this.regionUpdatedEvent);
 
   }
 
-  componentWillUnmount(){
-    // wavesurferRef.un('audioprocess');
-    // wavesurferRef.un('region-updated');
-    // wavesurferRef.un('seek');
+  audioProcessEvent(currentTime) {
+    const { startTime, endTime } = this.props;
+
+    if (currentTime > startTime && currentTime < endTime) {
+      if (this.timelineRef.current.style.display === 'none') {
+        this.timelineRef.current.style.display = 'block';
+      }
+
+      const difference = endTime - startTime;
+      const timeoffset = currentTime - startTime;
+
+      const offsetPct = timeoffset / difference * 100;
+      this.timelineRef.current.style.left = `${offsetPct}%`;
+    } else {
+      if (this.timelineRef.current.style.display !== 'none') {
+        this.timelineRef.current.style.display = 'none';
+      }
+    }
   }
 
-  componentWillUnmount(){
-    console.log('Label curve is UNmounted')
+  seekEvent(progress) {
+    const { startTime, endTime } = this.props;
+
+    const duration = wavesurferRef.getDuration();
+    const currentTime = duration * progress;
+
+    if (currentTime > startTime && currentTime < endTime) {
+      if (this.timelineRef.current.style.display === 'none') {
+        this.timelineRef.current.style.display = 'block';
+      }
+
+      const difference = endTime - startTime;
+      const timeoffset = currentTime - startTime;
+
+      const offsetPct = timeoffset / difference * 100;
+      this.timelineRef.current.style.left = `${offsetPct}%`;
+    } else {
+      if (this.timelineRef.current.style.display !== 'none') {
+        this.timelineRef.current.style.display = 'none';
+      }
+    }
+  }
+
+  regionUpdatedEvent(region) {
+    if (wavesurferRef.isPlaying()) {
+      return;
+    }
+
+    const { start, end } = region;
+
+    const currentTime = wavesurferRef.getCurrentTime();
+    if (currentTime > start && currentTime < end) {
+      if (this.timelineRef.current.style.display === 'none') {
+        this.timelineRef.current.style.display = 'block';
+      }
+
+      const difference = end - start;
+      const timeoffset = currentTime - start;
+
+      const offsetPct = timeoffset / difference * 100;
+      this.timelineRef.current.style.left = `${offsetPct}%`;
+    } else {
+      if (this.timelineRef.current.style.display !== 'none') {
+        this.timelineRef.current.style.display = 'none';
+      }
+    }
+  }
+
+
+  componentWillUnmount() {
+    wavesurferRef.un('audioprocess', this.audioProcessEvent);
+    wavesurferRef.un('seek', this.seekEvent);
+    wavesurferRef.un('region-updated', this.regionUpdatedEvent);
   }
 
   componentDidUpdate(prevProps) {
@@ -109,6 +138,7 @@ class LabelCurve extends PureComponent {
     if (prevProps.selectionId === selectionId && prevProps.labelId === labelId) {
       return;
     }
+
     this.curveEditor._props.startPath = startPath;
     this.curveEditor._drawStartPath();
   }
@@ -119,7 +149,7 @@ class LabelCurve extends PureComponent {
     return (
       <div css={style.curveContainer}>
         <div css={style.timelineContainer}>
-          <div id="timeIndicator" ref={this.timelineRef} css={style.timeline} />
+          <div ref={this.timelineRef} css={style.timeline} />
         </div>
         <h3 css={style.heading} className="title is-3">{`Curve ${type} Path`}</h3>
         <div ref={this.ref} />
