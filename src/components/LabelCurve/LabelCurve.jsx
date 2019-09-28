@@ -15,7 +15,7 @@ import './mojs-curve-editor.min';
 import style from './LabelCurve.style';
 
 // Utils
-import {wavesurferRef} from './LabelCurve.util';
+import { wavesurferRef } from './LabelCurve.util';
 
 // Redux
 // import { connect } from 'redux';
@@ -35,7 +35,8 @@ class LabelCurve extends PureComponent {
   timeIntervalId;
 
   componentDidMount() {
-    const { 
+    console.log('curve mounted');
+    const {
       type,
       setCurvePath,
       startPath,
@@ -55,7 +56,23 @@ class LabelCurve extends PureComponent {
     wavesurferRef.on('audioprocess', this.audioProcessEvent);
     wavesurferRef.on('seek', this.seekEvent);
     wavesurferRef.on('region-updated', this.regionUpdatedEvent);
+  }
 
+  componentDidUpdate(prevProps) {
+    const { labelId, selectionId, startPath } = this.props;
+    if (prevProps.selectionId === selectionId && prevProps.labelId === labelId) {
+      return;
+    }
+
+    this.curveEditor._props.startPath = startPath;
+    this.curveEditor._drawStartPath();
+  }
+
+  componentWillUnmount() {
+    // this.curveEditor._listenUnload();
+    wavesurferRef.un('audioprocess', this.audioProcessEvent);
+    wavesurferRef.un('seek', this.seekEvent);
+    wavesurferRef.un('region-updated', this.regionUpdatedEvent);
   }
 
   audioProcessEvent(currentTime) {
@@ -71,10 +88,8 @@ class LabelCurve extends PureComponent {
 
       const offsetPct = timeoffset / difference * 100;
       this.timelineRef.current.style.left = `${offsetPct}%`;
-    } else {
-      if (this.timelineRef.current.style.display !== 'none') {
-        this.timelineRef.current.style.display = 'none';
-      }
+    } else if (this.timelineRef.current.style.display !== 'none') {
+      this.timelineRef.current.style.display = 'none';
     }
   }
 
@@ -94,10 +109,8 @@ class LabelCurve extends PureComponent {
 
       const offsetPct = timeoffset / difference * 100;
       this.timelineRef.current.style.left = `${offsetPct}%`;
-    } else {
-      if (this.timelineRef.current.style.display !== 'none') {
-        this.timelineRef.current.style.display = 'none';
-      }
+    } else if (this.timelineRef.current.style.display !== 'none') {
+      this.timelineRef.current.style.display = 'none';
     }
   }
 
@@ -119,29 +132,11 @@ class LabelCurve extends PureComponent {
 
       const offsetPct = timeoffset / difference * 100;
       this.timelineRef.current.style.left = `${offsetPct}%`;
-    } else {
-      if (this.timelineRef.current.style.display !== 'none') {
-        this.timelineRef.current.style.display = 'none';
-      }
+    } else if (this.timelineRef.current.style.display !== 'none') {
+      this.timelineRef.current.style.display = 'none';
     }
   }
 
-
-  componentWillUnmount() {
-    wavesurferRef.un('audioprocess', this.audioProcessEvent);
-    wavesurferRef.un('seek', this.seekEvent);
-    wavesurferRef.un('region-updated', this.regionUpdatedEvent);
-  }
-
-  componentDidUpdate(prevProps) {
-    const { labelId, selectionId, startPath} = this.props;
-    if (prevProps.selectionId === selectionId && prevProps.labelId === labelId) {
-      return;
-    }
-
-    this.curveEditor._props.startPath = startPath;
-    this.curveEditor._drawStartPath();
-  }
 
   render() {
     const { type } = this.props;

@@ -57,7 +57,6 @@ export default function LabelReducer(
       id: selectionId,
       start: 0,
       end: 0,
-      /* colorlistId: `${labelId}-${selectionId}`, */
       opacityPath: null,
       transitionPath: null,
     };
@@ -145,7 +144,7 @@ export default function LabelReducer(
             ...state.labels[labelId].selectionList,
             [selectionId]: {
               ...state.labels[labelId].selectionList[selectionId],
-              opacityPath: 'M0, 100 L100, 0',
+              opacityPath: 'M0, 100 C0, 100 100, 0 100, 0 ',
             },
           },
         },
@@ -208,7 +207,7 @@ export default function LabelReducer(
             ...state.labels[labelId].selectionList,
             [selectionId]: {
               ...state.labels[labelId].selectionList[selectionId],
-              transitionPath: 'M0, 100 L100, 0',
+              transitionPath: 'M0, 100 C0, 100 100, 0 100, 0 ',
             },
           },
         },
@@ -229,95 +228,6 @@ export default function LabelReducer(
       },
     };
   }
-
-  /* case 'ADD_COLOR': {
-    const { labelId, selectionId } = payload;
-
-    const colorListLength = state.labels[labelId].selectionList[selectionId].colorlist.length;
-    const color = colorListLength === 0 ? '#000000' : state.labels[labelId]
-      .selectionList[selectionId]
-      .colorlist[colorListLength - 1];
-
-    const opacityPath = colorListLength === 0 && 'M0, 100 L100, 0';
-    const transitionPath = colorListLength === 1 && 'M0, 100 L100, 0';
-
-    return {
-      ...state,
-      labels: {
-        ...state.labels,
-        [labelId]: {
-          ...state.labels[labelId],
-          selectionList: {
-            ...state.labels[labelId].selectionList,
-            [selectionId]: {
-              ...state.labels[labelId].selectionList[selectionId],
-              colorlist: [
-                ...state.labels[labelId].selectionList[selectionId].colorlist,
-                color,
-              ],
-            },
-          },
-        },
-      },
-    };
-  } */
-
-  /* case 'SET_COLOR': {
-    const {
-      color,
-      labelId,
-      selectionId,
-      colorIndex,
-    } = payload;
-
-    const newColorList = [...state.labels[labelId].selectionList[selectionId].colorlist];
-    newColorList[colorIndex] = color;
-
-    return {
-      ...state,
-      labels: {
-        ...state.labels,
-        [labelId]: {
-          ...state.labels[labelId],
-          selectionList: {
-            ...state.labels[labelId].selectionList,
-            [selectionId]: {
-              ...state.labels[labelId].selectionList[selectionId],
-              colorlist: newColorList,
-            },
-          },
-        },
-      },
-    };
-  } */
-
-  /* case 'DELETE_COLOR': {
-    const {
-      labelId,
-      selectionId,
-      colorIndex,
-    } = payload;
-
-    const newColorList = [...state.labels[labelId].selectionList[selectionId].colorlist];
-    newColorList.splice(colorIndex, 1);
-
-    return {
-      ...state,
-      labels: {
-        ...state.labels,
-        [labelId]: {
-          ...state.labels[labelId],
-          selectionList: {
-            ...state.labels[labelId].selectionList,
-            [selectionId]: {
-              ...state.labels[labelId].selectionList[selectionId],
-              colorlist: newColorList,
-            },
-          },
-        },
-      },
-    };
-  } */
 
   case 'SET_SONG_DURATION': {
     return {

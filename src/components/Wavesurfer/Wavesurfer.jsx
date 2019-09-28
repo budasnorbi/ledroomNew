@@ -19,7 +19,7 @@ import RegionPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import store from '../../store/configureStore';
 import types from './Wavesurfer.types';
 import { mapDispatchToProps, mapStateToProps } from './Wavesurfer.redux';
-import { 
+import {
   initWavesurfer,
   fps,
   setCurrentFrame,
@@ -144,16 +144,16 @@ class Wavesurfer extends PureComponent {
       setLabelDuration({ id, start, end });
     });
 
-    this.Wavesurfer.on('play', e => {
+    this.Wavesurfer.on('play', (e) => {
       const currentTime = this.Wavesurfer.getCurrentTime();
 
-      setCurrentFrame(Math.round(currentTime / (1 / fps)))
+      setCurrentFrame(Math.round(currentTime / (1 / fps)));
 
       // Get all the svg objects from the function graph
-      startParser(store.getState(), (frameColorList) => client.emit('frameData', frameColorList));
+      startParser(store.getState(), frameColorList => client.emit('frameData', frameColorList));
     });
 
-    this.Wavesurfer.on('pause', e => {
+    this.Wavesurfer.on('pause', (e) => {
       clearInterval(getParserId());
     });
 
